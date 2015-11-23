@@ -1,0 +1,180 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<link rel="import" href="register-card.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="import" href="facebook-login.html">
+<dom-module id="login-card">
+
+  <template>
+  <style>
+#logindialog
+
+{
+top:60px;
+width: 300px;
+}
+
+.in{
+  //top:40px;
+  width: 100%;
+  font-family:'Calibri';
+  text-transform: none;
+  font-size: 18px;
+  background-color:rgb(51, 214, 173);
+  color: white;
+  height: 40px;
+  //left: -5px;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  }
+  .inr{
+    top:10px;
+    bottom:10px;
+    width: 100%;
+    font-family:'Calibri';
+    text-transform: none;
+    font-size: 18px;
+    background-color:rgb(51, 214, 173);
+    color: white;
+    height: 40px;
+    //left: -5px;
+    font-weight: bold;
+    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  }
+.linkk{
+
+@apply(--layout-vertical);
+}
+.sign{
+//width: 100%;
+//@apply(--layout-horizontal);
+}
+a{
+//top: 10px;
+width: 100%;
+}
+.clear{
+//left:150px:
+//top: -70px;
+background-color:rgb(51, 214, 173);
+border-radius: 50px;
+}
+  </style>
+
+   <!--<iron-media-query query="(min-width: 300px)" query-matches="{{queryMatches}}"></iron-media-query>
+
+  <template is="dom-if" if="{{queryMatches}}">-->
+  <paper-dialog id="logindialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+
+		  <div style="margin-left: 253px;margin-top:-17px;"><paper-icon-button icon="clear" class="clear" on-click="close"></paper-icon-button></div>
+		  <div class="card-img">
+
+		  <img src="profile.png" height="80px" width="90px"></img>
+		  </div>
+
+		  <div style="margin-top: -10px;"><paper-input label="Username" value="{{name}}" required auto-validate error-message="needs username!"></paper-input></div>
+		   <!-- <paper-input label="Username" value="{{name}}">
+			  <paper-icon-button prefix icon="clear"></paper-icon-button>
+			</paper-input>-->
+			<div style="margin-top: -10px;"><paper-input label="Password" type="password" value="{{pass}}" required auto-validate error-message="needs password!">
+			  <!--<paper-icon-button prefix icon="clear"></paper-icon-button>-->
+			</paper-input></div>
+			<div class="linkk">
+			<!--<a href="reg-use.html" style="margin-left:30px;">Register New User</a>-->
+			<!--<div class="sign" layout horizontal>-->
+			<paper-button class="in" on-click="signin">Sign in</paper-button>
+			<paper-button class="inr" on-click="register">New User?</paper-button>
+			<!--</div>-->
+			<a href="#" style="margin-top: 15px;">Forgot Password?</a>
+			</div>
+
+	</paper-dialog>
+	<register-card id="reg"></register-card>
+	<!--</template>-->
+
+	<!--<login-service id="service" first="praba" last="raja"></login-service>-->
+	<iron-ajax
+	      id="ajax"
+	      url=""
+	      body=""
+	      handle-as="json"
+	      content-type="application/json"
+          on-response="handleResponse"
+          debounce-duration="300"
+	      ></iron-ajax>
+
+
+  </template>
+
+
+
+  <script>
+    Polymer({
+      is: "login-card",
+      ready:function()
+      {
+      //alert("login");
+      this.cnt=0;
+      this.arr=[];
+      },
+      signin:function(){
+       var id = 'logindialog';
+       var dialog = document.getElementById(id);
+      dialog.open();
+     this.$.ajax.url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7";
+      this.$.ajax.generateRequest();
+      },
+    handleResponse:function(e)
+      {
+
+      this.cnt=0;
+      this.arr=e.detail.response;
+	  alert(JSON.stringify(this.arr.user));
+	  alert(JSON.stringify(this.arr.user.length));
+      for(var i=0;i<this.arr.user.length;i++)
+      {
+
+      if(this.name==this.arr.user[i].name&&this.pass==this.arr.user[i].pass)
+      {
+      this.cnt=this.cnt+1;
+      }
+      }
+      if(this.cnt==1)
+      {
+      alert("Valid user");
+      sessionStorage.setItem("info",this.name);
+      var id = 'logindialog';
+	  var dialog = document.getElementById(id);
+      dialog.opened=false;
+      var cartuser=sessionStorage.getItem("cartinfo");
+      if(cartuser=="1")
+      {
+      document.querySelector('item-card').addtocart();
+      }
+      //alert(sessionStorage.getItem("info"));
+      }
+	  else
+      alert("Invalid user");
+
+      //alert(JSON.stringify(this.arr.rows));
+      //alert(JSON.stringify(e.detail.response));
+      },
+      register:function()
+      {
+      this.$.reg.register();
+      }
+
+    });
+  </script>
+
+</dom-module>

@@ -1,0 +1,65 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="app-service.html">
+
+<dom-module id="category-card">
+<template>
+<style>
+
+ 		#list {
+      padding-top: 10px;
+      //background-color: white;
+      display: inline-block;
+      width: 40%;
+      margin: 5px;
+        }
+        .title{
+        text-transform:none;
+        margin-left: 20px;
+
+        }
+
+</style>
+<!-- Home page card consist of two images (category image and offer image) and category label-->
+<div id="list">
+<paper-button  label="{{name}}" on-click="showall"><img src="{{img}}" width="120%"/></paper-button>
+<paper-button style="margin-top: -130px;margin-left:35px;" label="{{name}}" on-click="showoffer"><img src="{{offerimg}}" width="100%"/></paper-button>
+<paper-button class="title" style="margin-top: -10px;" label="{{name}}">{{name}}</paper-button>
+</div>
+<app-service id="service"></app-service>
+ </template>
+  <script>
+    Polymer({
+
+      is: 'category-card',
+       ready:function()
+	        {
+
+      },
+      showall:function()
+      {
+      localStorage.setItem("showtype","all");
+      //It will call service along with category type to fetch drawer menu for the selected category type
+      document.querySelector('app-service').setCategory(this.name);
+      //It will call service along with category type to fetch the category list items
+      this.$.service.itemcategoryService(this.name);
+      //It will call index page, and passing title,ironpage match page,bottom placeholder
+      document.querySelector('my-app').setPage("itemcategory","page1",this.name);
+      },
+      showoffer:function()
+      {
+	  localStorage.setItem("showtype","offer");
+	  //It will call service along with category type to fetch drawer menu for the selected category type
+	  document.querySelector('app-service').setCategory(this.name);
+	  //It will call service along with category type to fetch the category list items
+      this.$.service.itemcategoryService(this.name);
+      //It will call index page, and passing title,ironpage match page,bottom placeholder
+      document.querySelector('my-app').setPage("itemcategory","page1",this.name);
+      }
+      });
+    </script>
+    </dom-module>

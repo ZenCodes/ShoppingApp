@@ -1,0 +1,135 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<dom-module id="register-card">
+
+  <template>
+  <style>
+
+  .card
+  	{
+  	postion:relative;
+  	width: 100%;
+  		  display: inline-block;
+         // width: 530px;
+         // height: auto;
+         // border-radius: 2px;
+         // box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+          margin-left: 20px;
+          margin-top: -10px;
+          background-color: white;
+        }
+
+  .content
+  {
+  width: 65%;
+  height: auto;
+  padding: 30px;
+  //margin-left: auto;
+  //margin-top:60px;
+  }
+  .in{
+ // top:40px;
+  width: 100%;
+  font-family:'Calibri';
+  text-transform: none;
+  font-size: 18px;
+  background-color:rgb(51, 214, 173);
+  color: white;
+  height: 40px;
+  left: -5px;
+  font-weight: bold;
+  margin-top: 20px;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  }
+
+  </style>
+ <iron-ajax
+		  	      id="readajax"
+		  	      url="{{rname}}"
+		  	      body=""
+		  	      handle-as="json"
+		  	      content-type="application/json"
+		            on-response="ReadResponse"
+          debounce-duration="300"></iron-ajax>
+
+  <iron-ajax
+ 		         method="POST"
+ 		         id="rewriteajax"
+ 		         url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+ 		         body=""
+ 		         handle-as="json"
+      content-type="application/json"></iron-ajax>
+    <!--<iron-media-query query="(min-width: 200px)" query-matches="{{queryMatches}}"></iron-media-query>
+    <template is="dom-if" if="{{queryMatches}}">-->
+     <paper-dialog id="registerdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+	<div class="card" layout wrap>
+	  <div class="content" layout vertical>
+	    <paper-input label="Username" value="{{name}}" id="p1" required auto-validate error-message="needs username!"></paper-input>
+		<paper-input label="Password" type="password"  pattern="[a-zA-Z]*" value="{{pass}}" required auto-validate error-message="password should contain only letters!"></paper-input>
+		<paper-input label="Conform Password" type="password" value="{{cpass}}" required auto-validate error-message="password should contain only letters!"></paper-input>
+		<paper-input label="Mobile no" value="{{mno}}" maxlength="10" pattern="[0-9]*" required auto-validate error-message="needs mobileno!"></paper-input>
+		<div class="sign"><paper-button class="in" on-click="save">Sign up</paper-button></div>
+	</div></div>
+<paper-dialog>
+    <!--</template>-->
+  </template>
+  <script>
+    Polymer({
+      is: "register-card",
+     ready:function()
+      {
+
+      var add=[];
+      },
+ 	save:function()
+      {
+     this.rname="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7";
+     this.$.readajax.generateRequest();
+     },
+     ReadResponse:function(e)
+     {
+     this.items=[];
+	 				      this.id=e.detail.response._id;
+				        this.header=e.detail.response._rev;
+				        this.items=e.detail.response.user;
+				        alert(JSON.stringify(this.items));
+     var obj={"_id": "","_rev":"","user":""};
+	 if(this.mno.length<10)
+	 alert("Mobile no should contain 10 digits!!");
+	 if(this.pass!=this.cpass0)
+	 alert("Password and confirm password should be same!!");
+     if(this.name!=null&&this.name!=""&&this.pass!=null&&this.pass!=""&&this.cpass!=null&&this.cpass!=""&&this.mno!=null&&this.mno!=""&&this.mno.length==10&&this.pass==this.cpass)
+     {
+      add={"name":this.name,"pass":this.pass,"cpass":this.cpass,"mobile":this.mno};
+      this.items.push(add);
+      obj._id=this.id;
+      obj._rev=this.header;
+      obj.user=this.items
+	this.$.rewriteajax.body=JSON.stringify(obj);
+this.$.rewriteajax.generateRequest();
+	 alert("Registered!!");
+	 }
+	 //else
+	 //alert("Fill all the fields!!");
+ 	 //this.$.ajax.generateRequest();*/
+      },
+      register:function(e)
+      {
+      var id = 'registerdialog';
+	  var dialog = document.getElementById(id);
+      dialog.open();
+      }
+    });
+  </script>
+
+</dom-module>

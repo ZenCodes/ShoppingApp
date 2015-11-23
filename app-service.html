@@ -1,0 +1,316 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="app-service">
+
+  <template>
+<!-- To fetch menu items for drawer-->
+ <iron-ajax
+   	      id="menuajax"
+   	      url="{{url}}"
+   	      handle-as="json"
+   	      content-type="application/json"
+          on-response="menuResponse">
+ </iron-ajax>
+ <!-- To fetch category items like grocery,vegitables in home page-->
+ <iron-ajax
+
+ 	      id="categoryajax"
+ 	      auto
+ 	      url="http://zencouch-zencodoo.rhcloud.com/grocery/0231faf356f6525d71f94a8fad0035f5"
+ 	      body=""
+ 	      handle-as="json"
+ 	      content-type="application/json"
+           on-response="categoryResponse"
+          debounce-duration="300"></iron-ajax>
+ <!-- To fetch items under each category type like rice,flours..etc under groceries-->
+ <iron-ajax
+
+		  	      id="itemcategoryajax"
+		  	      url="{{name}}"
+		  	      body=""
+		  	      handle-as="json"
+		  	      content-type="application/json"
+		          on-response="itemcategoryResponse"
+          debounce-duration="300"></iron-ajax>
+ <!--To fetch all items under each category type like rice,flours..etc -->
+ <iron-ajax
+		     	      id="itemlistajax"
+		     	      url="{{url}}"
+		     	      handle-as="json"
+		     	      content-type="application/json"
+		            on-response="itemlistResponse"
+		            debounce-duration="300"></iron-ajax>
+<!--To fetch offer items under each category type like rice,flours..etc -->
+ <iron-ajax
+					   	      id="offeritemlistajax"
+					   	      url="{{url}}"
+					   	      handle-as="json"
+					   	      content-type="application/json"
+					          on-response="offeritemlistResponse"
+					          debounce-duration="300"></iron-ajax>
+  <!-- To fetch brand items under brand-->
+  <iron-ajax
+    	      id="brandlistajax"
+    	      url="{{url}}"
+    	      handle-as="json"
+    	      content-type="application/json"
+           on-response="brandlistResponse"
+           debounce-duration="300">
+ </iron-ajax>
+ <iron-ajax
+     	      id="addtocartajax"
+     	      url="{{url}}"
+     	      handle-as="json"
+     	      content-type="application/json"
+            on-response="addtocartResponse"
+            debounce-duration="300">
+ </iron-ajax>
+
+
+  <iron-ajax
+       	      id="addtocartreadajax"
+       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d000281a"
+       	      handle-as="json"
+       	      content-type="application/json"
+              on-response="addtocartreadResponse"
+              debounce-duration="300">
+ </iron-ajax>
+ <iron-ajax
+        method="POST"
+        id="addtocartwriteajax"
+        url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+        body=""
+        handle-as="json"
+      content-type="application/json"></iron-ajax>
+ </template>
+
+  <script>
+  (function() {
+      var itemval=[];
+    Polymer({
+            is: "app-service",
+            ready:function()
+	        {
+
+
+	        },
+	        reqMenu:function()
+	        {
+	          var itemtype=JSON.stringify("Home");
+			  this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/menuviewdesign/_view/menuview?key="+itemtype;
+	          this.$.menuajax.generateRequest();
+	        },
+	        //Drawer Menu response
+	        menuResponse:function(e)
+	        {
+	        	this.menuitems=[];
+	        	this.menuitems=e.detail.response;
+	        	if(this.menuitems.rows.length>0)
+		    	document.querySelector('app-list').itemcategory=this.menuitems.rows[0].value;
+	        },
+      		setCategory:function(selectedcategory)
+      		{
+      			var itemtype=JSON.stringify(selectedcategory);
+      			this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/menuviewdesign/_view/menuview?key="+itemtype;
+	        	this.$.menuajax.generateRequest();
+      		},
+      		//Home category response
+      		categoryResponse:function(e)
+		    {
+		    	  this.categoryarr=[];
+				  this.categoryarr=e.detail.response;
+				  document.querySelector('category-list').categoryarr=this.categoryarr.categoryarr;
+				  document.querySelector('category-list').reload;
+            },
+            //Items under category response
+            itemcategoryResponse:function(e)
+		    {
+				   this.itemcategoryarr=[]
+			       this.itemcategoryarr=e.detail.response;
+			       document.querySelector('itemcategory-list').itemarr=this.itemcategoryarr.rows[0].value;
+			},
+		    itemcategoryService:function(type)
+			{
+			      var groc=JSON.stringify(type);
+			      //alert(groc);
+				  this.name="http://zencouch-zencodoo.rhcloud.com/grocery/_design/categorydesign/_view/categoryview?key="+groc;
+				  this.$.itemcategoryajax.generateRequest();
+            },
+            //Response given for all items under the category like rice,flours etc...
+	        itemlistResponse:function(e)
+	        {
+	        		this.itemlist=[];
+	        		this.itemarr=[];
+	        		this.itemlist=e.detail.response;
+	        		for(var i=0;i<this.itemlist.rows.length;i++)
+	        		{
+	        		var itemval={"img":"","name": "","unit": "","price":"","discount":"","discountprice":"","discuntprice1":""};
+	        		itemval.img=this.itemlist.rows[i].value.img;
+		    		itemval.name=this.itemlist.rows[i].value.name;
+		    		itemval.unit="1 "+this.itemlist.rows[i].value.unit+"";
+		    		var flag=this.itemlist.rows[i].value.flag;
+		    		if(flag=="true")
+		    		itemval.price=""+this.itemlist.rows[i].value.price+"/"+this.itemlist.rows[i].value.unit+"";
+		    		else
+		    		itemval.price="";
+					itemval.discountprice=""+(parseInt(this.itemlist.rows[i].value.price)-(parseInt(this.itemlist.rows[i].value.price)*((parseInt(this.itemlist.rows[i].value.offer))/100)))+"/"+this.itemlist.rows[i].value.unit+"";
+		    		itemval.discountprice1="Rs "+(parseInt(this.itemlist.rows[i].value.price)-(parseInt(this.itemlist.rows[i].value.price)*((parseInt(this.itemlist.rows[i].value.offer))/100)));
+		    		itemval.discount=parseInt(this.itemlist.rows[i].value.price)-(parseInt(this.itemlist.rows[i].value.price)*((parseInt(this.itemlist.rows[i].value.offer))/100));
+	        		this.itemarr.push(itemval);
+	  	    		}
+	  	    		document.querySelector('item-list').itemarr=this.itemarr;
+	        		document.querySelector('item-list').reload;
+            },
+            itemlistService:function(type,showtype)
+	        {
+            		this.type=type;
+	        		var groc=JSON.stringify(this.type);
+	        		if(showtype=="all")
+	        		{
+	       	        this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/itemcategorydesign/_view/itemcategoryview?key="+groc;
+	        		this.$.itemlistajax.generateRequest();
+	        		}
+	        		else if(showtype=="offer")
+	        		{
+	                this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/itemcategoryofferdesign/_view/itemcategoryofferview?key="+groc;
+	        		this.$.offeritemlistajax.generateRequest();
+	        		}
+			},
+			//Response given for offer items under the category like rice,flours etc...
+	        offeritemlistResponse:function(e)
+	        {
+	        		this.offerlist=[];
+	        		this.itemarr=[];
+	        		this.offerlist=e.detail.response;
+	        		for(var i=0;i<this.offerlist.rows.length;i++)
+	        		{
+	        		var itemval={"img":"","name": "","unit": "","price":"","discount":"","discountprice":"","discuntprice1":""};
+	        		itemval.img=this.offerlist.rows[i].value.img;
+		    		itemval.name=this.offerlist.rows[i].value.name;
+		    		itemval.unit="1 "+this.offerlist.rows[i].value.unit+"";
+		    		itemval.price=""+this.offerlist.rows[i].value.price+"/"+this.offerlist.rows[i].value.unit+"";
+					itemval.discountprice=""+(parseInt(this.offerlist.rows[i].value.price)-(parseInt(this.offerlist.rows[i].value.price)*((parseInt(this.offerlist.rows[i].value.offer))/100)))+"/"+this.offerlist.rows[i].value.unit+"";
+		    		itemval.discountprice1="Rs "+(parseInt(this.offerlist.rows[i].value.price)-(parseInt(this.offerlist.rows[i].value.price)*((parseInt(this.offerlist.rows[i].value.offer))/100)));
+		    		itemval.discount=parseInt(this.offerlist.rows[i].value.price)-(parseInt(this.offerlist.rows[i].value.price)*((parseInt(this.offerlist.rows[i].value.offer))/100));
+	        		this.itemarr.push(itemval);
+	  	    		}
+	        		document.querySelector('offer-list').itemarr=this.itemarr;
+	        		document.querySelector('offer-list').reload;
+            },
+            offeritemlistService:function(type,showtype)
+	        {
+                    this.type=type;
+	        		var groc=JSON.stringify(this.type);
+	        		if(showtype=="all")
+	        		{
+	                this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/itemcategorydesign/_view/itemcategoryview?key="+groc;
+	        		this.$.itemlistajax.generateRequest();
+	        		}
+	        		else if(showtype=="offer")
+	        		{
+	                this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/itemcategoryofferdesign/_view/itemcategoryofferview?key="+groc;
+	        		this.$.offeritemlistajax.generateRequest();
+	        		}
+      		},
+
+      		//Response for brand list request
+	        brandlistResponse:function(e)
+	        {
+	        		this.brandlist=[];
+	        		this.itemarr=[];
+	        		this.brandlist=e.detail.response;
+	        		for(var i=0;i<this.brandlist.rows.length;i++)
+	        		{
+	        		var itemval={"img":"","name": "","unit": "","price":"","discount":"","discountprice":"","discuntprice1":""};
+	        		itemval.img=this.brandlist.rows[i].value.img;
+		    		itemval.name=this.brandlist.rows[i].value.name;
+		    		itemval.unit="1 "+this.brandlist.rows[i].value.unit+"";
+		    		var flag=this.brandlist.rows[i].value.flag;
+		    		if(flag=="true")
+		    		itemval.price=""+this.brandlist.rows[i].value.price+"/"+this.brandlist.rows[i].value.unit+"";
+		    		else
+		    		itemval.price="";
+					itemval.discountprice=""+(parseInt(this.brandlist.rows[i].value.price)-(parseInt(this.brandlist.rows[i].value.price)*((parseInt(this.brandlist.rows[i].value.offer))/100)))+"/"+this.brandlist.rows[i].value.unit+"";
+		    		itemval.discountprice1="Rs "+(parseInt(this.brandlist.rows[i].value.price)-(parseInt(this.brandlist.rows[i].value.price)*((parseInt(this.brandlist.rows[i].value.offer))/100)));
+		    		itemval.discount=parseInt(this.brandlist.rows[i].value.price)-(parseInt(this.brandlist.rows[i].value.price)*((parseInt(this.brandlist.rows[i].value.offer))/100));
+	        		this.itemarr.push(itemval);
+	  	    		}
+	  	            document.querySelector('brand-list').itemarr=this.itemarr;
+	        		document.querySelector('brand-list').reload;
+            },
+            brandlistService:function(type)
+	        {
+                    this.type=type.trim();
+	        		var groc=JSON.stringify(this.type);
+	        		this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/branddesign/_view/brandview?key="+groc;
+	        		this.$.brandlistajax.generateRequest();
+            },
+            addtocartResponse:function(e)
+            {
+
+		   this.itemlist=[];
+	       this.itemlist=e.detail.response;
+           //alert('hii'+JSON.stringify(this.itemlist));
+           //alert('hii'+JSON.stringify(this.itemlist.rows[n].value));
+           for(var n=0;n<this.itemlist.rows.length;n++)
+           {
+            itemval={"type":"","category":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":""};
+           itemval.type=this.itemlist.rows[n].value.type;
+   		   itemval.category=this.itemlist.rows[n].value.category;
+   		   itemval.img=this.itemlist.rows[n].value.img;
+   		   itemval.name=this.itemlist.rows[n].value.name;
+   		   itemval.unit=this.itemlist.rows[n].value.unit;
+   		   itemval.price=this.itemlist.rows[n].value.price;
+   		   itemval.offer=this.itemlist.rows[n].value.offer;
+   		   itemval.flag=this.itemlist.rows[n].value.flag;
+   		   itemval.brand=this.itemlist.rows[n].value.brand;
+   		   itemval.status=this.itemlist.rows[n].value.status;
+   		   //this.$.writeajax.body=JSON.stringify(itemval);
+     		//this.$.writeajax.generateRequest();
+
+
+		  }
+
+            },
+            addtocart:function(name)
+            {
+			var items=JSON.stringify(name);
+	       this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/addtocartdesign/_view/addtocartview?key="+items;
+           //this.url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d000281a";
+           this.$.addtocartajax.generateRequest();
+           this.$.addtocartreadajax.generateRequest();
+            },
+            addtocartreadResponse:function(e)
+            {
+
+            var user=JSON.stringify(sessionStorage.getItem("info"));
+		    alert('hello '+user);
+            this.cart=[];
+            this.cart=e.detail.response;
+            this.addtocart=e.detail.response.addtocart;
+             this.id=e.detail.response._id;
+		    this.header=e.detail.response._rev;
+            alert(JSON.stringify(this.addtocart));
+            for(var i=0;i<this.addtocart.length;i++)
+            {
+            //alert("vvvv"+JSON.stringify(this.addtocart[i].name)+''+user);
+            if(JSON.stringify(this.addtocart[i].name)==user)
+            {
+            alert(JSON.stringify(this.addtocart[i].cartitem));
+            this.addtocart[i].cartitem.push(itemval);
+            alert(JSON.stringify(this.addtocart));
+            var obj={"_id": "","_rev":"","addtocart":""};
+            obj._id=this.id;
+            obj._rev=this.header;
+            obj.addtocart=this.addtocart;
+            this.$.addtocartwriteajax.body=JSON.stringify(obj);
+            this.$.addtocartwriteajax.generateRequest();
+            }
+            }
+
+            }
+
+    });
+     })();
+  </script>
+</dom-module>
