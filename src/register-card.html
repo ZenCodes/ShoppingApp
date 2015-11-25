@@ -15,19 +15,12 @@
   <template>
   <style>
 
-  .card
-  	{
-  	postion:relative;
-  	width: 100%;
-  		  display: inline-block;
-         // width: 530px;
-         // height: auto;
-         // border-radius: 2px;
-         // box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
-          margin-left: 20px;
-          margin-top: -10px;
-          background-color: white;
-        }
+  #registerdialog
+
+  {
+  top:60px;
+  width: 300px;
+}
 
   .content
   {
@@ -51,7 +44,17 @@
   margin-top: 20px;
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
   }
-
+.clear{
+//left:150px:
+//top: -70px;
+background-color:rgb(51, 214, 173);
+border-radius: 50px;
+}
+.signin
+{
+font-size: 18px;
+padding:5px;
+}
   </style>
  <iron-ajax
 		  	      id="readajax"
@@ -72,6 +75,7 @@
     <!--<iron-media-query query="(min-width: 200px)" query-matches="{{queryMatches}}"></iron-media-query>
     <template is="dom-if" if="{{queryMatches}}">-->
      <paper-dialog id="registerdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+	<div style="margin-left: 253px;margin-top:-17px;"><paper-icon-button icon="clear" class="clear" on-click="close"></paper-icon-button></div>
 	<div class="card" layout wrap>
 	  <div class="content" layout vertical>
 	    <paper-input label="Username" value="{{name}}" id="p1" required auto-validate error-message="needs username!"></paper-input>
@@ -79,6 +83,7 @@
 		<paper-input label="Conform Password" type="password" value="{{cpass}}" required auto-validate error-message="password should contain only letters!"></paper-input>
 		<paper-input label="Mobile no" value="{{mno}}" maxlength="10" pattern="[0-9]*" required auto-validate error-message="needs mobileno!"></paper-input>
 		<div class="sign"><paper-button class="in" on-click="save">Sign up</paper-button></div>
+		<div class="signin" style="margin-top: 15px;"><a href="#" on-click="signin" >Sign In</a></div>
 	</div></div>
 <paper-dialog>
     <!--</template>-->
@@ -95,6 +100,19 @@
       {
      this.rname="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7";
      this.$.readajax.generateRequest();
+     },
+     close:function(e)
+     {
+       var id = 'registerdialog';
+	 	  	  var dialog = document.getElementById(id);
+      dialog.opened=false;
+     },
+     signin:function()
+     {
+     var id = 'registerdialog';
+	 	 	  	  var dialog = document.getElementById(id);
+      dialog.opened=false;
+     document.querySelector('login-card').signin();
      },
      ReadResponse:function(e)
      {

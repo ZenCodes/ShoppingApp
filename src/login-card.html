@@ -171,7 +171,16 @@ border-radius: 50px;
       },
       register:function()
       {
+      var id = 'logindialog';
+	  	  var dialog = document.getElementById(id);
+      dialog.opened=false;
       this.$.reg.register();
+      },
+      close:function()
+      {
+        var id = 'logindialog';
+	  	  	  var dialog = document.getElementById(id);
+      dialog.opened=false;
       }
 
     });
