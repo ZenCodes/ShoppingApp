@@ -1,0 +1,52 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="admin-service.html">
+<dom-module id="typemodify-list">
+
+
+<template>
+  <style is="custom-style">
+
+
+  </style>
+
+  <paper-dialog id="animated1" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+<h4>Modify TYPE</h4>
+	    <paper-input  value="{{item.type}}" required auto-validate error-message="needs item type!"></paper-input>
+		<paper-input  value="{{item.img}}" required auto-validate error-message="needs image"></paper-input>
+<paper-button   on-click="modifydata" style="height:50px;">Modify</paper-button>
+
+ </paper-dialog>
+
+
+      <admin-service></admin-service>
+</template>
+  <script>
+    Polymer({
+            is: "typemodify-list",
+            ready:function()
+	        {
+var type;
+	        },
+	        modifydata:function()
+	        {
+              document.querySelector('admin-service').modifylistService(type,this.item.type,this.item.img);
+
+	        },
+	        changeservice:function(val)
+	        {
+	        alert('as');
+	        type=val;
+	        var id = 'animated1';
+	 var dialog = document.getElementById(id);
+      dialog.open();
+	        }
+
+
+    	   });
+  </script>
+</dom-module>

@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="login-card.html">
+<link rel="import" href="app-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <dom-module id="item-card">
 <template>
@@ -89,19 +90,21 @@
 	        {
 
 	        var name= this.name
-
+alert('return'+name);
 	        var user=JSON.stringify(sessionStorage.getItem("info"));
-		    alert('hello '+user);
+		    //alert('hello '+user);
             if(user=="null")
             {
-            //document.querySelector('my-app').setPage("login card","page1","login");
+
             sessionStorage.setItem("cartinfo","1");
             this.$.login.signin();
             }
           else
           {
-
+alert('call1');
+alert(name);
           this.$.service.addtocart(name);
+          //document.querySelector('app-service').addtocart(name);
           }
 
       }

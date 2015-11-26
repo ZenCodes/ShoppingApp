@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="admin-service.html">
+<link rel="import" href="admin-card.html">
+<dom-module id="admintype-card">
+<template>
+<style>
+
+ 		#list {
+      padding-top: 10px;
+      //background-color: white;
+      display: inline-block;
+      width: 100%;
+      margin: 5px;
+        }
+        .title{
+        text-transform:none;
+        margin-left: 20px;
+
+        }
+
+</style>
+
+<div id="list" class="horizontal layout">
+
+<paper-radio-button on-change="changeHandler" label="{{id}}" id="{{id}}" ></paper-radio-button>
+</paper-radio-button>
+
+<paper-button class="title" style="margin-top: -10px;" id="{{name}}" label="{{id}}" on-click="modifyitem">{{name}}</paper-button>
+
+<!--<paper-button   on-click="additem">add</paper-button>
+<paper-button  on-click="modifyitem">modify</paper-button>
+<paper-button >delete</paper-button>-->
+
+</div>
+
+<admin-service id="adminservice"></admin-service>
+ </template>
+  <script>
+  (function() {
+      var cpy = 'null'
+      var check
+    Polymer({
+
+      is: 'admintype-card',
+       ready:function()
+	        {
+
+      },
+      changeHandler:function(e)
+      {
+       //alert(JSON.stringify(cpy));
+	  	    if(cpy!='null')
+	  	    {
+	  	    document.getElementById(cpy).style.color = "black";
+	  	    document.getElementById(check).checked = false;
+	  	    }
+
+	  	    var ck=this.id;
+	  	    var id=this.name;
+	  	   document.getElementById(id).style.color = "red";
+	       cpy=id;
+	       check=ck;
+          // alert(this.id);
+           document.querySelector('admin-card').mainService(this.id);
+
+      },
+      modifyitem:function(e)
+      {
+            alert('hi'+this.id);
+      this.$.adminservice.modifyService(this.id);
+      },
+
+
+      });
+       })();
+    </script>
+    </dom-module>

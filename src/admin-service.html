@@ -1,0 +1,376 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="admin-service">
+
+  <template>
+<!--To fetch category items like grocery,vegitables in admin page-->
+ <iron-ajax
+   	      id="categoryajax"
+   	      url="{{url}}"
+   	      handle-as="json"
+   	      content-type="application/json"
+          on-response="categoryResponse">
+ </iron-ajax>
+  <!-- To fetch items under each category type like rice,flours..etc under groceries-->
+<iron-ajax
+
+	      id="categoryitemajax"
+	      url="{{name}}"
+	      body=""
+	      handle-as="json"
+	      content-type="application/json"
+          on-response="categoryitemResponse"
+          debounce-duration="300"></iron-ajax>
+  <!--To fetch all items under each category type like rice,flours..etc -->
+<iron-ajax
+
+	      id="itemlistajax"
+	      url="{{name}}"
+	      body=""
+	      handle-as="json"
+	      content-type="application/json"
+          on-response="itemlistResponse"
+          debounce-duration="300"></iron-ajax>
+
+          <!-- to fetch item list to modify-->
+          <iron-ajax
+		     	      id="modifylistajax"
+		     	      url="{{url}}"
+		     	      handle-as="json"
+		     	      content-type="application/json"
+		            on-response="modifylistResponse">
+ </iron-ajax>
+ <!-- to fetch the item to delete-->
+  <iron-ajax
+      	      id="deletelistajax"
+      	      url="{{url}}"
+      	      handle-as="json"
+      	      content-type="application/json"
+             on-response="deletelistResponse">
+  </iron-ajax>
+  <iron-ajax
+        method="POST"
+        id="deletelistrewriteajax"
+
+        url="http://localhost:5984/grocery/"
+        body=""
+        handle-as="json"
+      content-type="application/json"></iron-ajax>
+      <!-- to fetch item category to modify-->
+      <iron-ajax
+	     	      id="modifyitemajax"
+	     	      url="{{url}}"
+	     	      handle-as="json"
+	     	      content-type="application/json"
+	            on-response="modifyitemResponse">
+ </iron-ajax>
+ <!--to fetch the data to add the item-->
+ <iron-ajax
+
+ 	      id="additemajax"
+ 	      url="{{name}}"
+ 	      body=""
+ 	      handle-as="json"
+ 	      content-type="application/json"
+           on-response="additemResponse"
+          debounce-duration="300"></iron-ajax>
+           <iron-ajax
+		  		         method="POST"
+		  		         id="additemrewriteajax"
+
+		  		         url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+		  		         body=""
+		  		         handle-as="json"
+      content-type="application/json"></iron-ajax>
+      <!--to modify the item list-->
+      <iron-ajax
+	       	      id="modifytypeajax"
+	       	      url="{{url}}"
+	       	      handle-as="json"
+	       	      content-type="application/json"
+	              on-response="modifytypeResponse">
+	   </iron-ajax>
+	   <iron-ajax
+	         method="POST"
+	         id="modifytyperewriteajax"
+
+	         url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+	         body=""
+	         handle-as="json"
+      content-type="application/json"></iron-ajax>
+      <!-- to add the item in additem-card-->
+      <iron-ajax
+	     	      id="addcategoryitemajax"
+	     	      url="{{url}}"
+	     	      handle-as="json"
+	     	      content-type="application/json"
+          on-response="addcategoryitemResponse">
+          <iron-ajax
+		        method="POST"
+		        id="addcategoryitemwriteajax"
+		        url=""
+		        body=""
+		        handle-as="json"
+      content-type="application/json"></iron-ajax>
+  </template>
+
+  <script>
+    Polymer({
+            is: "admin-service",
+            ready:function()
+	        {
+	        var newtype;
+	        this.itemtype;
+	        this.itemimg;
+	        var value;
+	        var item;
+	        this.type;
+	        this.img;
+	        var val=JSON.stringify("0231faf356f6525d71f94a8fad002dba");
+		    this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/admincategorydesign/_view/admincategoryview?key="+val;
+	        this.$.categoryajax.generateRequest();
+	        },
+
+	        //category list in admin page
+	        categoryResponse:function(e)
+	        {
+	        this.items=[];
+	        this.itemarr=[];
+	        this.items=e.detail.response;
+	        //alert(JSON.stringify(e.detail.response));
+		    if(this.items.rows.length>0)
+		    document.querySelector('admincategory-list').category=this.items.rows;
+	        },
+	        //item under each category
+
+	         categoryitemResponse:function(e)
+				  {
+
+				  this.arr=e.detail.response;
+				  alert(JSON.stringify(this.arr.rows));
+				  document.querySelector('adminitem-list').itemarr=this.arr.rows;
+				  document.querySelector('admin-card').setPage("viewtype");
+			      //document.querySelector('adminitem-list').reload;
+			      },
+			      itemService:function(type)
+			      {
+			       var item=JSON.stringify(type);
+			       alert(item);
+				  	  this.name="http://zencouch-zencodoo.rhcloud.com/grocery/_design/categorydesign/_view/categoryview?key="+item;
+				  this.$.categoryitemajax.generateRequest()
+      },
+
+	        //list under each itemresponse
+	        itemlistResponse:function(e)
+				  {
+				 // this.arr=[];
+				  this.arr=e.detail.response;
+				  alert('hhh'+JSON.stringify(this.arr.rows));
+				  document.querySelector('admintype-list').typearr=this.arr.rows;
+				  document.querySelector('admin-card').setright("typelist");
+			      //document.querySelector('admintype-list').reload;
+      },
+       typeService:function(type)
+	        {
+	          var item=JSON.stringify(type);
+	          alert(item);
+	  	  	  this.name="http://zencouch-zencodoo.rhcloud.com/grocery/_design/itemcategorydesign/_view/itemcategoryview?key="+item;
+	  	      this.$.itemlistajax.generateRequest();
+      },
+      //to fetch the list to modify
+       modifylistResponse:function(e)
+	  	        {
+	  	        this.items=[];
+	  	        this.itemarr=[];
+	  	        this.items=e.detail.response;
+	  	        alert(JSON.stringify(e.detail.response));
+	  		    document.querySelector('adminmodify-list').item=this.items ;
+	  		    document.querySelector('admin-card').setview("modifylist");
+	               document.querySelector('adminmodify-list').reload;
+	  	        },
+	        		modifyService:function(id)
+	        		{
+	        		 var val=id;
+	  			this.url="http://zencouch-zencodoo.rhcloud.com/grocery/"+val;
+	  	        this.$.modifylistajax.generateRequest();
+      		},
+      		//to delete the item list
+      		deletedata:function(id)
+				        {
+				        var val=id;
+				        alert(val);
+				       this.url="http://zencouch-zencodoo.rhcloud.com/grocery/"+val;
+				       this.$.deletelistajax.generateRequest();
+				        },
+				         deletelistResponse:function(e)
+				        {
+				        this.items=[];
+				        this.items=e.detail.response;
+				        alert(JSON.stringify(this.items.brand));
+							        this.id=e.detail.response._id;
+							        this.header=e.detail.response._rev;
+				         var obj={"_id": "","_rev":"","brand":"","category":"","flag":"","img":"","name":"","offer":"","price":"","status":"","type":"","unit":""};
+			              obj._id=this.id;
+			              obj._rev=this.header;
+			              obj.brand=this.items.brand;
+			              obj.category=this.items.category;
+			              obj.flag=this.items.flag;
+			              obj.img=this.items.img;
+			              obj.name=this.items.name;
+			              obj.offer=this.items.offer;
+			              obj.price=this.items.price;
+			              obj.status="inactive";
+			              obj.type=this.items.type;
+			              obj.unit=this.items.unit;
+			 this.$.deletelistrewriteajax.body=JSON.stringify(obj);
+			this.$.deletelistrewriteajax.generateRequest();
+				        },
+	//to modify the item category
+	 modifyitemResponse:function(e)
+		        {
+		        this.items=[];
+		        this.itemarr=[];
+		        this.items=e.detail.response.categories;
+		        alert(JSON.stringify(this.items));
+	for(var i=0;i<this.items.length;i++)
+	{
+	for(var j=0;j<this.items[i].itemarr.length;j++)
+	{
+	if(this.items[i].itemarr[j].type==val)
+	{
+	alert(JSON.stringify(this.items[i].itemarr[j]));
+	document.querySelector('typemodify-list').item=this.items[i].itemarr[j];
+	document.querySelector('typemodify-list').changeservice(val);
+	document.querySelector('admin-card').setview("modifytype")
+	document.querySelector('typemodify-list').reload;
+	}
+	}
+
+	}
+			    //document.querySelector('typemodify-list').item=this.items;
+			    //document.querySelector('admin-card').setview("modifylist");
+	            // document.querySelector('typemodify-list').reload;
+		        },
+	      		modifyitemService:function(id)
+	      		{
+	      		  val=id;
+	      		 alert("cccc"+val);
+				this.url="http://zencouch-zencodoo.rhcloud.com/grocery/0231faf356f6525d71f94a8fad002dba";
+		        this.$.modifyitemajax.generateRequest();
+      		},
+      		//add the item
+      		additemservice:function(item,type,img)
+      		{
+      		item=item;
+      		this.type=type;
+      		this.img=img;
+      		 this.name="http://zencouch-zencodoo.rhcloud.com/grocery/0231faf356f6525d71f94a8fad002dba";
+	  this.$.additemajax.generateRequest();
+      		},
+      		 additemResponse:function(e)
+				  {
+				  this.arr=[];
+				  var add=[];
+				  this.id=e.detail.response._id;
+				  this.header=e.detail.response._rev;
+				  this.arr=e.detail.response.categories;
+				  for(var i=0;i<this.arr.length;i++)
+				  {
+				  alert(this.arr[i].category+' '+item);
+				  if(this.arr[i].category==item)
+				   {
+				   add={"type":this.type,"img":this.img};
+			       this.arr[i].itemarr.push(add);
+				   alert(JSON.stringify(this.arr[i].itemarr));
+				   }
+
+				  }
+				  alert(JSON.stringify(this.arr));
+				   var obj={"_id": "","_rev":"","categories":""};
+				        obj._id=this.id;
+				        obj._rev=this.header;
+			      obj.categories=this.arr;
+				  this.$.additemrewriteajax.body=JSON.stringify(obj);
+			this.$.additemrewriteajax.generateRequest();
+				  //document.querySelector('adminitem-list').itemarr=this.arr.rows;
+				 document.querySelector('admin-card').setPage("viewtype");
+			      document.querySelector('adminitem-list').reload;
+      },
+//modify type service
+modifylistService:function(type,itemtype,img)
+{
+newtype=type;
+this.itemtype=itemtype;
+this.itemimg=img;
+ this.url="http://zencouch-zencodoo.rhcloud.com/grocery/0231faf356f6525d71f94a8fad002dba";
+	        this.$.modifytypeajax.generateRequest();
+},
+   modifytypeResponse:function(e)
+	        {
+	        this.items=[];
+				        this.id=e.detail.response._id;
+				        this.header=e.detail.response._rev;
+
+                this.items=e.detail.response.categories;
+			  	        //alert(JSON.stringify(this.items));
+			  for(var i=0;i<this.items.length;i++)
+			  {
+			  for(var j=0;j<this.items[i].itemarr.length;j++)
+			  {
+			  if(this.items[i].itemarr[j].type==newtype)
+{
+this.items[i].itemarr[j].type=this.itemtype;
+this.items[i].itemarr[j].img=this.itemimg;
+alert('hi'+JSON.stringify(this.items[i].itemarr[j].type));
+ var obj={"_id": "","_rev":"","categories":""};
+	        obj._id=this.id;
+	        obj._rev=this.header;
+      obj.categories=this.items;
+	  this.$.modifytyperewriteajax.body=JSON.stringify(obj);
+this.$.moifytyperewriteajax.generateRequest()
+}
+}
+}
+	        },
+	        //additem-card
+ additemvalue:function(id)
+	        {
+	        var val=id;
+						this.url="http://zencouch-zencodoo.rhcloud.com/grocery/"+val;
+	        this.$.readajax.generateRequest();
+	        },
+	          addcategoryitemResponse:function(e)
+							        {
+							        this.items=[];
+							        this.itemarr=[];
+							        this.items=e.detail.response;
+							        document.querySelector('additem-card').items=this.items;
+							       // this.type=e.detail.response.type;
+							        //this.category=e.detail.response.category;
+				        //alert(JSON.stringify(e.detail.response.type));
+	        },
+	        addcategoryitemService:function(catetype,category,cateimg,catename,cateunit,cateprice,cateoffer,catebrand)
+	        {
+	          this.$.ajax.url="http://zencouch-zencodoo.rhcloud.com/grocery/";
+			     		var obj={"type": "","category":"","img":"","name":"","unit": "","price":"","offer":"","flag":"","brand":""};
+			     		obj.type=catetype;
+			     		obj.category=category;
+			     		obj.img=cateimg;
+			     		obj.name=catename;
+			     		obj.unit=cateunit;
+			     		obj.price=cateprice;
+			     		obj.offer=cateoffer;
+			     		if(cateoffer=="0")
+			     		obj.flag="false";
+			     		else
+			     		obj.flag="true";
+			     		obj.brand=catebrand;
+			     		this.$.addcategoryitemwriteajax.body=JSON.stringify(obj);
+			     		this.$.addcategoryitemwriteajax.generateRequest();
+     		alert("Added!");
+	        }
+
+    });
+  </script>
+
+</dom-module>

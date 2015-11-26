@@ -1,0 +1,46 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="adminitem-service.html">
+
+<dom-module id="adminitem-card">
+<template>
+<style>
+
+ 		#list {
+      padding-top: 10px;
+      //background-color: white;
+      display: inline-block;
+      width: 40%;
+      margin: 5px;
+        }
+        .title{
+        text-transform:none;
+        margin-left: 20px;
+
+        }
+
+</style>
+
+<div id="list" vertical layout>
+<paper-button  label="{{name}}" on-click="showall"><img src="{{img}}" width="120%"/></paper-button>
+<paper-button style="margin-top: -130px;margin-left:35px;" label="{{name}}" on-click="showoffer"><img src="{{offerimg}}" width="100%"/></paper-button>
+<paper-button class="title" style="margin-top: -10px;" label="{{name}}">{{name}}</paper-button>
+</div>
+<adminitem-service id="service"></itemcategory-service>
+ </template>
+  <script>
+    Polymer({
+
+      is: 'category-card',
+       ready:function()
+	        {
+
+      }
+
+      });
+    </script>
+    </dom-module>

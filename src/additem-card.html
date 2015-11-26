@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="admin-service">
+<dom-module id="additem-card">
+
+<template>
+  <style is="custom-style">
+  #card
+    	{
+    	margin-top: 2%;
+    	postion:relative;
+    	width: 80%;
+    	height: 100%;
+        display: inline-block;
+        border-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        }
+
+    #content
+    {
+    width: 60%;
+    height: 150%;
+    padding-left: 10%;
+    padding-right: 10%;
+    }
+    paper-button{
+    width: 50%;
+    font-family:'Calibri';
+    text-transform: none;
+    font-size: 18px;
+    //background-color:rgb(51, 214, 173);
+    //color: white;
+    height: 40px;
+    left: 30%;
+    font-weight: bold;
+    margin-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  }
+  paper-input{
+  padding-top: -5px;
+  width: 120%;
+  }
+  </style>
+
+
+  <div id="card" class="layout horizontal">
+	  <div id="content" class="layout vertical">
+	    <paper-input  value="{{items.type}}" required auto-validate error-message="needs item type!"></paper-input>
+		<paper-input  value="{{items.category}}" required auto-validate error-message="needs item category!"></paper-input>
+		<paper-input label="Image" value="{{img}}" required auto-validate error-message="needs image"></paper-input>
+		<paper-input label="Item name" value="{{name}}" required auto-validate error-message="needs item name"></paper-input>
+		<paper-input label="Unit" value="{{unit}}" required auto-validate error-message="needs unit"></paper-input>
+		<paper-input label="Price" value="{{price}}" required auto-validate error-message="needs price"></paper-input>
+		<paper-input label="Offer %" value="{{offer}}" required auto-validate error-message="needs offer %"></paper-input>
+		<paper-input label="Brand" value="{{brand}}" required auto-validate error-message="needs brand!"></paper-input>
+<paper-button on-click="add">Add</paper-button>
+	  </div>
+  </div>
+  <admin-service id="adminservice"></admin-service>
+</template>
+  <script>
+    Polymer({
+            is: "additem-card",
+            ready:function()
+	        {
+	        },
+	        add:function()
+	        {
+       this.$.adminservice.addcategoryitemService(this.items.type,this.items.category,this.img,this.name,this.unit,this.price,this.offer,this.brand);
+
+	        },
+
+
+
+
+    	   });
+  </script>
+</dom-module>

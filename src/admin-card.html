@@ -1,0 +1,229 @@
+
+     <!--<script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+     <link rel="import" href="my-app.html">
+
+     <my-app></my-app>-->
+
+     <html>
+  		<head>
+	     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	     <meta name="mobile-web-app-capable" content="yes">
+	     <meta name="apple-mobile-web-app-capable" content="yes">
+
+	     <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+	     <link rel="import" href="../bower_components/paper-styles/demo-pages.html">
+	     <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+	     <link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+	     <link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+	     <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+	     <link rel="import" href="../bower_components/paper-item/paper-item.html">
+	     <link rel="import" href="../bower_components/paper-card/paper-card.html">
+	     <link rel="import" href="../bower_components/paper-input/paper-input.html">
+	     <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+	     <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+	     <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
+	     <link rel="import" href="additem-card.html">
+	      <link rel="import" href="addtype-card.html">
+		 <link rel="import" href="adminitem-list.html">
+		 <link rel="import" href="adminmodify-list.html">
+		 <link rel="import" href="admincategory-list.html">
+		 <link rel="import" href="admin-service.html">
+ <link rel="import" href="admintype-list.html">
+<link rel="import" href="typemodify-list.html">
+
+  </head>
+
+  <body unresolved>
+  <admin-card></admin-card>
+  <dom-module id="admin-card">
+
+      <style is="custom-style">
+	        ::-webkit-scrollbar {
+	    	    display: none;
+	        }
+	    	.top{
+	    	background-color: #B2C2F0;
+	    	height: 50px;
+	    	}
+
+	    	/*.content{
+	    	width:30%;
+	    	height: 100%;
+	    	text-align: left;
+	    	overflow: scroll;
+	    	background-color: white;
+	    	}
+	    		.subcontent{
+
+
+	  	  	width:40%;
+	  	  	height: 100%;
+	  	  	text-align: left;
+	  	  	overflow: scroll;
+	  	  	background-color: white;
+	    	}
+	    		.dataview{
+
+
+	  		  	width:70%;
+	  		  	height: 100%;
+	  		  	text-align: left;
+	  		  	overflow: scroll;
+	  		  	background-color: white;
+	    	}
+	        .title{
+	        margin-left:-30px;
+	        }
+	        .search{
+	        margin-top: 0px;
+	        }*/
+	        .maindiv{
+	        //border:1px solid black;
+@apply(--layout-horizontal);
+@apply(--layout-wrap);
+	        }
+	      .dataview
+	      {
+	      @apply(--layout-vertical);
+          @apply(--layout-wrap);
+	      }
+
+      </style>
+  <template>
+
+  	<paper-drawer-panel responsiveWith="300px">
+  	  <paper-header-panel drawer>
+<paper-toolbar>
+  	      <div></div>
+  	    </paper-toolbar>
+  	   	 <div>
+	    <paper-menu class="content fit">
+		<admincategory-list></admincategory-list>
+	    </paper-menu>
+  	    </div>
+  	  </paper-header-panel>
+  	 <paper-header-panel main>
+  	   <paper-toolbar>
+  	   <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+
+  	   <div><paper-item class="title">ADMIN PAGE</paper-item></div>
+	     	        <div class="flex"></div>
+	     	        <paper-button  label="{{name}}" on-click="additem">add</paper-button>
+				<paper-button label="{{name}}" on-click="modifyitem">modify</paper-button>
+	            <paper-button label="{{name}}" on-click="deleteitem">delete</paper-button>
+	            <paper-icon-button icon="more-vert"></paper-icon-button>
+  	      </paper-toolbar>
+<div class="maindiv">
+
+  	      <div class="content" style="width: 20%;">
+		     			<iron-pages selected="{{page}}" attr-for-selected="data-category">
+		                 <section data-category="viewtype">
+		     			    <adminitem-list></adminitem-list>
+		                </section>
+		        		</iron-pages>
+		        		</div>
+		        		<div class="subcontent" style="width:30%;">
+		  			   			<iron-pages selected="{{rpage}}" attr-for-selected="right-data">
+		  			   			<!--  <section right-data="additem">
+		  			  				<additem-card></additem-card>
+		  			              </section>  -->
+		  			              <section right-data="typelist">
+		  						  <admintype-list></admintype-list>
+		  			              </section>
+		        		</iron-pages>
+		    	      </div>
+		    	      <div class="dataview" style="width: 50%;">
+		    	      <iron-pages selected="{{rightpage}}" attr-for-selected="view-data">
+		  		  			   			  <section view-data="additem">
+		  		  			  				<additem-card></additem-card>
+		  		  			              </section>
+
+		  		  			              <section view-data="modifylist">
+		  		  						  <adminmodify-list></adminmodify-list>
+		  		  			              </section>
+                             <section view-data="modifytype">
+		  		  						  <typemodify-list></typemodify-list>
+		  		  			              </section>
+		  		        		</iron-pages>
+		    	      </div>
+    </div>
+    </paper-header-panel>
+      </paper-drawer-panel>
+<admin-service id="adminservice"></admin-service>
+<addtype-card id="addtypecard"></addtype-card>
+  </template>
+  <script>
+  (function() {
+        var type = 'null'
+    Polymer({
+      is: "admin-card",
+      ready: function() {
+      //this.rpage="item";
+      },
+      setPage:function(page)
+      {
+      alert("Page: "+page);
+      this.page=page;
+      },
+      setright:function(rpage)
+  	    {
+  	    alert("Page: "+rpage);
+  	    this.rpage=rpage;
+      },
+      setview:function(rightpage)
+  		    {
+  		    //alert("hiPage: "+rightpage);
+  		    this.rightpage=rightpage;
+      },
+      mainService:function(id,setpage)
+  	      		{
+  	      		type=setpage;
+        		 this.name=id;
+  },
+  modifyitem:function()
+  {
+  //alert(this.name+' '+type);
+  if(type=="subtype")
+  {
+  //alert('hai'+this.name);
+  this.$.adminservice.modifyitem(this.name);
+  }
+  else
+  {
+   this.$.adminservice.modifyService(this.name);
+  }
+  },
+  additem:function()
+  {
+  //alert(this.name+' '+type);
+  if(type=="type")
+  {
+  this.$.addtypecard.addtypeService(this.name);
+  //alert('category');
+  }
+  else if(type=="subtype")
+  {
+  //alert('hi subtype'+this.name);
+  this.$.subtype.setvalue(this.name);
+
+  //alert('type');
+  }
+  else
+  {
+   document.querySelector('admin-service').additemvalue(this.name);
+   document.querySelector('admin-card').setview("additem");
+   }
+  },
+  deleteitem:function()
+  {
+  this.$.adminservice.deletedata(this.name);
+  }
+
+    });
+   })();
+  </script>
+</dom-module>
+</body>
+</html>

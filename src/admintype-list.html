@@ -1,0 +1,33 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="admintype-card.html">
+<link rel="import" href="admin-service.html">
+<dom-module id="admintype-list">
+<template>
+<style>
+{
+
+}
+</style>
+<div vertical layout >
+<template is="dom-repeat" items="{{typearr}}" as="type">
+<admintype-card id="{{type.value._id}}"  name="{{type.value.name}}"></admintype-card>
+</template>
+</div>
+
+<admin-service itemarr="{{typearr}}"></admin-service>
+</template>
+    <script>
+    Polymer({
+
+      is: 'admintype-list',
+       ready:function()
+	        {
+            }
+      });
+    </script>
+    </dom-module>

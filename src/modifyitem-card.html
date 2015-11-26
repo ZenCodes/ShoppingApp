@@ -1,0 +1,90 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<dom-module id="modifyitem-card">
+
+<template>
+  <style is="custom-style">
+  #card
+    	{
+    	margin-top: 2%;
+    	postion:relative;
+    	width: 80%;
+    	height: 100%;
+        display: inline-block;
+        border-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        }
+
+    #content
+    {
+    width: 60%;
+    height: 90%;
+    padding-left: 10%;
+    padding-right: 10%;
+    }
+    paper-button{
+    width: 50%;
+    font-family:'Calibri';
+    text-transform: none;
+    font-size: 18px;
+    //background-color:rgb(51, 214, 173);
+    //color: white;
+    //height: 40px;
+    //left: 30%;
+    font-weight: bold;
+    margin-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  }
+  paper-input{
+  padding-top: -5px;
+  width: 120%;
+  }
+  </style>
+  <iron-ajax
+     	      id="ajax"
+     	      url="{{url}}"
+     	      handle-as="json"
+     	      content-type="application/json"
+            on-response="handleResponse">
+ </iron-ajax>
+  <div id="card" class="layout horizontal">
+	  <div id="content" class="layout vertical">
+	   <paper-dropdown-menu class="dropdown" label="{{unit}}" no-label-float id="{{discount}}">
+	           <paper-menu class="dropdown-content" on-iron-select="select">
+	           <paper-item>1</paper-item>
+	           <paper-item>2</paper-item>
+	           </paper-menu>
+       </paper-dropdown-menu>
+
+	  </div>
+	  <div class="layout horizontal">
+
+	  <paper-button  on-click="modify" id="modify">Modify item</paper-button>
+	  <paper-button  on-click="delete">Delete item</paper-button>
+	  </div>
+  </div>
+</template>
+  <script>
+    Polymer({
+            is: "modifyitem-card",
+            ready:function()
+	        {
+	        var val=JSON.stringify("0231faf356f6525d71f94a8fad002dba");
+	        this.arr=[];
+	         this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/admincategorydesign/_view/admincategoryview?key="+val;
+	        this.$.ajax.generateRequest();
+	        },
+	        handleResponse:function(e)
+	   {
+	alert(JSON.stringify(e.detail.response));
+	   }
+
+    	   });
+  </script>
+</dom-module>

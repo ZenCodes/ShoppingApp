@@ -148,6 +148,7 @@ border-radius: 50px;
       {
       this.cnt=this.cnt+1;
       }
+
       }
       if(this.cnt==1)
       {
@@ -157,12 +158,18 @@ border-radius: 50px;
 	  var dialog = document.getElementById(id);
       dialog.opened=false;
       var cartuser=sessionStorage.getItem("cartinfo");
-      if(cartuser=="1")
+       if(this.name="Admin")
+	  	        {
+	  	        alert('admin');
+	  	 window.location.href="adminindex.html";
+      }
+     else if(cartuser=="1")
       {
       document.querySelector('item-card').addtocart();
       }
       //alert(sessionStorage.getItem("info"));
       }
+
 	  else
       alert("Invalid user");
 

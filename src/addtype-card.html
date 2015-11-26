@@ -1,0 +1,45 @@
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<dom-module id="addtype-card">
+
+<template>
+<paper-dialog id="animated" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+<h4>ADD TYPE</h4>
+ <paper-input label="type"  value="{{type}}" required auto-validate error-message="needs item type!"></paper-input>
+ <paper-input label="Image" value="{{img}}" required auto-validate error-message="needs image"></paper-input>
+ <paper-button on-click="add">Add</paper-button>
+    </paper-dialog>
+</template>
+
+  <script>
+    Polymer({
+      is: "addtype-card",
+      ready:function()
+      {
+		this.item;
+      },
+      addtypeService:function(type)
+      {
+        item=type;
+       alert('hhh'+item);
+      var id = 'animated';
+      var dialog = document.getElementById(id);
+      dialog.open();
+      },
+      add:function()
+      {
+      alert('hi');
+      document.querySelector('admin-service').additemservice(item,this.type,type.img);
+      var id = 'animated';
+      var dialog = document.getElementById(id);
+      dialog.opened=false;
+      //dialog.close();
+      }
+    });
+
+  </script>
+
+</dom-module>

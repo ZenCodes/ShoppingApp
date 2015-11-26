@@ -1,0 +1,65 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="admin-service.html">
+<dom-module id="adminitem-card">
+<template>
+<style>
+
+ 		#list {
+      padding-top: 10px;
+      //background-color: white;
+      display: inline-block;
+      width: 100%;
+      margin: 5px;
+        }
+        .title{
+        text-transform:none;
+        margin-left: 20px;
+
+        }
+
+</style>
+
+<div id="list" class="horizontal layout">
+
+<paper-button class="title" id="{{name}}" style="margin-top: -10px;"  label="{{name}}" on-click="modifyitem">{{name}}</paper-button>
+
+<admin-service id="adminservice"></admin-service>
+</div>
+
+ </template>
+  <script>
+  (function() {
+      var cpy = 'null'
+    Polymer({
+
+      is: 'adminitem-card',
+       ready:function()
+	        {
+      },
+
+modifyitem:function(e)
+{
+ //alert(JSON.stringify(cpy));
+	    if(cpy!='null')
+	    {
+	    document.getElementById(cpy).style.color = "black";
+	    }
+	    var id=this.name;
+	   document.getElementById(id).style.color = "red";
+	   cpy=id;
+	   var type="subtype";
+        alert(this.name);
+        document.querySelector('admin-card').mainService(this.name,type);
+	    this.$.adminservice.typeService(this.name);
+
+},
+
+      });
+       })();
+    </script>
+    </dom-module>

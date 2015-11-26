@@ -1,0 +1,116 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="adminmodify-list">
+
+<template>
+  <style is="custom-style">
+  #card
+    	{
+    	margin-top: 2%;
+    	postion:relative;
+    	width: 80%;
+    	height: 100%;
+        display: inline-block;
+        border-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        }
+
+    #content
+    {
+    width: 60%;
+    height: 200%;
+    padding-left: 10%;
+    padding-right: 10%;
+    }
+    paper-button{
+    width: 50%;
+    font-family:'Calibri';
+    text-transform: none;
+    font-size: 18px;
+    //background-color:rgb(51, 214, 173);
+    //color: white;
+    //height: 50px;
+    left: 30%;
+    font-weight: bold;
+    margin-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  }
+  paper-input{
+  padding-top: -5px;
+  width: 120%;
+  }
+  </style>
+
+  <div id="card" class="layout horizontal">
+	  <div id="content" class="layout vertical">
+
+	    <paper-input  value="{{item.type}}" required auto-validate error-message="needs item type!"></paper-input>
+		<paper-input  value="{{item.category}}" required auto-validate error-message="needs item category!"></paper-input>
+		<paper-input  value="{{item.img}}" required auto-validate error-message="needs image"></paper-input>
+		<paper-input  value="{{item.name}}" required auto-validate error-message="needs item name"></paper-input>
+		<paper-input  value="{{item.unit}}" required auto-validate error-message="needs unit"></paper-input>
+		<paper-input  value="{{item.price}}" required auto-validate error-message="needs price"></paper-input>
+		<paper-input  value="{{item.offer}}" required auto-validate error-message="needs offer %"></paper-input>
+		<paper-input  value="{{item.flag}}" required auto-validate error-message="needs flag %"></paper-input>
+		<paper-input  value="{{item.brand}}" required auto-validate error-message="needs brand!"></paper-input>
+<paper-button  label="{{item._id}}" on-click="modifydata" style="height:50px;">Modify</paper-button>
+	  </div>
+  </div>
+  <iron-ajax
+     	      id="ajax"
+     	      url="{{url}}"
+     	      handle-as="json"
+     	      content-type="application/json"
+            on-response="handleResponse">
+ </iron-ajax>
+ <iron-ajax
+       method="POST"
+       id="rewriteajax"
+
+       url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+       body=""
+       handle-as="json"
+      content-type="application/json"></iron-ajax>
+</template>
+  <script>
+    Polymer({
+            is: "adminmodify-list",
+            ready:function()
+	        {
+
+	        },
+	        modifydata:function()
+	        {
+	        var val=this.item._id;
+	        alert(this.item._id);
+	        this.url="http://zencouch-zencodoo.rhcloud.com/grocery/"+val;
+	        this.$.ajax.generateRequest();
+	        },
+	         handleResponse:function(e)
+	        {
+	        this.items=[];
+				        this.id=e.detail.response._id;
+				        this.header=e.detail.response._rev;
+	     var obj={"_id": "","_rev":"","brand":"","category":"","flag":"","img":"","name":"","offer":"","price":"","type":"","unit":""};
+              obj._id=this.id;
+              obj._rev=this.header;
+              obj.brand=this.item.brand;
+              obj.category=this.item.category;
+              obj.flag=this.item.flag;
+              obj.img=this.item.img;
+              obj.name=this.item.name;
+              obj.offer=this.item.offer;
+              obj.price=this.item.price;
+              obj.type=this.item.type;
+              obj.unit=this.item.unit;
+ this.$.rewriteajax.body=JSON.stringify(obj);
+this.$.rewriteajax.generateRequest();
+	        }
+
+    	   });
+  </script>
+</dom-module>

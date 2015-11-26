@@ -1,0 +1,20 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="admin-service.html">
+<link rel="import" href="admincategory-card.html">
+<dom-module id="admincategory-list">
+<template>
+<admin-service id="service" category="{{category}}"></admin-service>
+<template is="dom-repeat" items="{{category}}" as="menu">
+<admincategory-card item="{{menu.value}}"></admincategory-card>
+</template>
+ </template>
+  <script>
+    Polymer({
+            is: "admincategory-list",
+            ready:function()
+	        {
+	        }
+    });
+  </script>
+</dom-module>

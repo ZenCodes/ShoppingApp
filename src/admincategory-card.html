@@ -1,0 +1,40 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="admin-service.html">
+<dom-module id="admincategory-card">
+<template>
+<!--style$="[[_computedClass(stPt)]]"-->
+<paper-item class="pitem" id="{{item}}" label="{{item}}" on-tap="selectCategory" >{{item}}</paper-item>
+<admin-service id="adminservice"></admin-service>
+</template>
+  <script>
+  (function() {
+      var cpy = 'null'
+  Polymer({
+        is: "admincategory-card",
+
+        ready:function()
+	    {
+
+	    },
+	    selectCategory:function(e)
+	    {
+	    if(cpy!='null')
+	    {
+	    document.getElementById(cpy).style.color = "black";
+	    }
+	    var id=this.item;
+	    var type="type";
+	   document.getElementById(id).style.color = "red";
+	   cpy=id;
+	    //alert(this.item);
+document.querySelector('admin-card').mainService(this.item,type);
+	    this.$.adminservice.itemService(this.item);
+	    //this.stPt="red";
+	    },
+
+   });
+    })();
+  </script>
+</dom-module>
