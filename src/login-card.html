@@ -123,11 +123,13 @@ border-radius: 50px;
       is: "login-card",
       ready:function()
       {
-      //alert("login");
+
       this.cnt=0;
       this.arr=[];
       },
-      signin:function(){
+      signin:function()
+      {
+
        var id = 'logindialog';
        var dialog = document.getElementById(id);
       dialog.open();
@@ -139,8 +141,8 @@ border-radius: 50px;
 
       this.cnt=0;
       this.arr=e.detail.response;
-	  alert(JSON.stringify(this.arr.user));
-	  alert(JSON.stringify(this.arr.user.length));
+	  //alert(JSON.stringify(this.arr.user));
+	  //alert(JSON.stringify(this.arr.user.length));
       for(var i=0;i<this.arr.user.length;i++)
       {
 

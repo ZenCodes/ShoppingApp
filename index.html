@@ -23,7 +23,9 @@
 	     <link rel="import" href="bower_components/paper-input/paper-input.html">
 	     <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 	     <link rel="import" href="bower_components/iron-pages/iron-pages.html">
+	     <link rel="import" href="bower_components/paper-button/paper-button.html">
 	     <link rel="import" href="bower_components/paper-styles/paper-styles.html">
+	     <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
 	     <link rel="import" href="src/item-list.html">
 	     <link rel="import" href="src/category-list.html">
 	     <link rel="import" href="src/itemcategory-list.html">
@@ -32,7 +34,7 @@
 	     <link rel="import" href="src/offer-list.html">
 	     <link rel="import" href="src/brand-menu-card.html">
     	 <link rel="import" href="src/brand-list.html">
-    	  <link rel="import" href="src/login-card.html">
+    	 <link rel="import" href="src/login-card.html">
 
 
 
@@ -91,6 +93,7 @@
   	        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
   			<div><paper-item class="title">{{title}}</paper-item></div>
   	        <div class="flex"></div>
+  	        <paper-button class="in" on-click="signin">Login</paper-button>
   	        <paper-icon-button icon="more-vert"></paper-icon-button>
   	      </paper-toolbar>
   	  <!-- Top Toolbar for search and cart-->
@@ -166,7 +169,14 @@
     //alert(e.target.selectedItem.textContent);
     //alert(document.querySelector('paper-drawer-panel'));
     //document.querySelector('paper-drawer-panel').togglePanel();
+    },
+    signin:function()
+
+    {
+    document.querySelector('my-app').setPage("login card","page1","Login");
+    document.querySelector('login-card').signin();
     }
+
   });
   </script>
 </dom-module>
