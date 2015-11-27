@@ -152,7 +152,7 @@ border-radius: 50px;
       }
 
       }
-      if(this.cnt==1)
+      if(this.cnt>=1)
       {
       alert("Valid user");
       sessionStorage.setItem("info",this.name);
@@ -160,7 +160,7 @@ border-radius: 50px;
 	  var dialog = document.getElementById(id);
       dialog.opened=false;
       var cartuser=sessionStorage.getItem("cartinfo");
-       if(this.name="Admin")
+       if(this.name=="Admin")
 	  	        {
 	  	        alert('admin');
 	  	 window.location.href="adminindex.html";
@@ -175,8 +175,7 @@ border-radius: 50px;
 	  else
       alert("Invalid user");
 
-      //alert(JSON.stringify(this.arr.rows));
-      //alert(JSON.stringify(e.detail.response));
+
       },
       register:function()
       {
