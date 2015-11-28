@@ -67,7 +67,7 @@
  </iron-ajax>
 
 
-  <iron-ajax
+<iron-ajax
        	      id="addtocartreadajax"
        	      url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d000281a"
        	      handle-as="json"
@@ -82,11 +82,23 @@
         body=""
         handle-as="json"
       content-type="application/json"></iron-ajax>
+
+ <!-fetch the item of particular user and display in view card-->
+ <iron-ajax
+      	      id="viewcartajax"
+      	      url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d000281a"
+      	      handle-as="json"
+      	      content-type="application/json"
+             on-response="viewcartResponse"
+             debounce-duration="300">
+ </iron-ajax>
  </template>
 
   <script>
   (function() {
       var itemval=[];
+      var quantity;
+      var total;
     Polymer({
             is: "app-service",
             ready:function()
@@ -223,7 +235,7 @@
 	        		{
 	        		var itemval={"img":"","name": "","unit": "","price":"","discount":"","discountprice":"","discuntprice1":""};
 	        		itemval.img=this.brandlist.rows[i].value.img;
-		    		itemval.name=this.brandlist.rows[i].value.name;
+		   		itemval.name=this.brandlist.rows[i].value.name;
 		    		itemval.unit="1 "+this.brandlist.rows[i].value.unit+"";
 		    		var flag=this.brandlist.rows[i].value.flag;
 		    		if(flag=="true")
@@ -254,7 +266,7 @@
            //alert('hii'+JSON.stringify(this.itemlist.rows[n].value));
            for(var n=0;n<this.itemlist.rows.length;n++)
            {
-            itemval={"type":"","category":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":""};
+            itemval={"type":"","category":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
            itemval.type=this.itemlist.rows[n].value.type;
    		   itemval.category=this.itemlist.rows[n].value.category;
    		   itemval.img=this.itemlist.rows[n].value.img;
@@ -265,6 +277,11 @@
    		   itemval.flag=this.itemlist.rows[n].value.flag;
    		   itemval.brand=this.itemlist.rows[n].value.brand;
    		   itemval.status=this.itemlist.rows[n].value.status;
+   		   alert('dd'+quantity);
+   		   itemval.quantity=quantity;
+   		   itemval.total=total;
+   		    itemval.cartstatus="Incart";
+
    		   //this.$.writeajax.body=JSON.stringify(itemval);
      		//this.$.writeajax.generateRequest();
 
@@ -272,8 +289,10 @@
 		  }
 
             },
-            addtocart:function(name)
+            addtocart:function(name,quant,tot)
             {
+            quantity=quant;
+            total=tot;
 			var items=JSON.stringify(name);
 	       this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/addtocartdesign/_view/addtocartview?key="+items;
 
@@ -296,6 +315,8 @@
             //alert("vvvv"+JSON.stringify(this.addtocart[i].name)+''+user);
             if(JSON.stringify(this.addtocart[i].name)==user)
             {
+
+
             alert(JSON.stringify(this.addtocart[i].cartitem));
             this.addtocart[i].cartitem.push(itemval);
             alert(JSON.stringify(this.addtocart));
@@ -308,7 +329,35 @@
             }
             }
 
+            },
+            //view cart of the user
+            viewcart:function()
+            {
+alert('app cart');
+ this.$.viewcartajax.generateRequest();
+            },
+
+viewcartResponse:function(e)
+{
+this.viewcartitem=[];
+this.itemview=[];
+this.itemview=e.detail.response.addtocart;
+var uname=JSON.stringify(sessionStorage.getItem("info"));
+alert(JSON.stringify(this.itemview));
+ for(var i=0;i<this.itemview.length;i++)
+            {
+            if(JSON.stringify(this.itemview[i].name)==uname)
+            {
+            viewcartitem=this.itemview[i].cartitem;
+            alert('cart'+JSON.stringify(this.itemview[i].cartitem));
+            document.querySelector('my-app').setPage("view card","page1","view card");
+            document.querySelector('viewcart-list').itemarr=this.itemview[i].cartitem;
+            document.querySelector('viewcart-list').reload;
+
             }
+            }
+
+}
 
     });
      })();

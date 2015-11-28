@@ -1,0 +1,90 @@
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="login-card.html">
+<link rel="import" href="app-service.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<dom-module id="view-card">
+<template>
+ <style is="custom-style">
+ .card{
+ @apply(--layout-horizontal);
+ @apply(--layout-center);
+ position: relative;
+ }
+ .imag{
+ width : 40%;
+ }
+ img{
+ width : 100%;
+ }
+ paper-item{
+  width: 100%;
+ }
+ .detail{
+ width: 100%;
+ @apply(--layout-vertical);
+ }
+ .r1,.r2{
+ @apply(--layout-horizontal);
+ }
+ .field{
+  border-color: #B2C2F0;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  margin-top : 10px;
+ }
+ </style>
+  <fieldset class="field">
+  <legend align="left">{{name}}</legend>
+  <div class="card">
+  <div class="imag"><img src="{{img}}"/></div>
+   <div style="height:40px;">
+     <paper-dropdown-menu class="dropdown" label="{{quantity}}" no-label-float id="{{quantity}}">
+           <paper-menu class="dropdown-content" on-iron-select="select">
+           <paper-item>1</paper-item>
+           <paper-item>2</paper-item>
+           <paper-item>3</paper-item>
+           <paper-item>5</paper-item>
+           <paper-item>10</paper-item>
+           </paper-menu>
+   </paper-dropdown-menu>
+   <span style="color:black;">{{unit}}</span><br>
+
+   <span style="color:black;">{{price}}</span><br>
+   <span style="color:black;">{{total}}</span><br>
+   </div>
+   </div>
+   <div class="r2">
+
+  </div>
+  </div>
+  </div>
+  </fieldset>
+  <app-service id="service"></app-service>
+
+  </template>
+  <script>
+    Polymer({
+      is: "view-card",
+      ready:function()
+      {
+
+      },
+      select:function(e,detail)
+      {
+      quantity=e.target.selectedItem.textContent;
+      alert(parseInt(quantity));
+      alert(this.price);
+      this.total=parseInt(quantity)*this.price;
+      }
+
+
+    });
+  </script>
+
+</dom-module>

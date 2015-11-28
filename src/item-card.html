@@ -70,10 +70,15 @@
   <login-card id="login"></login-card>
   </template>
   <script>
+  (function() {
+
+      var quantity;
+      var total;
     Polymer({
       is: "item-card",
       ready:function()
       {
+
       this.totprice="Rs "+this.totprice;
 	  //this.val="http://ekart.iriscouch.com/appdb/"+"051a4eb4097ed46fc57d2a8657000ee5";
       },
@@ -82,9 +87,11 @@
       //this.unit=e.target.selectedItem.textContent+document.querySelector('paper-dropdown-menu').label;
       //this.unit=e.target.selectedItem.textContent+document.querySelector('paper-dropdown-menu').label;
       //alert(this.unit);
-      var quantity=e.target.selectedItem.textContent;
+      quantity=e.target.selectedItem.textContent;
       var discount=document.querySelector('paper-dropdown-menu').id;
       this.totprice="Rs "+parseInt(quantity)*parseInt(this.discount);
+      total=parseInt(quantity)*parseInt(this.discount);
+      alert("qqq"+quantity);
       },
       addtocart:function()
 	        {
@@ -102,13 +109,14 @@ alert('return'+name);
           else
           {
 alert('call1');
-alert(name);
-          this.$.service.addtocart(name);
+alert(name+'  '+quantity);
+          this.$.service.addtocart(name,parseInt(quantity),total);
           //document.querySelector('app-service').addtocart(name);
           }
 
       }
     });
+     })();
   </script>
 
 </dom-module>

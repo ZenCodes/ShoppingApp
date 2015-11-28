@@ -1,0 +1,37 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="view-card.html">
+<link rel="import" href="app-service.html">
+<dom-module id="viewcart-list">
+
+  <template>
+<style is="custom-style">
+#card{
+ margin-top: 20px;
+}
+
+</style>
+    <div id="card">
+  <app-service itemarr="{{itemarr}}"></app-service>
+  <template  is="dom-repeat" items="{{itemarr}}" as="view">
+  <view-card img="{{view.img}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}"">
+  </view-card>
+  </template>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "viewcart-list",
+      ready:function()
+      {
+      alert('viewcart');
+      //this.totprice="Rs 0";
+      }
+    });
+  </script>
+
+</dom-module>

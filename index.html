@@ -35,7 +35,7 @@
 	     <link rel="import" href="src/brand-menu-card.html">
     	 <link rel="import" href="src/brand-list.html">
     	 <link rel="import" href="src/login-card.html">
-
+         <link rel="import" href="src/viewcart-list.html">
 
 
   </head>
@@ -102,7 +102,7 @@
   			<iron-icon icon="search" prefix></iron-icon>
   		    </paper-input>
   	        <div class="flex"></div>
-  		  	<iron-icon icon="shopping-cart" prefix></iron-icon>
+  		  	<iron-icon icon="shopping-cart" prefix on-click="viewcart"></iron-icon>
   		  </paper-toolbar>
   	      <div class="content">
   	  <!-- Div to change the content area using iron pages-->
@@ -131,7 +131,9 @@
 <section data-category="login card">
   			  	<login-card></login-card>
         	  </section>
-
+<section data-category="view card">
+  			  	<viewcart-list></viewcart-list>
+        	  </section>
       		</iron-pages>
   	      </div>
   	      <div class="bottom">
@@ -175,6 +177,11 @@
     {
     document.querySelector('my-app').setPage("login card","page1","Login");
     document.querySelector('login-card').signin();
+    },
+    viewcart:function()
+    {
+ //document.querySelector('my-app').setPage("view card","page1","view card");
+    document.querySelector('app-service').viewcart();
     }
 
   });
