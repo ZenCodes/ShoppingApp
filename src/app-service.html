@@ -83,7 +83,7 @@
         handle-as="json"
       content-type="application/json"></iron-ajax>
 
- <!-fetch the item of particular user and display in view card-->
+ <!--fetch the item of particular user and display in view card-->
  <iron-ajax
       	      id="viewcartajax"
       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d000281a"
@@ -91,6 +91,15 @@
       	      content-type="application/json"
              on-response="viewcartResponse"
              debounce-duration="300">
+ </iron-ajax>
+ <!--display the purchased item of particular user-->
+ <iron-ajax
+       	      id="purchaseajax"
+       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d000281a"
+       	      handle-as="json"
+       	      content-type="application/json"
+              on-response="purchaseResponse"
+              debounce-duration="300">
  </iron-ajax>
  </template>
 
@@ -277,7 +286,7 @@
    		   itemval.flag=this.itemlist.rows[n].value.flag;
    		   itemval.brand=this.itemlist.rows[n].value.brand;
    		   itemval.status=this.itemlist.rows[n].value.status;
-   		   alert('dd'+quantity);
+   		   //alert('dd'+quantity);
    		   itemval.quantity=quantity;
    		   itemval.total=total;
    		    itemval.cartstatus="Incart";
@@ -303,13 +312,13 @@
             {
 
             var user=JSON.stringify(sessionStorage.getItem("info"));
-		    alert('hello '+user);
+		    //alert('hello '+user);
             this.cart=[];
             this.cart=e.detail.response;
             this.addtocart=e.detail.response.addtocart;
              this.id=e.detail.response._id;
 		    this.header=e.detail.response._rev;
-            alert(JSON.stringify(this.addtocart));
+            //alert(JSON.stringify(this.addtocart));
             for(var i=0;i<this.addtocart.length;i++)
             {
             //alert("vvvv"+JSON.stringify(this.addtocart[i].name)+''+user);
@@ -317,9 +326,8 @@
             {
 
 
-            alert(JSON.stringify(this.addtocart[i].cartitem));
-            this.addtocart[i].cartitem.push(itemval);
-            alert(JSON.stringify(this.addtocart));
+          this.addtocart[i].cartitem.push(itemval);
+            //alert(JSON.stringify(this.addtocart));
             var obj={"_id": "","_rev":"","addtocart":""};
             obj._id=this.id;
             obj._rev=this.header;
@@ -343,13 +351,13 @@ this.viewcartitem=[];
 this.itemview=[];
 this.itemview=e.detail.response.addtocart;
 var uname=JSON.stringify(sessionStorage.getItem("info"));
-alert(JSON.stringify(this.itemview));
+//alert(JSON.stringify(this.itemview));
  for(var i=0;i<this.itemview.length;i++)
             {
             if(JSON.stringify(this.itemview[i].name)==uname)
             {
             viewcartitem=this.itemview[i].cartitem;
-            alert('cart'+JSON.stringify(this.itemview[i].cartitem));
+            //alert('cart'+JSON.stringify(this.itemview[i].cartitem));
             document.querySelector('my-app').setPage("view card","page1","view card");
             document.querySelector('viewcart-list').itemarr=this.itemview[i].cartitem;
             document.querySelector('viewcart-list').reload;
@@ -357,7 +365,44 @@ alert(JSON.stringify(this.itemview));
             }
             }
 
+},
+//display the purchased item of particular user
+purchaseService:function()
+{
+alert('purchase service');
+this.$.purchaseajax.generateRequest();
+},
+purchaseResponse:function(e)
+{
+this.viewpurchase=[];
+this.purchaseitem=[];
+this.purchaseitem=e.detail.response.addtocart;
+var flag="0";
+//alert(JSON.stringify(e.detail.response));
+var uname=JSON.stringify(sessionStorage.getItem("info"));
+//alert(uname);
+ for(var i=0;i<this.purchaseitem.length;i++)
+            {
+            if(JSON.stringify(this.purchaseitem[i].name)==uname)
+            {
+
+            for(var j=0;j<this.purchaseitem[i].cartitem.length;j++)
+            {
+            if(this.purchaseitem[i].cartitem[j].cartstatus=="purchased")
+            {
+            flag="1";
+            this.viewpurchase.push(this.purchaseitem[i].cartitem[j]);
+            }
+            }
+            }
+            }
+            if(flag=="1")
+            {
+            //alert(JSON.stringify(this.viewpurchase));
+            document.querySelector('purchase-list').itemarr=this.viewpurchase;
+            }
 }
+
 
     });
      })();

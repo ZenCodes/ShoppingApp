@@ -3,33 +3,41 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
-<link rel="import" href="view-card.html">
+<link rel="import" href="purchase-card.html">
 <link rel="import" href="app-service.html">
-<dom-module id="viewcart-list">
+<dom-module id="purchase-list">
 
   <template>
 <style is="custom-style">
 #card{
  margin-top: 20px;
 }
+.r2{
+ @apply(--layout-horizontal);
+ width: 100%;
+ }
 
 </style>
     <div id="card">
+    <div class="r2">
+    <h5 style="color:black;padding-left:40%;">Name</h5>
+<h5 style="color:black;padding-left:20%;">Quantity</h5>
+<h5 style="color:black;padding-left:5%;">Price</h5>
+<h5 style="color:black;padding-left:5%;">Total</h5></div>
   <app-service itemarr="{{itemarr}}"></app-service>
   <template  is="dom-repeat" items="{{itemarr}}" as="view">
-  <view-card img="{{view.img}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}">
-  </view-card>
+  <purchase-card img="{{view.img}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}">
+  </purchase-card>
   </template>
     </div>
   </template>
 
   <script>
     Polymer({
-      is: "viewcart-list",
+      is: "purchase-list",
       ready:function()
       {
-      //alert('viewcart');
-      //this.totprice="Rs 0";
+
       }
     });
   </script>

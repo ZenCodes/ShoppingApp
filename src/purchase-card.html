@@ -1,0 +1,78 @@
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="login-card.html">
+<link rel="import" href="app-service.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<dom-module id="purchase-card">
+<template>
+ <style is="custom-style">
+
+ .card{
+ @apply(--layout-horizontal);
+ @apply(--layout-center);
+ position: relative;
+ }
+ .imag{
+ width : 40%;
+ }
+ img{
+ width : 50%;
+ }
+ paper-item{
+  width: 100%;
+ }
+ .detail{
+ width: 100%;
+ @apply(--layout-vertical);
+ }
+ .r1,.r2{
+ @apply(--layout-horizontal);
+ }
+ .field{
+  border-color: #B2C2F0;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  margin-top : 10px;
+ }
+ .item
+ {
+@apply(--layout-horizontal);
+
+ }
+ </style>
+  <fieldset class="field">
+
+  <div class="card">
+  <div class="imag"><img src="{{img}}"/></div>
+   <div  class="item">
+   <div style="color:black;"><span style="color:black;">{{name}}</span></div>
+   <span style="color:black; padding-left:5%;">{{quantity}}</span>
+   <span style="color:black; padding-left:4%;"">{{unit}}</span>
+   <span style="color:black; padding-left:15%;">{{price}}</span>
+   <span style="color:black; padding-left:15%;"">{{total}}</span>
+   </div>
+   </div>
+
+  </fieldset>
+  <app-service id="service"></app-service>
+
+  </template>
+  <script>
+    Polymer({
+      is: "purchase-card",
+      ready:function()
+      {
+
+      }
+
+
+
+    });
+  </script>
+
+</dom-module>
