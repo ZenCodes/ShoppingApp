@@ -53,7 +53,7 @@
            <paper-item>10</paper-item>
            </paper-menu>
    </paper-dropdown-menu>
-   <span style="color:black;">{{unit}}</span><br>
+   <span style="color:black;">{{unit}}</span>
 
    <span style="color:black;">{{price}}</span><br>
    <span style="color:black;">{{total}}</span><br>
@@ -80,7 +80,7 @@
       quantity=e.target.selectedItem.textContent;
       //alert(parseInt(quantity));
      // alert(this.price);
-      this.total=parseInt(quantity)*this.price;
+      this.total="Rs "+parseInt(quantity)*this.price;
       }
 
 
