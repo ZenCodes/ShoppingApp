@@ -12,6 +12,20 @@
 #card{
  margin-top: 20px;
 }
+.title
+{
+ //top:40px;
+  width: 80%;
+  font-family:'Calibri';
+  text-transform: none;
+  font-size: 18px;
+  background-color:rgb(51, 214, 173);
+  color: white;
+  height: 40px;
+  //left: -5px;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+}
 
 </style>
     <div id="card">
@@ -20,6 +34,8 @@
   <view-card img="{{view.img}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}">
   </view-card>
   </template>
+  </br>
+<paper-button class="title" on-click="buy">BUY</paper-button>
     </div>
   </template>
 
@@ -30,6 +46,10 @@
       {
       //alert('viewcart');
       //this.totprice="Rs 0";
+      },
+      buy:function()
+      {
+      document.querySelector('app-service').buyservice();
       }
     });
   </script>
