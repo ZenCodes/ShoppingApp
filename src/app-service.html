@@ -342,8 +342,8 @@
             },
             addtocartreadResponse:function(e)
             {
-
-            var user=JSON.stringify(sessionStorage.getItem("info"));
+            var flag="0";
+            var user=sessionStorage.getItem("info");
 		    //alert('hello '+user);
             this.cart=[];
             this.cart=e.detail.response;
@@ -354,10 +354,10 @@
             for(var i=0;i<this.addtocart.length;i++)
             {
             //alert("vvvv"+JSON.stringify(this.addtocart[i].name)+''+user);
-            if(JSON.stringify(this.addtocart[i].name)==user)
+            if(this.addtocart[i].name==user)
             {
 
-
+            flag="1";
           this.addtocart[i].cartitem.push(itemval);
             //alert(JSON.stringify(this.addtocart));
             var obj={"_id": "","_rev":"","addtocart":""};
@@ -367,6 +367,20 @@
             this.$.addtocartwriteajax.body=JSON.stringify(obj);
             this.$.addtocartwriteajax.generateRequest();
             }
+            }
+            if(flag=="0")
+            {
+           var newcart={"name":"","cartitem":"","purchased":""};
+           newcart.name=user;
+           newcart.cartitem=itemval;
+           newcart.purchased=[];
+           this.addtocart.push(newcart);
+            var obj={"_id": "","_rev":"","addtocart":""};
+		               obj._id=this.id;
+		               obj._rev=this.header;
+		               obj.addtocart=this.addtocart;
+		               this.$.addtocartwriteajax.body=JSON.stringify(obj);
+            this.$.addtocartwriteajax.generateRequest();
             }
 
             },
