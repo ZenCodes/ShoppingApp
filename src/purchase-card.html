@@ -16,6 +16,8 @@
  @apply(--layout-horizontal);
  @apply(--layout-center);
  position: relative;
+  border-radius: 1px;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
  }
  .imag{
  width : 40%;
@@ -46,17 +48,26 @@
  }
  </style>
   <fieldset class="field">
-
+<legend align="left">ORDER NUMBER:{{orderno}}</legend>
+ <div style="color:black;"><span style="color:black;">DATE:{{date}}</span></div>
+  <div class="r2">
+     <h5 style="color:black;padding-left:40%;">Name</h5>
+ <h5 style="color:black;padding-left:20%;">Quantity</h5>
+ <h5 style="color:black;padding-left:20%;">Price</h5>
+<h5 style="color:black;padding-left:25%;">Total</h5></div>
+  <template  is="dom-repeat" items="{{purchaselist}}" as="view">
   <div class="card">
-  <div class="imag"><img src="{{img}}"/></div>
+  <div class="imag"><img src="{{view.img}}"/></div>
    <div  class="item">
-   <div style="color:black;"><span style="color:black;">{{name}}</span></div>
-   <span style="color:black; padding-left:5%;">{{quantity}}</span>
-   <span style="color:black; padding-left:4%;"">{{unit}}</span>
-   <span style="color:black; padding-left:15%;">{{price}}</span>
-   <span style="color:black; padding-left:15%;"">{{total}}</span>
+   <div style="color:black;"><span style="color:black;">{{view.name}}</span></div>
+   <span style="color:black; padding-left:5%;">{{view.quantity}}</span>
+   <span style="color:black; padding-left:4%;">{{view.unit}}</span>
+   <span style="color:black; padding-left:15%;">{{view.price}}</span>
+   <span style="color:black; padding-left:15%;">{{view.total}}</span>
    </div>
    </div>
+   <br/>
+   </template>
 
   </fieldset>
   <app-service id="service"></app-service>

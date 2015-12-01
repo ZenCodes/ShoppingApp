@@ -418,19 +418,17 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
             if(JSON.stringify(this.purchaseitem[i].name)==uname)
             {
 
-            for(var j=0;j<this.purchaseitem[i].cartitem.length;j++)
+            for(var j=0;j<this.purchaseitem[i].purchased.length;j++)
             {
-            if(this.purchaseitem[i].cartitem[j].cartstatus=="purchased")
-            {
-            flag="1";
-            this.viewpurchase.push(this.purchaseitem[i].cartitem[j]);
+flag="1";
+            this.viewpurchase.push(this.purchaseitem[i].purchased[j]);
             }
             }
             }
-            }
+
             if(flag=="1")
             {
-            //alert(JSON.stringify(this.viewpurchase));
+            alert(JSON.stringify(this.viewpurchase));
             document.querySelector('purchase-list').itemarr=this.viewpurchase;
             }
 },

@@ -19,14 +19,10 @@
 
 </style>
     <div id="card">
-    <div class="r2">
-    <h5 style="color:black;padding-left:40%;">Name</h5>
-<h5 style="color:black;padding-left:20%;">Quantity</h5>
-<h5 style="color:black;padding-left:5%;">Price</h5>
-<h5 style="color:black;padding-left:5%;">Total</h5></div>
+
   <app-service itemarr="{{itemarr}}"></app-service>
   <template  is="dom-repeat" items="{{itemarr}}" as="view">
-  <purchase-card img="{{view.img}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}">
+  <purchase-card orderno="{{view.orderno}}" date="{{view.date}}" purchaselist="{{view.purchaseitem}}">
   </purchase-card>
   </template>
     </div>
