@@ -415,7 +415,7 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
 //display the purchased item of particular user
 purchaseService:function()
 {
-alert('purchase service');
+//alert('purchase service');
 this.$.purchaseajax.generateRequest();
 },
 purchaseResponse:function(e)
@@ -434,7 +434,7 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
 
             for(var j=0;j<this.purchaseitem[i].purchased.length;j++)
             {
-flag="1";
+            flag="1";
             this.viewpurchase.push(this.purchaseitem[i].purchased[j]);
             }
             }
@@ -442,7 +442,7 @@ flag="1";
 
             if(flag=="1")
             {
-            alert(JSON.stringify(this.viewpurchase));
+            //alert(JSON.stringify(this.viewpurchase));
             document.querySelector('purchase-list').itemarr=this.viewpurchase;
             }
 },
@@ -458,7 +458,7 @@ ordernoResponse:function(e)
      this.header=e.detail.response._rev;
      this.orderno=parseInt(e.detail.response.orderno)+1;
      sessionStorage.setItem("orderid",this.orderno);
-  alert(this.orderno);
+  alert('order number:'+this.orderno);
    var obj={"_id": "","_rev":"","orderno":""};
               obj._id=this.id;
               obj._rev=this.header;
@@ -487,7 +487,7 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
             {
             this.buyitem.push(this.buylist[i].cartitem[j]);
             }
-            alert(JSON.stringify(this.buyitem));
+            //alert(JSON.stringify(this.buyitem));
             this.ordernum=sessionStorage.getItem("orderid");
             this.date=new Date().toDateString();
              var list={"orderno":"","date":"","purchaseitem":""};
