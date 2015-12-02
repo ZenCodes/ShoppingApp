@@ -31,13 +31,18 @@
 		}
 		else if(this.item=="Last three month")
 				{
-		alert('last three purchase');
+		alert('last three month');
 		document.querySelector('app-service').purchasethreeService();
 		}
 		else if(this.item=="Last Six Month")
 						{
 				alert('last three purchase');
 				document.querySelector('app-service').purchasesixService();
+		}
+		else if(this.item=="all")
+		{
+        document.querySelector('app-service').purchaseService();
+		document.querySelector('my-app').setPage("My Purchases","page1",this.item);
 		}
 		else if(this.item=="My offers")
 		{

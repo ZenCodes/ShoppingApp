@@ -349,23 +349,19 @@
    		   itemval.quantity=quantity;
    		   itemval.total=total;
    		    itemval.cartstatus="Incart";
-
-   		   //this.$.writeajax.body=JSON.stringify(itemval);
-     		//this.$.writeajax.generateRequest();
-
-
+           //alert(JSON.stringify(itemval));
+           this.$.addtocartreadajax.generateRequest();
 		  }
 
             },
-            addtocart:function(name,quant,tot)
+            addtocartservice:function(name,quant,tot)
             {
             quantity=quant;
             total=tot;
 			var items=JSON.stringify(name);
 	       this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/addtocartdesign/_view/addtocartview?key="+items;
-
            this.$.addtocartajax.generateRequest();
-           this.$.addtocartreadajax.generateRequest();
+
             },
             addtocartreadResponse:function(e)
             {
@@ -384,6 +380,7 @@
             if(this.addtocart[i].name==user)
             {
 
+//alert('hi');
             flag="1";
           this.addtocart[i].cartitem.push(itemval);
             //alert(JSON.stringify(this.addtocart));
@@ -420,6 +417,7 @@
 
 viewcartResponse:function(e)
 {
+var flag="0";
 this.viewcartitem=[];
 this.itemview=[];
 this.itemview=e.detail.response.addtocart;
@@ -429,13 +427,21 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
             {
             if(JSON.stringify(this.itemview[i].name)==uname)
             {
+            if(this.itemview[i].cartitem.length>0)
+            {
+            flag="1";
             viewcartitem=this.itemview[i].cartitem;
             //alert('cart'+JSON.stringify(this.itemview[i].cartitem));
             document.querySelector('my-app').setPage("view card","page1","view card");
             document.querySelector('viewcart-list').itemarr=this.itemview[i].cartitem;
             document.querySelector('viewcart-list').reload;
+            }
 
             }
+            }
+            if(flag=="0")
+            {
+             document.querySelector('my-app').setPage("No Item","page1","");
             }
 
 },
@@ -458,11 +464,14 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
             {
             if(JSON.stringify(this.purchaseitem[i].name)==uname)
             {
-
+ if(this.purchaseitem[i].purchased.length>0)
+ {
+ flag="1";
             for(var j=0;j<this.purchaseitem[i].purchased.length;j++)
             {
-            flag="1";
+
             this.viewpurchase.push(this.purchaseitem[i].purchased[j]);
+            }
             }
             }
             }
@@ -471,6 +480,10 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
             {
             //alert(JSON.stringify(this.viewpurchase));
             document.querySelector('purchase-list').itemarr=this.viewpurchase;
+            }
+            else
+            {
+             document.querySelector('my-app').setPage("No Item","page1","");
             }
 },
 //Last three purchase
@@ -496,19 +509,20 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
             {
             if(JSON.stringify(this.purchaseitem[i].name)==uname)
             {
-
               flag="1";
-            var array_last_five= this.purchaseitem[i].purchased.slice(-3);
+             array_last_three= this.purchaseitem[i].purchased.slice(-3);
 //alert(JSON.stringify(array_last_three));
 
             }
-
-
             }
             if(flag=="1")
 			            {
 			            //alert(JSON.stringify(this.viewpurchase));
 			            document.querySelector('purchase-list').itemarr=array_last_three;
+            }
+            else
+            {
+             document.querySelector('my-app').setPage("No Item","page1","");
             }
 },
 //purchase item of last three month
@@ -555,6 +569,10 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
 			            //alert(JSON.stringify(this.viewpurchase));
 			            document.querySelector('purchase-list').itemarr=this.threepurchase;
             }
+            else
+            {
+             document.querySelector('my-app').setPage("No Item","page1","");
+            }
 },
 // Last Six Month Purchase item of particular user
 purchasesixService:function()
@@ -599,6 +617,10 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
 			            {
 			            //alert(JSON.stringify(this.viewpurchase));
 			            document.querySelector('purchase-list').itemarr=this.sixpurchase;
+            }
+            else
+            {
+             document.querySelector('my-app').setPage("No Item","page1","");
             }
 },
 //buy service

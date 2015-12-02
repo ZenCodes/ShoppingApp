@@ -92,7 +92,7 @@ border-radius: 50px;
 			<div class="linkk">
 			<!--<a href="reg-use.html" style="margin-left:30px;">Register New User</a>-->
 			<!--<div class="sign" layout horizontal>-->
-			<paper-button class="in" on-click="signin">Sign in</paper-button>
+			<paper-button class="in" on-click="login">Sign in</paper-button>
 			<paper-button class="inr" on-click="register">New User?</paper-button>
 			<!--</div>-->
 			<a href="#" style="margin-top: 15px;">Forgot Password?</a>
@@ -100,9 +100,7 @@ border-radius: 50px;
 
 	</paper-dialog>
 	<register-card id="reg"></register-card>
-	<!--</template>-->
 
-	<!--<login-service id="service" first="praba" last="raja"></login-service>-->
 	<iron-ajax
 	      id="ajax"
 	      url=""
@@ -133,7 +131,10 @@ border-radius: 50px;
        var id = 'logindialog';
        var dialog = document.getElementById(id);
       dialog.open();
-     this.$.ajax.url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7";
+      },
+      login:function()
+      {
+      this.$.ajax.url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7";
       this.$.ajax.generateRequest();
       },
     handleResponse:function(e)
@@ -154,6 +155,7 @@ border-radius: 50px;
       }
       if(this.cnt>=1)
       {
+      document.querySelector('my-app').name();
       alert("Valid user");
       sessionStorage.setItem("info",this.name);
       var id = 'logindialog';
@@ -164,14 +166,18 @@ border-radius: 50px;
 	  	        {
 	  	        alert('admin');
 	  	 window.location.href="adminindex.html";
-      }
+              }
      else if(cartuser=="1")
       {
+      sessionStorage.setItem("cartinfo","0");
       document.querySelector('item-card').addtocart();
       }
-      //alert(sessionStorage.getItem("info"));
+      else
+      {
+     document.querySelector('my-app').setPage("category","page1","Home");
       }
 
+      }
 	  else
       alert("Invalid user");
 
