@@ -18,12 +18,13 @@
  position: relative;
   border-radius: 1px;
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+
  }
  .imag{
- width : 40%;
- }
- img{
- width : 50%;
+  width : 30%;
+  }
+  img{
+  width : 100%;
  }
  paper-item{
   width: 100%;
@@ -34,6 +35,8 @@
  }
  .r1,.r2{
  @apply(--layout-horizontal);
+ margin-left : 10px;
+ width : 100%;
  }
  .field{
   border-color: #B2C2F0;
@@ -43,31 +46,35 @@
  }
  .item
  {
+ width:80%;
 @apply(--layout-horizontal);
 
  }
  </style>
   <fieldset class="field">
 <legend align="left">ORDER NUMBER:{{orderno}}</legend>
+<div class="detail">
  <div style="color:black;"><span style="color:black;">DATE:{{date}}</span></div>
   <div class="r2">
-     <h5 style="color:black;padding-left:40%;">Name</h5>
- <h5 style="color:black;padding-left:20%;">Quantity</h5>
- <h5 style="color:black;padding-left:20%;">Price</h5>
-<h5 style="color:black;padding-left:25%;">Total</h5></div>
+  <h5 class="imag" style="color:black;padding-left:10%;">Name</h5>
+ <h5 style="color:black;padding-left:20%;">Qty</h5>
+ <h5 style="color:black;padding-left:15%;">Price</h5>
+<h5 style="color:black;padding-left:15%;">Total</h5></div>
+</div>
+<div class="detail">
   <template  is="dom-repeat" items="{{purchaselist}}" as="view">
   <div class="card">
   <div class="imag"><img src="{{view.img}}"/></div>
-   <div  class="item">
-   <div style="color:black; width:30%"><span style="color:black;">{{view.name}}</span></div>
-   <span style="color:black; padding-left:60%;">{{view.quantity}}</span>
-   <span style="color:black; padding-left:4%;">{{view.unit}}</span>
-   <span style="color:black; padding-left:40%;">{{view.price}}</span>
-   <!--<span style="color:black; padding-left:15%;">{{view.total}}</span>-->
+   <div  class="item">{{view.name}}</div>
+   <span style="color:black;">{{view.quantity}}</span>
+   <span style="color:black;padding-left:2%;">{{view.unit}}</span>
+   <span style="color:black;padding-left:10%;">{{view.price}}</span>
+   <span style="color:black; padding-left:15%;">{{view.total}}</span>
    </div>
    </div>
    <br/>
    </template>
+   </div>
 
   </fieldset>
   <app-service id="service"></app-service>
