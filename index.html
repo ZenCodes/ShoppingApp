@@ -139,7 +139,7 @@
 			   <purchase-list></purchase-list>
         	  </section>
         	  <section data-category="No Item">
-			  			   <no-items></no-items>
+			    <no-items></no-items>
         	  </section>
       		</iron-pages>
   	      </div>
@@ -204,6 +204,7 @@
 	    sessionStorage.setItem("info","null");
        this.bname="Signin";
           document.querySelector('my-app').setPage("category","page1","Home");
+          document.querySelector('app-service').setCategory("Home");
     }
     },
     name:function()

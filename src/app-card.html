@@ -23,6 +23,7 @@
 		alert('purchase');
 		document.querySelector('app-service').purchaseService();
 		document.querySelector('my-app').setPage("My Purchases","page1",this.item);
+		document.querySelector('app-service').setCategory(this.item);
 		}
 		else if(this.item=="Last three purchase")
 						{

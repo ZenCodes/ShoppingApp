@@ -9,11 +9,11 @@
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-
+<link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="register-card.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="import" href="facebook-login.html">
-<dom-module id="login-card">
+<dom-module id="login-card" on-keypress="{{keypress}}">
 
   <template>
   <style>
@@ -75,7 +75,7 @@ border-radius: 50px;
 
   <template is="dom-if" if="{{queryMatches}}">-->
   <paper-dialog id="logindialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
-
+ <iron-a11y-keys target="[[_target]]" keys="enter" on-keys-pressed="_test"></iron-a11y-keys>
 		  <div style="margin-left: 253px;margin-top:-17px;"><paper-icon-button icon="clear" class="clear" on-click="close"></paper-icon-button></div>
 		  <div class="card-img">
 
@@ -175,6 +175,7 @@ border-radius: 50px;
       else
       {
      document.querySelector('my-app').setPage("category","page1","Home");
+     document.querySelector('app-service').setCategory("Home");
       }
 
       }
@@ -195,6 +196,11 @@ border-radius: 50px;
         var id = 'logindialog';
 	  	  	  var dialog = document.getElementById(id);
       dialog.opened=false;
+      },
+      _test:function()
+      {
+       this.$.ajax.url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7";
+      this.$.ajax.generateRequest();
       }
 
     });
