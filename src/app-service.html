@@ -489,7 +489,7 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
             }
             //alert(JSON.stringify(this.buyitem));
             this.ordernum=sessionStorage.getItem("orderid");
-            this.date=new Date().toDateString();
+            this.date=new Date();
              var list={"orderno":"","date":"","purchaseitem":""};
              list.orderno=this.ordernum;
              list.date=this.date;
