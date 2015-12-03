@@ -396,7 +396,8 @@
             {
            var newcart={"name":"","cartitem":"","purchased":""};
            newcart.name=user;
-           newcart.cartitem=itemval;
+           newcart.cartitem=[];
+           newcart.cartitem.push(itemval);
            newcart.purchased=[];
            this.addtocart.push(newcart);
             var obj={"_id": "","_rev":"","addtocart":""};
