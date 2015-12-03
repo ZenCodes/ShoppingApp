@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="app-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,13 +39,22 @@
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
   margin-top : 10px;
  }
+ .input
+ {
+ padding:3%;
+ @apply(--layout-horizontal);
+  @apply(--layout-center);
+ }
+
  </style>
   <fieldset class="field">
   <legend align="left">{{name}}</legend>
   <div class="card">
   <div class="imag"><img src="{{img}}"/></div>
-   <div style="height:40px;">
-     <paper-dropdown-menu class="dropdown" label="{{quantity}}" no-label-float id="{{quantity}}">
+   <div style="height:40px;" class="input">
+
+    <input is="iron-input" style="width:30px;" bind-value="{{quantity}}" on-change="select">
+     <!-- <paper-dropdown-menu class="dropdown" label="{{quantity}}" no-label-float id="{{quantity}}">
            <paper-menu class="dropdown-content" on-iron-select="select">
            <paper-item>1</paper-item>
            <paper-item>2</paper-item>
@@ -52,11 +62,11 @@
            <paper-item>5</paper-item>
            <paper-item>10</paper-item>
            </paper-menu>
-   </paper-dropdown-menu>
+   </paper-dropdown-menu> -->
    <span style="color:black;">{{unit}}</span>
 
-   <span style="color:black;">{{price}}</span><br>
-   <span style="color:black;">{{total}}</span><br>
+   <span style="color:black;padding:15%;">{{price}}</span><br>
+   <span style="color:black;padding:15%;">{{total}}</span><br>
    </div>
    </div>
    <div class="r2">
@@ -75,12 +85,11 @@
       {
 
       },
-      select:function(e,detail)
+      select:function(e)
       {
-      quantity=e.target.selectedItem.textContent;
-      //alert(parseInt(quantity));
-     // alert(this.price);
+       var quantity=this.quantity;
       this.total="Rs "+parseInt(quantity)*this.price;
+      alert(this.total);
       }
 
 
