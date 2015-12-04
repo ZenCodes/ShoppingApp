@@ -160,6 +160,15 @@
           body=""
           handle-as="json"
       content-type="application/json"></iron-ajax>
+      <!--offer service-->
+       <iron-ajax
+	           	      id="offerserviceajax"
+	           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d000281a"
+	           	      handle-as="json"
+	           	      content-type="application/json"
+	                  on-response="offerserviceResponse"
+	                  debounce-duration="300">
+ </iron-ajax>
  </template>
 
   <script>
@@ -682,6 +691,48 @@ var uname=JSON.stringify(sessionStorage.getItem("info"));
             obj.addtocart=this.buylist;
             this.$.buywriteajax.body=JSON.stringify(obj);
             this.$.buywriteajax.generateRequest();
+            },
+            //offer service of particular user
+
+            offerService:function()
+            {
+            this.$.offerserviceajax.generateRequest();
+            alert('offer');
+            },
+            offerserviceResponse:function(e)
+            {
+            var count;
+            this.offeritem=[];
+			this.offeritem=e.detail.response.addtocart;
+			var flag="0";
+			var uname=JSON.stringify(sessionStorage.getItem("info"));
+			alert(uname);
+			 for(var i=0;i<this.offeritem.length;i++)
+			            {
+			            alert(JSON.stringify(this.offeritem[i].name));
+			            if(JSON.stringify(this.offeritem[i].name)==uname)
+			            {
+			             count=0;
+                      alert('hi');
+			            for(var j=0;j<this.offeritem[i].purchased.length;j++)
+			          {
+			          alert('1');
+			          for(var k=0;k<this.offeritem[i].purchased[j].purchaseitem.length-1;k++)
+			          {
+			          alert('2');
+			          if(this.offeritem[i].purchased[j].purchaseitem[k].name==this.offeritem[i].purchased[j].purchaseitem[k+1].name)
+			          {
+			          alert('3');
+			          count++;
+			          }
+			          }
+			          alert('hse'+count);
+			          }
+			          }
+			          }
+
+
+
             }
 
 
