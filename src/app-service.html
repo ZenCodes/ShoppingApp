@@ -31,6 +31,7 @@
 		  	      handle-as="json"
 		  	      content-type="application/json"
 		          on-response="itemcategoryResponse"
+
           debounce-duration="300"></iron-ajax>
  <!--To fetch all items under each category type like rice,flours..etc -->
  <iron-ajax
@@ -246,7 +247,8 @@
 			      var groc=JSON.stringify(type);
 			      //alert(groc);
 				  this.name="http://zencouch-zencodoo.rhcloud.com/grocery/_design/categorydesign/_view/categoryview?key="+groc;
-				  this.$.itemcategoryajax.generateRequest();
+				 this.$.itemcategoryajax.generateRequest();
+
             },
             //Response given for all items under the category like rice,flours etc...
 	        itemlistResponse:function(e)
@@ -817,7 +819,7 @@ offerlist=e.detail.response.offerarr;
          },
             offerallResponse:function(e)
             {
-
+             offerarr=[];
             var setoffer=[];
             //alert(JSON.stringify(e.detail.response.rows));
             setoffer=e.detail.response.rows;

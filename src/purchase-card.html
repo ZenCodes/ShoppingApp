@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="app-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,9 +51,25 @@
 @apply(--layout-horizontal);
 
  }
+ .collapse
+ {
+ padding: 10px 15px;
+        margin-top: 20px;
+        background-color: #B2C2F0;
+        border: 1px solid #dedede;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        font-size: 15px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        width: 90%;
+        text-align: left;
+        }
  </style>
-  <fieldset class="field">
-<legend align="left">ORDER NUMBER:{{orderno}}</legend>
+<button  class="collapse" on-click="toggle">ORDERNUMBER:{{orderno}}</button>
+<iron-collapse id="collapse">
+
+
 <div class="detail">
  <div style="color:black;"><span style="color:black;">DATE:{{date}}</span></div>
   <div class="r2">
@@ -75,8 +92,8 @@
    <br/>
    </template>
    </div>
+</iron-collapse>
 
-  </fieldset>
   <app-service id="service"></app-service>
 
   </template>
@@ -86,7 +103,10 @@
       ready:function()
       {
  document.querySelector('app-service').setCategory("My previous purchases");
-      }
+      },
+      toggle: function() {
+	    this.$.collapse.toggle();
+}
 
 
 
