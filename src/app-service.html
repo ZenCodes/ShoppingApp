@@ -830,9 +830,9 @@ offerlist=e.detail.response.offerarr;
             {
             for(var k=0;k<offerlist.length;k++)
             {
-            if(parseInt(offerlist[k].count)<=parseInt(countarr[j].times) && parseInt(offerlist[k+1].count)>parseInt(countarr[j].times))
+            if((parseInt(offerlist[k].count)<=parseInt(countarr[j].times)) &&(parseInt(offerlist[k+1].count)>parseInt(countarr[j].times)))
             {
-           alert(JSON.stringify(offerlist[k].offer));
+           //alert(JSON.stringify(offerlist[k].offer)+' '+JSON.stringify(countarr[j].name));
             setoffer[i].value.offer=offerlist[k].offer;
             }
             }
