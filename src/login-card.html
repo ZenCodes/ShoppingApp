@@ -76,7 +76,7 @@ border-radius: 50px;
   <template is="dom-if" if="{{queryMatches}}">-->
   <paper-dialog id="logindialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
  <iron-a11y-keys target="[[_target]]" keys="enter" on-keys-pressed="_test"></iron-a11y-keys>
-		  <div style="margin-left: 253px;margin-top:-17px;"><paper-icon-button icon="clear" class="clear" on-click="close"></paper-icon-button></div>
+		  <div style="margin-left: 253px;margin-top:-15%;"><paper-icon-button icon="clear" class="clear" on-click="close"></paper-icon-button></div>
 		  <div class="card-img">
 
 		  <img src="profile.png" height="80px" width="90px"></img>
@@ -155,6 +155,7 @@ border-radius: 50px;
       }
       if(this.cnt>=1)
       {
+
       document.querySelector('my-app').name();
       alert("Valid user");
       sessionStorage.setItem("info",this.name);
@@ -181,8 +182,8 @@ border-radius: 50px;
       }
 	  else
       alert("Invalid user");
-
-
+       this.name="";
+      this.pass="";
       },
       register:function()
       {

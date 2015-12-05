@@ -47,7 +47,7 @@
  }
  .item
  {
- width:80%;
+ width:20%;
 @apply(--layout-horizontal);
 
  }
@@ -74,9 +74,8 @@
  <div style="color:black;"><span style="color:black;">DATE:{{date}}</span></div>
   <div class="r2">
   <h5 class="imag" style="color:black;padding-left:10%;">Name</h5>
- <h5 style="color:black;padding-left:20%;">Qty</h5>
- <h5 style="color:black;padding-left:15%;">Price</h5>
-<h5 style="color:black;padding-left:15%;">Total</h5></div>
+ <h5 style="color:black;padding-left:10%;">Qty/price</h5>
+<h5 style="color:black;padding-left:7%;">Total</h5></div>
 </div>
 <div class="detail">
   <template  is="dom-repeat" items="{{purchaselist}}" as="view">
@@ -84,9 +83,8 @@
   <div class="imag"><img src="{{view.img}}"/></div>
    <div  class="item">{{view.name}}</div>
    <span style="color:black;">{{view.quantity}}</span>
-   <span style="color:black;padding-left:2%;">{{view.unit}}</span>
-   <span style="color:black;padding-left:10%;">{{view.price}}</span>
-   <span style="color:black; padding-left:15%;">{{view.total}}</span>
+   <span style="color:black;padding-left:1%;">{{view.unit}}/{{view.price}}</span>
+   <span style="color:black; padding-left:5%;">{{view.total}}</span>
    </div>
    </div>
    <br/>

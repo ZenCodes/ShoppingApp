@@ -172,7 +172,7 @@
   	this.title="Home";
   	this.page="category";
   	var namee=sessionStorage.getItem("info");
-	if(namee==""||namee==null)
+	if(namee==""||namee==null||namee=="null")
 	{
 
 	this.bname="Signin";
@@ -203,9 +203,7 @@
     {
     if(this.bname=="Signin")
     {
-    this.bname="Signout";
     document.querySelector('my-app').setPage("login card","page1","Login");
-
     document.querySelector('login-card').signin();
     }
     else if(this.bname=="Signout")
