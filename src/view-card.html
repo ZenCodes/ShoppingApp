@@ -68,6 +68,7 @@
    <span style="color:black;padding:15%;">{{price}}</span><br>
    <span style="color:black;padding:15%;">{{total}}</span><br>
    </div>
+   <div> <paper-button on-click="delete" style="text-transform:none;" class="title" >delete</paper-button></div>
    </div>
    <div class="r2">
 
@@ -90,6 +91,10 @@
        var quantity=this.quantity;
       this.total="Rs "+parseInt(quantity)*this.price;
       alert(this.total);
+      },
+      delete:function()
+      {
+       this.$.service.cartitemdeleteservice(this.name);
       }
 
 

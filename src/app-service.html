@@ -189,6 +189,25 @@
 	                  debounce-duration="300">
 
  </iron-ajax>
+
+ <!--deleting cart items-->
+   <iron-ajax
+ 	           	      id="deletecartitemserviceajax"
+ 	           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/4e6bd6d005733f7a68c613eeee0005bc"
+ 	           	      handle-as="json"
+ 	           	      content-type="application/json"
+ 	                  on-response="deletecartitemserviceResponse"
+ 	                  debounce-duration="300">
+
+ </iron-ajax>
+  <!--After deleting cart item updating cart-->
+  <iron-ajax
+         method="POST"
+         id="deleteupdatewriteajax"
+         url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+         body=""
+         handle-as="json"
+         content-type="application/json"></iron-ajax>
  </template>
 
   <script>
@@ -801,8 +820,8 @@ for(var i=0;i<this.buylist.length;i++)
                          }
 			          }
 			          }
-			          var val=[];
-			         val= JSON.stringify(product)
+			        var val=[];
+			        val= JSON.stringify(product)
 					this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/offerdesign/_view/offerview?keys="+val;
 					this.$.offerallajax.generateRequest();
 					this.$.offerlistajax.generateRequest();
@@ -854,12 +873,71 @@ for(var i=0;i<this.buylist.length;i++)
 //alert(JSON.stringify(this.itemarr));
 				        		document.querySelector('myoffer-list').itemarr=offerarr;
 	        		         document.querySelector('myoffer-list').reload;
-            }
+            },
 
+<!--Deleting cart items-->
+<!--Service call-->
+cartitemdeleteservice:function(item)
+{
+this.deleteitemname=item;
+//alert(this.deleteitemname);
+this.$.deletecartitemserviceajax.generateRequest();
+},
+<!--Service call response and refereshing cart items after deletion-->
+deletecartitemserviceResponse:function(e)
+{
 
+this.tempdeleteitems=[];
+this.tempdeleteitems=e.detail.response.addtocart;
 
+this.writedeletedupdate={"_id":"","_rev":"","addtocart":""};
+this.writedeletedupdate._id=e.detail.response._id;
+this.writedeletedupdate._rev=e.detail.response._rev;
 
+this.addtocart=[];
+this.cartitem=[];
+this.purchased=[];
 
+//alert(JSON.stringify(this.tempdeleteitems));
+for(var i=0;i<this.tempdeleteitems.length;i++)
+{
+this.addtocartrows={"name":"","cartitem":"","purchased":""};
+if(this.tempdeleteitems[i].name==sessionStorage.getItem("info"))
+{
+for(var j=0;j<this.tempdeleteitems[i].cartitem.length;j++)
+{
+	if(this.tempdeleteitems[i].cartitem[j].name==this.deleteitemname)
+	{
+	}
+	else
+	{
+	//alert(JSON.stringify(this.tempdeleteitems[i].cartitem[j]));
+	this.cartitem.push(this.tempdeleteitems[i].cartitem[j]);
+	//alert(JSON.stringify(this.cartitem));
+	}
+	this.purchased.push(this.tempdeleteitems[i].purchased[j]);
+}
+this.addtocartrows.name=this.tempdeleteitems[i].name;
+this.addtocartrows.cartitem=this.cartitem;
+this.addtocartrows.purchased=this.purchased;
+this.addtocart.push(this.addtocartrows);
+//alert(JSON.stringify(this.addtocart));
+}
+else
+	{
+this.addtocartrows.name=this.tempdeleteitems[i].name;
+this.addtocartrows.cartitem=this.tempdeleteitems[i].cartitem;
+this.addtocartrows.purchased=this.tempdeleteitems[i].purchased;
+this.addtocart.push(this.addtocartrows);
+//alert(JSON.stringify(this.addtocart));
+	}
+}
+this.writedeletedupdate.addtocart=this.addtocart;
+alert(JSON.stringify(this.writedeletedupdate));
+this.$.deleteupdatewriteajax.body=JSON.stringify(this.writedeletedupdate);
+this.$.deleteupdatewriteajax.generateRequest();
+document.querySelector('app-service').viewcart();
+}
     });
      })();
   </script>
