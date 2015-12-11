@@ -137,25 +137,21 @@ border-radius: 50px;
       this.$.ajax.url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7";
       this.$.ajax.generateRequest();
       },
-    handleResponse:function(e)
+      handleResponse:function(e)
       {
-
       this.cnt=0;
       this.arr=e.detail.response;
 	  //alert(JSON.stringify(this.arr.user));
 	  //alert(JSON.stringify(this.arr.user.length));
       for(var i=0;i<this.arr.user.length;i++)
       {
-
       if(this.name==this.arr.user[i].name&&this.pass==this.arr.user[i].pass)
       {
       this.cnt=this.cnt+1;
       }
-
       }
       if(this.cnt>=1)
       {
-
       document.querySelector('my-app').name();
       alert("Valid user");
       sessionStorage.setItem("info",this.name);
@@ -163,32 +159,31 @@ border-radius: 50px;
 	  var dialog = document.getElementById(id);
       dialog.opened=false;
       var cartuser=sessionStorage.getItem("cartinfo");
-       if(this.name=="Admin")
-	  	        {
-	  	        alert('admin');
-	  	 window.location.href="adminindex.html";
-              }
-     else if(cartuser=="1")
+      if(this.name=="Admin")
+	  {
+	  alert('admin');
+	  window.location.href="adminindex.html";
+      }
+      if(cartuser=="1")
       {
-      sessionStorage.setItem("cartinfo","0");
+      //sessionStorage.setItem("cartinfo","0");
       document.querySelector('item-card').addtocart();
       }
-      else
+      /*else
       {
-     document.querySelector('my-app').setPage("category","page1","Home");
-     document.querySelector('app-service').setCategory("Home");
-      }
-
+      document.querySelector('my-app').setPage("category","page1","Home");
+      document.querySelector('app-service').setCategory("Home");
+      }*/
       }
 	  else
       alert("Invalid user");
-       this.name="";
+      this.name="";
       this.pass="";
       },
       register:function()
       {
       var id = 'logindialog';
-	  	  var dialog = document.getElementById(id);
+	  var dialog = document.getElementById(id);
       dialog.opened=false;
       this.$.reg.register();
       },

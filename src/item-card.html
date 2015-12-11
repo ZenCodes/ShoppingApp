@@ -80,37 +80,32 @@
       {
 
       this.totprice="Rs "+this.totprice;
-	  //this.val="http://ekart.iriscouch.com/appdb/"+"051a4eb4097ed46fc57d2a8657000ee5";
+
       },
       select:function(e,detail){
-      //alert(document.querySelector('paper-dropdown-menu').label);
-      //this.unit=e.target.selectedItem.textContent+document.querySelector('paper-dropdown-menu').label;
-      //this.unit=e.target.selectedItem.textContent+document.querySelector('paper-dropdown-menu').label;
-      //alert(this.unit);
       quantity=e.target.selectedItem.textContent;
       var discount=document.querySelector('paper-dropdown-menu').id;
       this.totprice="Rs "+parseInt(quantity)*parseInt(this.discount);
       total=parseInt(quantity)*parseInt(this.discount);
-      //alert("qqq"+quantity);
+
       },
       addtocart:function()
 	        {
           total=parseInt(quantity)*parseInt(this.discount);
 	        var name= this.name
-             //alert('return'+name);
 	        var user=sessionStorage.getItem("info");
-		    //alert('hello '+user);
-            if(user=="null")
+		    alert('hi '+user);
+            if(user==null||user=="")
             {
 
             sessionStorage.setItem("cartinfo","1");
-            this.$.login.signin();
+            document.querySelector('login-card').signin();
             }
           else
           {
-          //alert(total);
+
+          //alert(sessionStorage.getItem("cartinfo"));
           this.$.service.addtocartservice(name,parseInt(quantity),total);
-          //document.querySelector('app-service').addtocart(name);
           }
 
       }

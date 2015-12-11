@@ -138,10 +138,10 @@
         	  <section data-category="Brand items">
   			  	<brand-list></brand-list>
         	  </section>
-<section data-category="login card">
+			  <section data-category="login card">
   			  	<login-card></login-card>
         	  </section>
-<section data-category="view card">
+			  <section data-category="view card">
   			  	<viewcart-list></viewcart-list>
         	  </section>
         	  <section data-category="My Purchases">
@@ -208,7 +208,7 @@
     }
     else if(this.bname=="Signout")
 	    {
-	    sessionStorage.setItem("info","null");
+	   sessionStorage.setItem("info",null);
        this.bname="Signin";
           document.querySelector('my-app').setPage("category","page1","Home");
           document.querySelector('app-service').setCategory("Home");
@@ -216,6 +216,7 @@
     },
     name:function()
     {
+    sessionStorage.setItem("info",null);
     this.bname="Signout";
     },
     viewcart:function()
