@@ -28,7 +28,7 @@
 
  </style>
   <div class="vertical layout">
-  <div class="card">
+  <div class="card" on-tap="tapcard" id="{{type}}">
   <div class="imag"><img src="{{img}}"/></div>
   <paper-button style="margin-top:10px;color:red;text-transform:none;" on-click="click" id="{{type}}" class="pb">{{type}}</paper-button>
   </div>
@@ -36,14 +36,25 @@
   <hr></div>
   </div>
     <app-service id="service"></app-service>
-    <!--<offer-service id="offerservice"></offer-service>-->
-
-    </template>
+  </template>
     <script>
     Polymer({
       is: 'itemcategory-card',
       ready:function()
       {
+      },
+      tapcard:function()
+      {
+       if(localStorage.getItem("showtype")=="all")
+	   {
+	   this.$.service.itemlistService(this.type,localStorage.getItem("showtype"));
+	   document.querySelector('my-app').setPage("allitem","page1",this.type);
+	   }
+	   if(localStorage.getItem("showtype")=="offer")
+	   {
+	   this.$.service.offeritemlistService(this.type,localStorage.getItem("showtype"));
+	   document.querySelector('my-app').setPage("offeritem","page1",this.type);
+	   }
       },
       click:function()
       {

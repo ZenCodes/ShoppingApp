@@ -1,10 +1,4 @@
 
-     <!--<script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-
-     <link rel="import" href="my-app.html">
-
-     <my-app></my-app>-->
-
      <html>
   		<head>
 	     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -97,15 +91,8 @@
   	        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
   			<div><paper-item class="title">{{title}}</paper-item></div>
   	        <div class="flex"></div>
-  	    <paper-button class="in" on-click="signin">{{bname}}</paper-button>
-  	      <!-- <paper-menu-button>
-		     <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-		     <paper-menu class="dropdown-content">
-		     <br/>
-		       <paper-button class="in" on-click="signin">{{bname}}</paper-button>
-		     </paper-menu>
-</paper-menu-button>-->
-  	      </paper-toolbar>
+  	    	<paper-button class="in" on-click="signin">{{bname}}</paper-button>
+   	      </paper-toolbar>
   	  <!-- Top Toolbar for search and cart-->
   	      <paper-toolbar class="top">
   	        <paper-input class="search" label="Search" no-label-float>
@@ -199,7 +186,6 @@
     //document.querySelector('paper-drawer-panel').togglePanel();
     },
     signin:function()
-
     {
     if(this.bname=="Signin")
     {
@@ -210,8 +196,8 @@
 	    {
 	   sessionStorage.setItem("info",null);
        this.bname="Signin";
-          document.querySelector('my-app').setPage("category","page1","Home");
-          document.querySelector('app-service').setCategory("Home");
+       document.querySelector('my-app').setPage("category","page1","Home");
+       document.querySelector('app-service').setCategory("Home");
     }
     },
     name:function()
@@ -221,7 +207,6 @@
     },
     viewcart:function()
     {
-
     document.querySelector('app-service').viewcart();
     }
 
