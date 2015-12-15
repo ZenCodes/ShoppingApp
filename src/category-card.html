@@ -44,7 +44,7 @@
       {
       localStorage.setItem("showtype","all");
       //It will call service along with category type to fetch drawer menu for the selected category type
-      document.querySelector('app-service').setCategory(this.name);
+      //document.querySelector('app-service').setCategory(this.name);
       //It will call service along with category type to fetch the category list items
       this.$.service.itemcategoryService(this.name);
       //It will call index page, and passing title,ironpage match page,bottom placeholder
@@ -54,7 +54,7 @@
       {
 	  localStorage.setItem("showtype","offer");
 	  //It will call service along with category type to fetch drawer menu for the selected category type
-	  document.querySelector('app-service').setCategory(this.name);
+	  //document.querySelector('app-service').setCategory(this.name);
 	  //It will call service along with category type to fetch the category list items
       this.$.service.itemcategoryService(this.name);
       //It will call index page, and passing title,ironpage match page,bottom placeholder
