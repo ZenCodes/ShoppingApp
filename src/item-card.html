@@ -87,23 +87,21 @@
       var discount=document.querySelector('paper-dropdown-menu').id;
       this.totprice="Rs "+parseInt(quantity)*parseInt(this.discount);
       total=parseInt(quantity)*parseInt(this.discount);
-
       },
       addtocart:function()
 	        {
-          total=parseInt(quantity)*parseInt(this.discount);
-	        var name= this.name
+            total=parseInt(quantity)*parseInt(this.discount);
+	        var name= this.name;
 	        var user=sessionStorage.getItem("info");
-		    alert('hi '+user);
+		    //alert('hi '+user);
             if(user==null||user=="")
             {
-
+            //alert("yes");
             sessionStorage.setItem("cartinfo","1");
             document.querySelector('login-card').signin();
             }
           else
           {
-
           //alert(sessionStorage.getItem("cartinfo"));
           this.$.service.addtocartservice(name,parseInt(quantity),total);
           }

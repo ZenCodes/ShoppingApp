@@ -18,7 +18,6 @@
   <template>
   <style>
 #logindialog
-
 {
 top:60px;
 width: 300px;
@@ -110,27 +109,26 @@ border-radius: 50px;
           on-response="handleResponse"
           debounce-duration="300"
 	      ></iron-ajax>
-
-
   </template>
-
-
 
   <script>
     Polymer({
       is: "login-card",
       ready:function()
       {
-
       this.cnt=0;
       this.arr=[];
       },
       signin:function()
       {
-
        var id = 'logindialog';
        var dialog = document.getElementById(id);
-      dialog.open();
+       if(dialog.opened==false)
+       {
+       //alert('open');
+       dialog.open();
+
+       }
       },
       login:function()
       {
@@ -189,9 +187,12 @@ border-radius: 50px;
       },
       close:function()
       {
-        var id = 'logindialog';
-	  	  	  var dialog = document.getElementById(id);
+      var id = 'logindialog';
+	  var dialog = document.getElementById(id);
+	  if(dialog.opened==true)
+	  {
       dialog.opened=false;
+      }
       },
       _test:function()
       {

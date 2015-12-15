@@ -159,15 +159,15 @@
   	this.title="Home";
   	this.page="category";
   	var namee=sessionStorage.getItem("info");
-	if(namee==""||namee==null||namee=="null")
-	{
 
+	if(namee==""||namee==null)
+	{
 	this.bname="Signin";
 	}
 	else
 	{
 	this.bname="Signout";
-}
+    }
     },
     setPage:function(page,bpage,title)
     {
@@ -193,8 +193,8 @@
     document.querySelector('login-card').signin();
     }
     else if(this.bname=="Signout")
-	    {
-	   sessionStorage.setItem("info",null);
+	{
+	   sessionStorage.setItem("info","");
        this.bname="Signin";
        document.querySelector('my-app').setPage("category","page1","Home");
        document.querySelector('app-service').setCategory("Home");
@@ -202,7 +202,7 @@
     },
     name:function()
     {
-    sessionStorage.setItem("info",null);
+    sessionStorage.setItem("info","");
     this.bname="Signout";
     },
     viewcart:function()
