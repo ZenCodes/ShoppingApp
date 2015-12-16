@@ -58,31 +58,6 @@
            on-response="brandlistResponse"
            debounce-duration="300">
  </iron-ajax>
- <iron-ajax
-     	      id="addtocartajax"
-     	      url="{{url}}"
-     	      handle-as="json"
-     	      content-type="application/json"
-            on-response="addtocartResponse"
-            debounce-duration="300">
- </iron-ajax>
-
-
-<iron-ajax
-       	      id="addtocartreadajax"
-       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/4e6bd6d005733f7a68c613eeee0005bc"
-       	      handle-as="json"
-       	      content-type="application/json"
-              on-response="addtocartreadResponse"
-              debounce-duration="300">
- </iron-ajax>
- <iron-ajax
-        method="POST"
-        id="addtocartwriteajax"
-        url="http://zencouch-zencodoo.rhcloud.com/grocery/"
-        body=""
-        handle-as="json"
-      content-type="application/json"></iron-ajax>
 
  <!--fetch the item of particular user and display in view card-->
  <iron-ajax
@@ -401,94 +376,7 @@
 	        		this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/branddesign/_view/brandview?key="+groc;
 	        		this.$.brandlistajax.generateRequest();
             },
-            addtocartResponse:function(e)
-            {
 
-		   this.itemlist=[];
-	       this.itemlist=e.detail.response;
-           //alert('hii'+JSON.stringify(this.itemlist));
-           //alert('hii'+JSON.stringify(this.itemlist.rows[n].value));
-           for(var n=0;n<this.itemlist.rows.length;n++)
-           {
-           itemval={"type":"","category":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
-           itemval.type=this.itemlist.rows[n].value.type;
-   		   itemval.category=this.itemlist.rows[n].value.category;
-   		   itemval.img=this.itemlist.rows[n].value.img;
-   		   itemval.name=this.itemlist.rows[n].value.name;
-   		   itemval.unit=this.itemlist.rows[n].value.unit;
-   		   itemval.price=this.itemlist.rows[n].value.price;
-   		   itemval.offer=this.itemlist.rows[n].value.offer;
-   		   itemval.flag=this.itemlist.rows[n].value.flag;
-   		   itemval.brand=this.itemlist.rows[n].value.brand;
-   		   itemval.status=this.itemlist.rows[n].value.status;
-   		   //alert('dd'+quantity);
-   		   itemval.quantity=quantity;
-   		   itemval.total=total;
-   		   itemval.cartstatus="Incart";
-   		   //alert("cartitem");
-           //alert(JSON.stringify(itemval));
-           //alert("done");
-           this.$.addtocartreadajax.generateRequest();
-		  }
-
-            },
-            addtocartservice:function(name,quant,tot)
-            {
-           // alert("add cart");
-           quantity=quant;
-           total=tot;
-		   var items=JSON.stringify(name);
-	       this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/addtocartdesign/_view/addtocartview?key="+items;
-           this.$.addtocartajax.generateRequest();
-
-            },
-            addtocartreadResponse:function(e)
-            {
-            var flag="0";
-            var user=sessionStorage.getItem("info");
-		    //alert('hello '+user);
-            this.cart=[];
-            this.cart=e.detail.response;
-            //alert("want to see items");
-            //alert(JSON.stringify(this.cart));
-            this.addtocart=e.detail.response.addtocart;
-            this.id=e.detail.response._id;
-		    this.header=e.detail.response._rev;
-
-            for(var i=0;i<this.addtocart.length;i++)
-            {
-            //alert("vvvv"+JSON.stringify(this.addtocart[i].name)+''+user);
-            if(this.addtocart[i].name==user)
-            {
-            //alert('hi');
-            flag="1";
-            this.addtocart[i].cartitem.push(itemval);
-            //alert(JSON.stringify(this.addtocart));
-            var obj={"_id": "","_rev":"","addtocart":""};
-            obj._id=this.id;
-            obj._rev=this.header;
-            obj.addtocart=this.addtocart;
-            this.$.addtocartwriteajax.body=JSON.stringify(obj);
-            this.$.addtocartwriteajax.generateRequest();
-            }
-            }
-            if(flag=="0")
-            {
-           var newcart={"name":"","cartitem":"","purchased":""};
-           newcart.name=user;
-           newcart.cartitem=[];
-           newcart.cartitem.push(itemval);
-           newcart.purchased=[];
-           this.addtocart.push(newcart);
-            var obj={"_id": "","_rev":"","addtocart":""};
-		               obj._id=this.id;
-		               obj._rev=this.header;
-		               obj.addtocart=this.addtocart;
-		               this.$.addtocartwriteajax.body=JSON.stringify(obj);
-            this.$.addtocartwriteajax.generateRequest();
-            }
-
-            },
             //view cart of the user
             viewcart:function()
             {
