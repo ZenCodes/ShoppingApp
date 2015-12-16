@@ -80,12 +80,27 @@
       <!---->
       <iron-ajax
 	         	      id="buyreadajax"
-	         	      url="http://zencouch-zencodoo.rhcloud.com/grocery/4e6bd6d005733f7a68c613eeee0005bc"
+	         	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
 	         	      handle-as="json"
 	         	      content-type="application/json"
 	                on-response="buyreadResponse"
 	                debounce-duration="300">
  </iron-ajax>
+  <iron-ajax
+ 	         	      id="purchasereadajax"
+ 	         	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000b6c"
+ 	         	      handle-as="json"
+ 	         	      content-type="application/json"
+ 	                on-response="purchasereadResponse"
+ 	                debounce-duration="300">
+ </iron-ajax>
+ <iron-ajax
+           method="POST"
+           id="purchasewriteajax"
+           url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+           body=""
+           handle-as="json"
+      content-type="application/json"></iron-ajax>
  <iron-ajax
           method="POST"
           id="buywriteajax"
@@ -133,6 +148,7 @@
        var countarr=[];
        var offerlist=[];
        var offerarr=[];
+       var list;
     Polymer({
             is: "app-service",
             ready:function()
@@ -340,6 +356,52 @@ ordernoResponse:function(e)
               this.$.ordernowriteajax.generateRequest();
                   this.$.buyreadajax.generateRequest();
 
+
+},
+purchasereadResponse:function(e)
+{
+this.id=e.detail.response._id;
+this.header=e.detail.response._rev;
+this.ordernum;
+this.date;
+this.purchaselist=[];
+this.purchased=[];
+var flag="0";
+this.purchaselist=e.detail.response.purchaseitem;
+var uname=JSON.stringify(sessionStorage.getItem("info"));
+for(var i=0;i<this.purchaselist.length;i++)
+            {
+            if(JSON.stringify(this.purchaselist[i].name)==uname)
+            {
+            flag="1";
+            this.purchaselist[i].purchased.push(list);
+            }
+            }
+            if(flag=="1")
+            {
+              var obj={"_id": "","_rev":"","purchaseitem":""};
+			            obj._id=this.id;
+			            obj._rev=this.header;
+			            obj.purchaseitem=this.purchaselist;
+			            this.$.purchasewriteajax.body=JSON.stringify(obj);
+                        this.$.purchasewriteajax.generateRequest();
+                        }
+                        else
+                        {
+                        var nm=sessionStorage.getItem("info");
+                        this.purchased.push(list);
+                        var newuser={"name":"","purchased":""};
+                        newuser.name=nm;
+                        newuser.purchased=this.purchased;
+                        this.purchaselist.push(newuser);
+                         var obj1={"_id": "","_rev":"","purchaseitem":""};
+									            obj1._id=this.id;
+									            obj1._rev=this.header;
+									            obj1.purchaseitem=this.purchaselist;
+									            this.$.purchasewriteajax.body=JSON.stringify(obj1);
+                        this.$.purchasewriteajax.generateRequest();
+
+                        }
 },
 buyreadResponse:function(e)
 {
@@ -363,11 +425,10 @@ for(var i=0;i<this.buylist.length;i++)
             //alert(JSON.stringify(this.buyitem));
             this.ordernum=sessionStorage.getItem("orderid");
             this.date=new Date();
-             var list={"orderno":"","date":"","purchaseitem":""};
+             list={"orderno":"","date":"","purchaseitem":""};
              list.orderno=this.ordernum;
              list.date=this.date;
              list.purchaseitem=this.buyitem;
-             this.buylist[i].purchased.push(list);
              this.buylist[i].cartitem=[];
             }
             }
@@ -377,6 +438,7 @@ for(var i=0;i<this.buylist.length;i++)
             obj.addtocart=this.buylist;
             this.$.buywriteajax.body=JSON.stringify(obj);
             this.$.buywriteajax.generateRequest();
+            this.$.purchasereadajax.generateRequest();
             },
             //offer service of particular user
 

@@ -69,7 +69,6 @@
 	        },
             addtocartResponse:function(e)
             {
-alert('2');
 		   this.itemlist=[];
 	       this.itemlist=e.detail.response;
            for(var n=0;n<this.itemlist.rows.length;n++)
@@ -95,7 +94,6 @@ alert('2');
             },
             addtocartservice:function(itemid,name,quant,tot)
             {
-            alert('1');
            quantity=quant;
            total=tot;
 		   this.itemid=JSON.stringify(itemid);
@@ -105,8 +103,8 @@ alert('2');
             },
             addtocartreadResponse:function(e)
             {
-            alert('3');
 					  this.temparr=[];
+					  var len="0";
             		  var flag="0";
             		  var itemcnt=0;
             		  var confirmflag=0;
@@ -119,6 +117,11 @@ alert('2');
 		              if(this.addtocart[i].name==user)
 		              {
 		              flag="1";
+		              //alert(this.addtocart[i].cartitem.length);
+		              if(this.addtocart[i].cartitem.length==0)
+		              {
+		              len="1";
+		              }
 		              for(var j=0;j<this.addtocart[i].cartitem.length;j++)
 		              {
 		              var tempval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
@@ -161,9 +164,15 @@ alert('2');
 		              }
 		              else
 		              {
+		              confirmflag=1;
 		              this.addtocart[i].cartitem.push(itemval);
 
 		              }
+		             /* if(len=="1")
+		              {
+		              confirmflag=1;
+		               this.addtocart[i].cartitem.push(itemval);
+		              }*/
 		              }
 		              }
 		              if(flag=="1")
