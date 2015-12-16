@@ -35,6 +35,24 @@
               on-response="viewcartResponse"
               debounce-duration="300">
  </iron-ajax>
+ <!--deleting cart items-->
+    <iron-ajax
+  	           	      id="deletecartitemserviceajax"
+  	           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+  	           	      handle-as="json"
+  	           	      content-type="application/json"
+  	                  on-response="deletecartitemserviceResponse"
+  	                  debounce-duration="300">
+
+  </iron-ajax>
+   <!--After deleting cart item updating cart-->
+   <iron-ajax
+          method="POST"
+          id="deleteupdatewriteajax"
+          url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+          body=""
+          handle-as="json"
+         content-type="application/json"></iron-ajax>
  </template>
 <script>
   (function() {
@@ -51,7 +69,7 @@
 	        },
             addtocartResponse:function(e)
             {
-
+alert('2');
 		   this.itemlist=[];
 	       this.itemlist=e.detail.response;
            for(var n=0;n<this.itemlist.rows.length;n++)
@@ -77,6 +95,7 @@
             },
             addtocartservice:function(itemid,name,quant,tot)
             {
+            alert('1');
            quantity=quant;
            total=tot;
 		   this.itemid=JSON.stringify(itemid);
@@ -86,6 +105,7 @@
             },
             addtocartreadResponse:function(e)
             {
+            alert('3');
 					  this.temparr=[];
             		  var flag="0";
             		  var itemcnt=0;
@@ -210,6 +230,69 @@
 			             document.querySelector('my-app').setPage("No Item","page1","");
 			            }
 
+},
+<!--Deleting cart items-->
+<!--Service call-->
+cartitemdeleteservice:function(item)
+{
+this.deleteitemname=item;
+//alert(this.deleteitemname);
+this.$.deletecartitemserviceajax.generateRequest();
+},
+<!--Service call response and refereshing cart items after deletion-->
+deletecartitemserviceResponse:function(e)
+{
+
+this.tempdeleteitems=[];
+this.tempdeleteitems=e.detail.response.addtocart;
+
+this.writedeletedupdate={"_id":"","_rev":"","addtocart":""};
+this.writedeletedupdate._id=e.detail.response._id;
+this.writedeletedupdate._rev=e.detail.response._rev;
+
+this.addtocart=[];
+this.cartitem=[];
+this.purchased=[];
+
+//alert(JSON.stringify(this.tempdeleteitems));
+for(var i=0;i<this.tempdeleteitems.length;i++)
+{
+this.addtocartrows={"name":"","cartitem":""};
+if(this.tempdeleteitems[i].name==sessionStorage.getItem("info"))
+{
+for(var j=0;j<this.tempdeleteitems[i].cartitem.length;j++)
+{
+	if(this.tempdeleteitems[i].cartitem[j].name==this.deleteitemname)
+	{
+	}
+	else
+	{
+	//alert(JSON.stringify(this.tempdeleteitems[i].cartitem[j]));
+	this.cartitem.push(this.tempdeleteitems[i].cartitem[j]);
+	//alert(JSON.stringify(this.cartitem));
+	}
+
+}
+this.addtocartrows.name=this.tempdeleteitems[i].name;
+this.addtocartrows.cartitem=this.cartitem;
+
+this.addtocart.push(this.addtocartrows);
+//alert(JSON.stringify(this.addtocart));
+}
+else
+	{
+this.addtocartrows.name=this.tempdeleteitems[i].name;
+this.addtocartrows.cartitem=this.tempdeleteitems[i].cartitem;
+
+this.addtocart.push(this.addtocartrows);
+//alert(JSON.stringify(this.addtocart));
+	}
+}
+this.writedeletedupdate.addtocart=this.addtocart;
+alert(JSON.stringify(this.writedeletedupdate));
+this.$.deleteupdatewriteajax.body=JSON.stringify(this.writedeletedupdate);
+this.$.deleteupdatewriteajax.generateRequest();
+document.querySelector('cart-service').viewcart();
 }
 
             });

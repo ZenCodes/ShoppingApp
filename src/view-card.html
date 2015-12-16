@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="cart-service.html">
@@ -69,7 +70,7 @@
    <span style="color:black;padding:15%;">{{price}}</span><br>
    <span style="color:black;padding:15%;">{{total}}</span><br>
    </div>
-   <div> <paper-button on-click="delete" style="text-transform:none;" class="title" >delete</paper-button></div>
+   <div> <paper-icon-button icon="icons:delete" on-click="delete"></paper-icon-button></div>
    </div>
    <div class="r2">
 
@@ -95,7 +96,7 @@
       },
       delete:function()
       {
-       this.$.service.cartitemdeleteservice(this.name);
+       this.$.cartservice.cartitemdeleteservice(this.name);
       }
 
 
