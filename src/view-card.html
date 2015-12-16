@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="login-card.html">
+<link rel="import" href="cart-service.html">
 <link rel="import" href="app-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <dom-module id="view-card">
@@ -76,8 +77,8 @@
   </div>
   </div>
   </fieldset>
-  <app-service id="service"></app-service>
-
+  <cart-service id="cartservice"></cart-service>
+<app-service id="service"></app-service>
   </template>
   <script>
     Polymer({

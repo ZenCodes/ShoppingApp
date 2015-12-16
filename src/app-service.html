@@ -59,15 +59,7 @@
            debounce-duration="300">
  </iron-ajax>
 
- <!--fetch the item of particular user and display in view card-->
- <iron-ajax
-      	      id="viewcartajax"
-      	      url="http://zencouch-zencodoo.rhcloud.com/grocery/4e6bd6d005733f7a68c613eeee0005bc"
-      	      handle-as="json"
-      	      content-type="application/json"
-             on-response="viewcartResponse"
-             debounce-duration="300">
- </iron-ajax>
+
  <!--display the purchased item of particular user-->
  <iron-ajax
        	      id="purchaseajax"
@@ -377,42 +369,7 @@
 	        		this.$.brandlistajax.generateRequest();
             },
 
-            //view cart of the user
-            viewcart:function()
-            {
-          //alert('app cart');
-          this.$.viewcartajax.generateRequest();
-            },
 
-viewcartResponse:function(e)
-{
-var flag="0";
-this.viewcartitem=[];
-this.itemview=[];
-this.itemview=e.detail.response.addtocart;
-var uname=JSON.stringify(sessionStorage.getItem("info"));
-//alert(JSON.stringify(this.itemview));
- for(var i=0;i<this.itemview.length;i++)
-            {
-            if(JSON.stringify(this.itemview[i].name)==uname)
-            {
-            if(this.itemview[i].cartitem.length>0)
-            {
-            flag="1";
-            viewcartitem=this.itemview[i].cartitem;
-            //alert('cart'+JSON.stringify(this.itemview[i].cartitem));
-            document.querySelector('my-app').setPage("view card","page1","view card");
-            document.querySelector('viewcart-list').itemarr=this.itemview[i].cartitem;
-            document.querySelector('viewcart-list').reload;
-            }
-            }
-            }
-            if(flag=="0")
-            {
-             document.querySelector('my-app').setPage("No Item","page1","");
-            }
-
-},
 //display the purchased item of particular user
 purchaseService:function()
 {
