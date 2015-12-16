@@ -21,24 +21,24 @@
 		else if(this.item=="My previous purchases")
 		{
 		//alert('purchase');
-		document.querySelector('app-service').purchaseService();
+		document.querySelector('purchase-service').purchaseService();
 		document.querySelector('my-app').setPage("My Purchases","page1",this.item);
 		document.querySelector('app-service').setCategory(this.item);
 		}
 		else if(this.item=="Last three purchase")
 						{
 				//alert('last three purchase');
-				document.querySelector('app-service').lastthreepurchase();
+				document.querySelector('purchase-service').lastthreepurchase();
 		}
 		else if(this.item=="Last three month")
 				{
 		//alert('last three month');
-		document.querySelector('app-service').purchasethreeService();
+		document.querySelector('purchase-service').purchasethreeService();
 		}
 		else if(this.item=="Last Six Month")
 						{
 				//alert('last three purchase');
-				document.querySelector('app-service').purchasesixService();
+				document.querySelector('purchase-service').purchasesixService();
 		}
 		else if(this.item=="all")
 		{

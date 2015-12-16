@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="purchase-card.html">
+<link rel="import" href="purchase-service.html">
 <link rel="import" href="app-service.html">
 <dom-module id="purchase-list">
 
@@ -20,7 +21,7 @@
 </style>
     <div id="card">
 
-  <app-service itemarr="{{itemarr}}"></app-service>
+  <purchase-service itemarr="{{itemarr}}"></purchase-service>
   <template  is="dom-repeat" items="{{itemarr}}" as="view">
   <purchase-card orderno="{{view.orderno}}" date="{{view.date}}" purchaselist="{{view.purchaseitem}}">
   </purchase-card>

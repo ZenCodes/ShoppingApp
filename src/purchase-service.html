@@ -1,0 +1,232 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="purchase-service">
+
+  <template>
+  <!--display the purchased item of particular user-->
+   <iron-ajax
+         	      id="purchaseajax"
+         	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000b6c"
+         	      handle-as="json"
+         	      content-type="application/json"
+                on-response="purchaseResponse"
+                debounce-duration="300">
+   </iron-ajax>
+    <!--display the purchased item of  last three purchase particular user-->
+     <iron-ajax
+           	      id="lastthreepurchaseajax"
+           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000b6c"
+           	      handle-as="json"
+           	      content-type="application/json"
+                  on-response="lastthreepurchaseResponse"
+                  debounce-duration="300">
+   </iron-ajax>
+   <!--display the purchased item of  last three month particular user-->
+    <iron-ajax
+          	      id="purchasethreeajax"
+          	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000b6c"
+          	      handle-as="json"
+          	      content-type="application/json"
+                 on-response="purchasethreeResponse"
+                 debounce-duration="300">
+   </iron-ajax>
+    <!--display the purchased item of  last six month particular user-->
+     <iron-ajax
+           	      id="purchasesixajax"
+           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000b6c"
+           	      handle-as="json"
+           	      content-type="application/json"
+                  on-response="purchasesixResponse"
+                  debounce-duration="300">
+ </iron-ajax>
+ </template>
+
+  <script>
+   Polymer({
+            is: "purchase-service",
+             ready:function()
+	    	        {
+
+
+	        },
+            //display the purchased item of particular user
+	    purchaseService:function()
+	    {
+	    alert('purchase service');
+	    this.$.purchaseajax.generateRequest();
+	    },
+	    purchaseResponse:function(e)
+	    {
+	    this.viewpurchase=[];
+	    this.purchaseitem=[];
+	    this.purchaseitem=e.detail.response.purchaseitem;
+	    var flag="0";
+	    //alert(JSON.stringify(e.detail.response));
+	    var uname=JSON.stringify(sessionStorage.getItem("info"));
+	    //alert(uname);
+	     for(var i=0;i<this.purchaseitem.length;i++)
+	                {
+	                if(JSON.stringify(this.purchaseitem[i].name)==uname)
+	                {
+	     if(this.purchaseitem[i].purchased.length>0)
+	     {
+	     flag="1";
+	                for(var j=0;j<this.purchaseitem[i].purchased.length;j++)
+	                {
+
+	                this.viewpurchase.push(this.purchaseitem[i].purchased[j]);
+	                }
+	                }
+	                }
+	                }
+
+	                if(flag=="1")
+	                {
+	                //alert(JSON.stringify(this.viewpurchase));
+	                document.querySelector('purchase-list').itemarr=this.viewpurchase;
+	                }
+	                else
+	                {
+	                 document.querySelector('my-app').setPage("No Item","page1","");
+	                }
+	    },
+	    //Last three purchase
+	    lastthreepurchase:function()
+	    {
+	    alert('purchase service');
+	    this.$.lastthreepurchaseajax.generateRequest();
+	    },
+	    lastthreepurchaseResponse:function(e)
+	    {
+	    var currentdate;
+	    var orderdate;
+	    var datediff;
+	    this.threepurchase=[];
+	    this.purchaseitem=[];
+	     var array_last_three;
+	    this.purchaseitem=e.detail.response;
+	    var flag="0";
+	    //alert(JSON.stringify(e.detail.response));
+	    var uname=JSON.stringify(sessionStorage.getItem("info"));
+	    //alert(uname);
+	     for(var i=0;i<this.purchaseitem.length;i++)
+	                {
+	                if(JSON.stringify(this.purchaseitem[i].name)==uname)
+	                {
+	                  flag="1";
+	                 array_last_three= this.purchaseitem[i].purchased.slice(-3);
+	    //alert(JSON.stringify(array_last_three));
+
+	                }
+	                }
+	                if(flag=="1")
+	    			            {
+	    			            //alert(JSON.stringify(this.viewpurchase));
+	    			            document.querySelector('purchase-list').itemarr=array_last_three;
+	                }
+	                else
+	                {
+	                 document.querySelector('my-app').setPage("No Item","page1","");
+	                }
+	    },
+	    //purchase item of last three month
+	    purchasethreeService:function()
+	    {
+	    alert('purchase service');
+	    this.$.purchasethreeajax.generateRequest();
+	    },
+	    purchasethreeResponse:function(e)
+	    {
+	    var currentdate;
+	    var orderdate;
+	    var datediff;
+	    this.threepurchase=[];
+	    this.purchaseitem=[];
+	    this.purchaseitem=e.detail.response;
+	    var flag="0";
+	    //alert(JSON.stringify(e.detail.response));
+	    var uname=JSON.stringify(sessionStorage.getItem("info"));
+	    //alert(uname);
+	     for(var i=0;i<this.purchaseitem.length;i++)
+	                {
+	                if(JSON.stringify(this.purchaseitem[i].name)==uname)
+	                {
+
+	                for(var j=0;j<this.purchaseitem[i].purchased.length;j++)
+	                {
+
+	                //alert(this.purchaseitem[i].purchased[j].date);
+	                orderdate=new Date(this.purchaseitem[i].purchased[j].date);
+	                currentdate=new Date();
+	                datediff=currentdate.getMonth()-orderdate.getMonth();
+	                //alert(datediff);
+	                if(datediff<=3)
+	                {
+	                flag="1";
+	                this.threepurchase.push(this.purchaseitem[i].purchased[j]);
+	                }
+	                }
+	                }
+	                }
+	                if(flag=="1")
+	    			            {
+	    			            //alert(JSON.stringify(this.viewpurchase));
+	    			            document.querySelector('purchase-list').itemarr=this.threepurchase;
+	                }
+	                else
+	                {
+	                 document.querySelector('my-app').setPage("No Item","page1","");
+	                }
+	    },
+	    // Last Six Month Purchase item of particular user
+	    purchasesixService:function()
+	    {
+	    //alert('purchase service');
+	    this.$.purchasesixajax.generateRequest();
+	    },
+	    purchasesixResponse:function(e)
+	    {
+	    var currentdate;
+	    var orderdate;
+	    var datediff;
+	    this.sixpurchase=[];
+	    this.purchaseitem=[];
+	    this.purchaseitem=e.detail.response;
+	    var flag="0";
+	    //alert(JSON.stringify(e.detail.response));
+	    var uname=JSON.stringify(sessionStorage.getItem("info"));
+	    //alert(uname);
+	     for(var i=0;i<this.purchaseitem.length;i++)
+	                {
+	                if(JSON.stringify(this.purchaseitem[i].name)==uname)
+	                {
+
+	                for(var j=0;j<this.purchaseitem[i].purchased.length;j++)
+	                {
+
+	                //alert(this.purchaseitem[i].purchased[j].date);
+	                orderdate=new Date(this.purchaseitem[i].purchased[j].date);
+	                currentdate=new Date();
+	                datediff=currentdate.getMonth()-orderdate.getMonth();
+	                //alert(datediff);
+	                if(datediff<=6)
+	                {
+	                flag="1";
+	                this.sixpurchase.push(this.purchaseitem[i].purchased[j]);
+	                }
+	                }
+	                }
+	                }
+	                if(flag=="1")
+	    			            {
+	    			            //alert(JSON.stringify(this.viewpurchase));
+	    			            document.querySelector('purchase-list').itemarr=this.sixpurchase;
+	                }
+	                else
+	                {
+	                 document.querySelector('my-app').setPage("No Item","page1","");
+	                }
+}
+ });
+  </script>
+</dom-module>
