@@ -278,13 +278,14 @@
 	        		for(var i=0;i<this.itemlist.rows.length;i++)
 	        		{
 	        		flag="0";
-	        		var itemval={"img":"","name": "","unit": "","price":"","discount":"","discountprice":"","discountprice1":""};
+	        		var itemval={"img":"","itemid":"","name": "","unit": "","price":"","discount":"","discountprice":"","discountprice1":""};
 	        		for(var j=0;j<offerarr.length;j++)
 	        		{
-	        		if(this.itemlist.rows[i].value.name==offerarr[j].name)
+	        		if(this.itemlist.rows[i].value.itemid==offerarr[j].itemid)
 	        		{
 	        		var flag="1";
 	        		itemval.img=offerarr[j].img;
+	        		itemval.itemid=offerarr[j].itemid;
 							    		itemval.name=offerarr[j].name;
 							    		itemval.unit=offerarr[j].unit;
 							    		var flag=offerarr[j].flag;
@@ -299,6 +300,7 @@
 	        		if(flag=="0")
 	        		{
 	        		itemval.img=this.itemlist.rows[i].value.img;
+	        		itemval.itemid=this.itemlist.rows[i].value.itemid;
 		    		itemval.name=this.itemlist.rows[i].value.name;
 		    		itemval.unit="1 "+this.itemlist.rows[i].value.unit+"";
 		    		var flag=this.itemlist.rows[i].value.flag;

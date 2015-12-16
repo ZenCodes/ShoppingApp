@@ -1,0 +1,188 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="cart-service">
+<template>
+ <iron-ajax
+     	    id="addtocartajax"
+     	    url="{{url}}"
+     	    handle-as="json"
+     	    content-type="application/json"
+            on-response="addtocartResponse"
+            debounce-duration="300">
+ </iron-ajax>
+ <iron-ajax
+       	      id="addtocartreadajax"
+       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+       	      handle-as="json"
+       	      content-type="application/json"
+              on-response="addtocartreadResponse"
+              debounce-duration="300">
+ </iron-ajax>
+ <iron-ajax
+        method="POST"
+        id="addtocartwriteajax"
+        url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+        body=""
+        handle-as="json"
+        content-type="application/json">
+ </iron-ajax>
+ </template>
+<script>
+  (function() {
+      var itemval=[];
+      var quantity;
+      var total;
+       var countarr=[];
+       var offerlist=[];
+       var offerarr=[];
+    Polymer({
+            is: "cart-service",
+            ready:function()
+	        {
+
+
+	        },
+            addtocartResponse:function(e)
+            {
+
+		   this.itemlist=[];
+	       this.itemlist=e.detail.response;
+           //alert('hii'+JSON.stringify(this.itemlist));
+           //alert('hii'+JSON.stringify(this.itemlist.rows[n].value));
+           for(var n=0;n<this.itemlist.rows.length;n++)
+           {
+           itemval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
+           itemval.type=this.itemlist.rows[n].value.type;
+   		   itemval.category=this.itemlist.rows[n].value.category;
+   		   itemval.itemid=this.itemlist.rows[n].value.itemid;
+   		   itemval.img=this.itemlist.rows[n].value.img;
+   		   itemval.name=this.itemlist.rows[n].value.name;
+   		   itemval.unit=this.itemlist.rows[n].value.unit;
+   		   itemval.price=this.itemlist.rows[n].value.price;
+   		   itemval.offer=this.itemlist.rows[n].value.offer;
+   		   itemval.flag=this.itemlist.rows[n].value.flag;
+   		   itemval.brand=this.itemlist.rows[n].value.brand;
+   		   itemval.status=this.itemlist.rows[n].value.status;
+   		   //alert('dd'+quantity);
+   		   itemval.quantity=quantity;
+   		   itemval.total=total;
+   		   itemval.cartstatus="Incart";
+   		   //alert("cartitem");
+           //alert(JSON.stringify(itemval));
+           //alert("done");
+           this.$.addtocartreadajax.generateRequest();
+		  }
+
+            },
+            addtocartservice:function(itemid,name,quant,tot)
+            {
+           quantity=quant;
+           total=tot;
+		   this.itemid=JSON.stringify(itemid);
+	       this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/addtocartdesign/_view/addtocartview?key="+this.itemid;
+           this.$.addtocartajax.generateRequest();
+
+            },
+            addtocartreadResponse:function(e)
+            {
+						this.temparr=[];
+            		  var flag="0";
+            		  var itemcnt=0;
+		              var user=sessionStorage.getItem("info");
+		              this.addtocart=e.detail.response.addtocart;
+
+		              this.id=e.detail.response._id;
+		  		      this.header=e.detail.response._rev;
+		              for(var i=0;i<this.addtocart.length;i++)
+		              {
+		              //this.temparr=this.addtocart[i].cartitem;
+		              //alert(JSON.stringify(this.temparr));
+		              if(this.addtocart[i].name==user)
+		              {
+		              flag="1";
+		              //alert(this.addtocart[i].cartitem.length);
+		              for(var j=0;j<this.addtocart[i].cartitem.length;j++)
+		              {
+		              var tempval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
+		              if(JSON.parse(this.itemid)==this.addtocart[i].cartitem[j].itemid)
+		              {
+		              itemcnt=1;
+		              alert("Item already exist,Do you want to proceed?");
+
+           				tempval.type=this.addtocart[i].cartitem[j].type;
+   		   				tempval.category=this.addtocart[i].cartitem[j].category;
+   		   				tempval.itemid=this.addtocart[i].cartitem[j].itemid;
+   		   				tempval.img=this.addtocart[i].cartitem[j].img;
+   		   				tempval.name=this.addtocart[i].cartitem[j].name;
+   		   				tempval.unit=this.addtocart[i].cartitem[j].unit;
+   		   				tempval.price=this.addtocart[i].cartitem[j].price;
+   		   				tempval.offer=this.addtocart[i].cartitem[j].offer;
+   		   				tempval.flag=this.addtocart[i].cartitem[j].flag;
+   		   				tempval.brand=this.addtocart[i].cartitem[j].brand;
+   		   				tempval.status=this.addtocart[i].cartitem[j].status;
+   		   	   		    tempval.quantity=parseInt(this.addtocart[i].cartitem[j].quantity)+quantity;
+   		   				tempval.total=this.addtocart[i].cartitem[j].total;
+   		   				tempval.cartstatus=this.addtocart[i].cartitem[j].cartstatus;
+   		   				//this.addtocart[i].cartitem[j].push(itemval);
+   		   				this.temparr.push(tempval);
+   		   				//alert(JSON.stringify(itemval));
+		              //break;
+		              }
+		              //}
+		              //if(itemcnt==0)
+		              else
+		              {
+		              //alert(JSON.stringify(this.addtocart[i].cartitem[j]));
+		              this.temparr.push(this.addtocart[i].cartitem[j]);
+		              }
+
+		              }
+		              if(itemcnt>0)
+		              {
+		              this.addtocart[i].cartitem=[];
+		              for(var v=0;v<this.temparr.length;v++)
+		              this.addtocart[i].cartitem.push(this.temparr[v]);
+		              //alert(JSON.stringify(this.addtocart[i].cartitem));
+		              }
+		              else
+		              {
+		              //this.addtocart[i].cartitem=[];
+		              this.addtocart[i].cartitem.push(itemval);
+		              //alert(JSON.stringify(this.addtocart[i].cartitem));
+		              }
+		              }
+		              }
+		              if(flag=="1")
+		              {
+		              var obj={"_id": "","_rev":"","addtocart":""};
+		              obj._id=this.id;
+					  obj._rev=this.header;
+			          obj.addtocart=this.addtocart;
+					  //alert(JSON.stringify(obj.addtocart));
+					  this.$.addtocartwriteajax.body=JSON.stringify(obj);
+					  this.$.addtocartwriteajax.generateRequest();
+		              alert("Item Added!!");
+		              }
+		              if(flag=="0")
+		              {
+		             var newcart={"name":"","cartitem":""};
+		             newcart.name=user;
+		             newcart.cartitem=[];
+		             newcart.cartitem.push(itemval);
+		             this.addtocart.push(newcart);
+		             var obj={"_id": "","_rev":"","addtocart":""};
+		  		     obj._id=this.id;
+		  		     obj._rev=this.header;
+		  		     obj.addtocart=this.addtocart;
+		  		     this.$.addtocartwriteajax.body=JSON.stringify(obj);
+		             this.$.addtocartwriteajax.generateRequest();
+		             alert("Item Added!!");
+		              }
+
+
+            }
+
+            });
+     })();
+  </script>
+</dom-module>

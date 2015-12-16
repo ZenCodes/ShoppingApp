@@ -17,7 +17,7 @@
     <div id="card">
   <app-service itemarr="{{itemarr}}"></app-service>
   <template  is="dom-repeat" items="{{itemarr}}">
-  <item-card img="{{item.img}}" price="{{item.price}}" totprice="{{item.discountprice1}}" unit="{{item.unit}}" discount="{{item.discount}}" name="{{item.name}}" discountprice="{{item.discountprice}}">
+  <item-card itemid="{{item.itemid}}" img="{{item.img}}" price="{{item.price}}" totprice="{{item.discountprice1}}" unit="{{item.unit}}" discount="{{item.discount}}" name="{{item.name}}" discountprice="{{item.discountprice}}">
   </item-card>
   </template>
     </div>

@@ -6,7 +6,7 @@
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="login-card.html">
-<link rel="import" href="app-service.html">
+<link rel="import" href="cart-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <dom-module id="item-card">
 <template>
@@ -61,15 +61,16 @@
    </div>
    <div class="r2">
    <paper-item>{{totprice}}</paper-item>
-   <paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;" >Add</paper-button>
+   <paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;" label="{{itemid}}">Add</paper-button>
   </div>
   </div>
   </div>
   </fieldset>
-  <app-service id="service"></app-service>
+  <cart-service id="service"></cart-service>
   <login-card id="login"></login-card>
   </template>
   <script>
+
   (function() {
 
       var quantity="1";
@@ -88,7 +89,7 @@
       this.totprice="Rs "+parseInt(quantity)*parseInt(this.discount);
       total=parseInt(quantity)*parseInt(this.discount);
       },
-      addtocart:function()
+      addtocart:function(e)
 	        {
             total=parseInt(quantity)*parseInt(this.discount);
 	        var name= this.name;
@@ -96,14 +97,12 @@
 		    //alert('hi '+user);
             if(user==null||user=="")
             {
-            //alert("yes");
             sessionStorage.setItem("cartinfo","1");
             document.querySelector('login-card').signin();
             }
           else
           {
-          //alert(sessionStorage.getItem("cartinfo"));
-          this.$.service.addtocartservice(name,parseInt(quantity),total);
+          this.$.service.addtocartservice(e.target.label,name,parseInt(quantity),total);
           }
 
       }
