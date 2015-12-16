@@ -39,16 +39,12 @@
             is: "cart-service",
             ready:function()
 	        {
-
-
 	        },
             addtocartResponse:function(e)
             {
 
 		   this.itemlist=[];
 	       this.itemlist=e.detail.response;
-           //alert('hii'+JSON.stringify(this.itemlist));
-           //alert('hii'+JSON.stringify(this.itemlist.rows[n].value));
            for(var n=0;n<this.itemlist.rows.length;n++)
            {
            itemval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
@@ -63,13 +59,9 @@
    		   itemval.flag=this.itemlist.rows[n].value.flag;
    		   itemval.brand=this.itemlist.rows[n].value.brand;
    		   itemval.status=this.itemlist.rows[n].value.status;
-   		   //alert('dd'+quantity);
    		   itemval.quantity=quantity;
    		   itemval.total=total;
    		   itemval.cartstatus="Incart";
-   		   //alert("cartitem");
-           //alert(JSON.stringify(itemval));
-           //alert("done");
            this.$.addtocartreadajax.generateRequest();
 		  }
 
@@ -85,29 +77,29 @@
             },
             addtocartreadResponse:function(e)
             {
-						this.temparr=[];
+					  this.temparr=[];
             		  var flag="0";
             		  var itemcnt=0;
+            		  var confirmflag=0;
 		              var user=sessionStorage.getItem("info");
 		              this.addtocart=e.detail.response.addtocart;
-
 		              this.id=e.detail.response._id;
 		  		      this.header=e.detail.response._rev;
 		              for(var i=0;i<this.addtocart.length;i++)
 		              {
-		              //this.temparr=this.addtocart[i].cartitem;
-		              //alert(JSON.stringify(this.temparr));
 		              if(this.addtocart[i].name==user)
 		              {
 		              flag="1";
-		              //alert(this.addtocart[i].cartitem.length);
 		              for(var j=0;j<this.addtocart[i].cartitem.length;j++)
 		              {
 		              var tempval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
 		              if(JSON.parse(this.itemid)==this.addtocart[i].cartitem[j].itemid)
 		              {
 		              itemcnt=1;
-		              alert("Item already exist,Do you want to proceed?");
+		              if(confirm("Item already exist,Do you want to proceed?")==true)
+		              confirmflag=1;
+		              else
+		              confirmflag=0;
 
            				tempval.type=this.addtocart[i].cartitem[j].type;
    		   				tempval.category=this.addtocart[i].cartitem[j].category;
@@ -123,16 +115,11 @@
    		   	   		    tempval.quantity=parseInt(this.addtocart[i].cartitem[j].quantity)+quantity;
    		   				tempval.total=this.addtocart[i].cartitem[j].total;
    		   				tempval.cartstatus=this.addtocart[i].cartitem[j].cartstatus;
-   		   				//this.addtocart[i].cartitem[j].push(itemval);
    		   				this.temparr.push(tempval);
-   		   				//alert(JSON.stringify(itemval));
-		              //break;
 		              }
-		              //}
-		              //if(itemcnt==0)
 		              else
 		              {
-		              //alert(JSON.stringify(this.addtocart[i].cartitem[j]));
+
 		              this.temparr.push(this.addtocart[i].cartitem[j]);
 		              }
 
@@ -142,13 +129,11 @@
 		              this.addtocart[i].cartitem=[];
 		              for(var v=0;v<this.temparr.length;v++)
 		              this.addtocart[i].cartitem.push(this.temparr[v]);
-		              //alert(JSON.stringify(this.addtocart[i].cartitem));
 		              }
 		              else
 		              {
-		              //this.addtocart[i].cartitem=[];
 		              this.addtocart[i].cartitem.push(itemval);
-		              //alert(JSON.stringify(this.addtocart[i].cartitem));
+
 		              }
 		              }
 		              }
@@ -158,10 +143,12 @@
 		              obj._id=this.id;
 					  obj._rev=this.header;
 			          obj.addtocart=this.addtocart;
-					  //alert(JSON.stringify(obj.addtocart));
 					  this.$.addtocartwriteajax.body=JSON.stringify(obj);
+					  if(confirmflag==1)
+					  {
 					  this.$.addtocartwriteajax.generateRequest();
 		              alert("Item Added!!");
+		              }
 		              }
 		              if(flag=="0")
 		              {
@@ -178,8 +165,6 @@
 		             this.$.addtocartwriteajax.generateRequest();
 		             alert("Item Added!!");
 		              }
-
-
             }
 
             });
