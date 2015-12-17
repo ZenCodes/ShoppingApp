@@ -121,7 +121,6 @@
 		              if(this.addtocart[i].name==user)
 		              {
 		              flag="1";
-		              //alert(this.addtocart[i].cartitem.length);
 		              if(this.addtocart[i].cartitem.length==0)
 		              {
 		              len="1";
@@ -136,7 +135,6 @@
 		              confirmflag=1;
 		              else
 		              confirmflag=0;
-
            				tempval.type=this.addtocart[i].cartitem[j].type;
    		   				tempval.category=this.addtocart[i].cartitem[j].category;
    		   				tempval.itemid=this.addtocart[i].cartitem[j].itemid;
@@ -155,10 +153,8 @@
 		              }
 		              else
 		              {
-
 		              this.temparr.push(this.addtocart[i].cartitem[j]);
 		              }
-
 		              }
 		              if(itemcnt>0)
 		              {
@@ -170,13 +166,7 @@
 		              {
 		              confirmflag=1;
 		              this.addtocart[i].cartitem.push(itemval);
-
 		              }
-		             /* if(len=="1")
-		              {
-		              confirmflag=1;
-		               this.addtocart[i].cartitem.push(itemval);
-		              }*/
 		              }
 		              }
 		              if(flag=="1")
@@ -211,8 +201,7 @@
               //view cart of the user
 			            viewcart:function()
 			            {
-			          //alert('app cart');
-			          this.$.viewcartajax.generateRequest();
+			            this.$.viewcartajax.generateRequest();
 			            },
 
 			viewcartResponse:function(e)
@@ -222,8 +211,7 @@
 			this.itemview=[];
 			this.itemview=e.detail.response.addtocart;
 			var uname=JSON.stringify(sessionStorage.getItem("info"));
-			//alert(JSON.stringify(this.itemview));
-			 for(var i=0;i<this.itemview.length;i++)
+			for(var i=0;i<this.itemview.length;i++)
 			            {
 			            if(JSON.stringify(this.itemview[i].name)==uname)
 			            {
@@ -231,7 +219,6 @@
 			            {
 			            flag="1";
 			            viewcartitem=this.itemview[i].cartitem;
-			            //alert('cart'+JSON.stringify(this.itemview[i].cartitem));
 			            document.querySelector('my-app').setPage("view card","page1","view card");
 			            document.querySelector('viewcart-list').itemarr=this.itemview[i].cartitem;
 			            document.querySelector('viewcart-list').reload;
@@ -249,25 +236,19 @@
 cartitemdeleteservice:function(item)
 {
 this.deleteitemname=item;
-//alert(this.deleteitemname);
 this.$.deletecartitemserviceajax.generateRequest();
 },
 <!--Service call response and refereshing cart items after deletion-->
 deletecartitemserviceResponse:function(e)
 {
-
 this.tempdeleteitems=[];
 this.tempdeleteitems=e.detail.response.addtocart;
-
 this.writedeletedupdate={"_id":"","_rev":"","addtocart":""};
 this.writedeletedupdate._id=e.detail.response._id;
 this.writedeletedupdate._rev=e.detail.response._rev;
-
 this.addtocart=[];
 this.cartitem=[];
 this.purchased=[];
-
-//alert(JSON.stringify(this.tempdeleteitems));
 for(var i=0;i<this.tempdeleteitems.length;i++)
 {
 this.addtocartrows={"name":"","cartitem":""};
@@ -280,37 +261,29 @@ for(var j=0;j<this.tempdeleteitems[i].cartitem.length;j++)
 	}
 	else
 	{
-	//alert(JSON.stringify(this.tempdeleteitems[i].cartitem[j]));
 	this.cartitem.push(this.tempdeleteitems[i].cartitem[j]);
-	//alert(JSON.stringify(this.cartitem));
 	}
 
 }
 this.addtocartrows.name=this.tempdeleteitems[i].name;
 this.addtocartrows.cartitem=this.cartitem;
-
 this.addtocart.push(this.addtocartrows);
-//alert(JSON.stringify(this.addtocart));
 }
 else
-	{
+{
 this.addtocartrows.name=this.tempdeleteitems[i].name;
 this.addtocartrows.cartitem=this.tempdeleteitems[i].cartitem;
-
 this.addtocart.push(this.addtocartrows);
-//alert(JSON.stringify(this.addtocart));
-	}
+}
 }
 this.writedeletedupdate.addtocart=this.addtocart;
-alert(JSON.stringify(this.writedeletedupdate));
 this.$.deleteupdatewriteajax.body=JSON.stringify(this.writedeletedupdate);
 this.$.deleteupdatewriteajax.generateRequest();
 document.querySelector('cart-service').viewcart();
  document.querySelector('my-app').setPage("view card","page1","view card");
  document.querySelector('viewcart-list').reload;
 }
-
-            });
-     })();
+});
+})();
   </script>
 </dom-module>
