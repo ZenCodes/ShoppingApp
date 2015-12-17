@@ -89,7 +89,7 @@
       this.totprice="Rs "+parseInt(quantity)*parseInt(this.discount);
       total=parseInt(quantity)*parseInt(this.discount);
       },
-      addtocart:function(e)
+      addtocart:function()
 	        {
             total=parseInt(quantity)*parseInt(this.discount);
 	        var name= this.name;
@@ -100,10 +100,10 @@
             sessionStorage.setItem("cartinfo","1");
             document.querySelector('login-card').signin();
             }
-          else
-          {
-          this.$.service.addtocartservice(e.target.label,name,parseInt(quantity),total);
-          }
+            else
+            {
+            this.$.service.addtocartservice(this.itemid,name,parseInt(quantity),total);
+            }
 
       }
     });

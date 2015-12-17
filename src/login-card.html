@@ -159,12 +159,13 @@ border-radius: 50px;
       var cartuser=sessionStorage.getItem("cartinfo");
       if(this.name=="Admin")
 	  {
-	  alert('admin');
+	  //alert('admin');
 	  window.location.href="adminindex.html";
       }
       if(cartuser=="1")
       {
-      //sessionStorage.setItem("cartinfo","0");
+      alert("go");
+      sessionStorage.setItem("cartinfo","0");
       document.querySelector('item-card').addtocart();
       }
       /*else

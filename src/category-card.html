@@ -42,11 +42,10 @@
       },
       showall:function()
       {
+      var flag="0";
       localStorage.setItem("showtype","all");
       //It will call service along with category type to fetch drawer menu for the selected category type
-      //alert(this.name);
       document.querySelector('app-service').setCategory(this.name);
-
       //It will call service along with category type to fetch the category list items
       this.$.service.itemcategoryService(this.name);
 
