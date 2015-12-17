@@ -108,16 +108,14 @@
           body=""
           handle-as="json"
       content-type="application/json"></iron-ajax>
-      <!--offer service-->
-       <iron-ajax
-	           	      id="offerserviceajax"
-	           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/4e6bd6d005733f7a68c613eeee0005bc"
-	           	      handle-as="json"
-	           	      content-type="application/json"
-	                  on-response="offerserviceResponse"
-	                  debounce-duration="300">
-
- </iron-ajax>
+      <!--Myoffer service-->
+     <iron-ajax
+	   	      id="offerserviceajax"
+	   	      url="{{myofferurl}}"
+	   	      handle-as="json"
+	   	      content-type="application/json"
+	          on-response="offerserviceResponse">
+   </iron-ajax>
    <iron-ajax
  	           	      id="offerallajax"
  	           	      url="{{url}}"
@@ -148,6 +146,7 @@
        var countarr=[];
        var offerlist=[];
        var offerarr=[];
+       var myofferarr=[];
        var list;
     Polymer({
             is: "app-service",
@@ -440,121 +439,39 @@ for(var i=0;i<this.buylist.length;i++)
             this.$.buywriteajax.generateRequest();
             this.$.purchasereadajax.generateRequest();
             },
-            //offer service of particular user
-
+            //Myoffer service of particular user
             offerService:function()
             {
+            var val=JSON.stringify(sessionStorage.getItem("info"));
+            this.myofferurl="http://zencouch-zencodoo.rhcloud.com/grocery/_design/myofferviewdesign/_view/myofferview?key="+val;
             this.$.offerserviceajax.generateRequest();
-            //alert('offer');
             },
             offerserviceResponse:function(e)
             {
-            var product=[];
-            var allproducts=[];
-            var count;
-            this.offeritem=[];
-			this.offeritem=e.detail.response.addtocart;
-			var flag="0";
-			var uname=JSON.stringify(sessionStorage.getItem("info"));
-			//alert(uname);
-			 for(var i=0;i<this.offeritem.length;i++)
-			            {
-			            //alert(JSON.stringify(this.offeritem[i].name));
-			            if(JSON.stringify(this.offeritem[i].name)==uname)
-			            {
-			            for(var j=0;j<this.offeritem[i].purchased.length;j++)
-			          {
-			          for(var k=0;k<this.offeritem[i].purchased[j].purchaseitem.length;k++)
-			          {
-			         allproducts.push(this.offeritem[i].purchased[j].purchaseitem[k].name);
-			          }
-     		          }
-			          allproducts.sort();
-			          var current = null;
-					  var cnt = 0;
-					  for (var i = 0; i < allproducts.length; i++)
-					  {
-					      if (allproducts[i] != current) {
-					          if (cnt > 0) {
-					          count={"name":"","times":""};
-					          count.name=current;
-					          count.times=cnt;
-					          countarr.push(count);
-					          product.push(current);
-					              //alert(current + '  --> ' + cnt + ' times');
-					          }
-					          current = allproducts[i];
-					          cnt = 1;
-					      } else {
-					          cnt++;
-					      }
-					  }
-					  if (cnt > 0)
-					  {
-					  count={"name":"","times":""};
-					  		  count.name=current;
-					  		  count.times=cnt;
-					          countarr.push(count);
-					          product.push(current);
+            this.myofferarr=e.detail.response;
+            var offeritems=[{"item":[]}];
+            var items=[];
+			//alert(JSON.stringify(this.myofferarr));
+			for(var i=0;i<this.myofferarr.rows.length;i++)
+			{
+			var itemval={"img":"","name": "","itemid":"","unit": "","price":"","discount":"","discountprice":"","discuntprice1":""};
+			itemval.img=this.myofferarr.rows[i].value.img;
+			itemval.name=this.myofferarr.rows[i].value.name;
+			itemval.itemid=this.myofferarr.rows[i].value.itemid;
+			itemval.unit="1 "+this.myofferarr.rows[i].value.unit+"";
+			itemval.price=""+this.myofferarr.rows[i].value.price+"/"+this.myofferarr.rows[i].value.unit+"";
+			itemval.discountprice=""+(parseInt(this.myofferarr.rows[i].value.price)-(parseInt(this.myofferarr.rows[i].value.price)*((Math.floor(Math.random() * 5) + 10)/100)))+"/"+this.myofferarr.rows[i].value.unit+"";
+			itemval.discountprice1="Rs "+(parseInt(this.myofferarr.rows[i].value.price)-(parseInt(this.myofferarr.rows[i].value.price)*((Math.floor(Math.random() * 5) + 10)/100)));
+			itemval.discount=parseInt(this.myofferarr.rows[i].value.price)-(parseInt(this.myofferarr.rows[i].value.price)*((Math.floor(Math.random() * 5) + 10)/100));
+            //items.push(itemval);
+            offeritems[0].item.push(itemval);
+			}
 
-                         }
-			          }
-			          }
-			        var val=[];
-			        val= JSON.stringify(product)
-					this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/offerdesign/_view/offerview?keys="+val;
-					this.$.offerallajax.generateRequest();
-					this.$.offerlistajax.generateRequest();
-            },
-         offerlistResponse:function(e)
-         {
-
-			offerlist=e.detail.response.offerarr;
-			//alert(JSON.stringify(offerlist));
-         },
-            offerallResponse:function(e)
-            {
-             offerarr=[];
-            var setoffer=[];
-            //alert(JSON.stringify(e.detail.response.rows));
-            setoffer=e.detail.response.rows;
-            for(var i=0;i<setoffer.length;i++)
-            {
-            //alert(JSON.stringify(setoffer[i].value.name));
-            for(var j=0;j<countarr.length;j++)
-            {
-            if(setoffer[i].value.name==countarr[j].name)
-            {
-            for(var k=0;k<offerlist.length;k++)
-            {
-            if((parseInt(offerlist[k].count)<=parseInt(countarr[j].times)) &&(parseInt(offerlist[k+1].count)>parseInt(countarr[j].times)))
-            {
-           //alert(JSON.stringify(offerlist[k].offer)+' '+JSON.stringify(countarr[j].name));
-            setoffer[i].value.offer=offerlist[k].offer;
+			alert(JSON.stringify(offeritems[0]));
+			document.querySelector('myoffer-list').itemarr=offeritems[0].item;
+			//alert(JSON.stringify(offeritems[0].items));
+			//alert(Math.floor(Math.random() * 5) + 10);
             }
-            }
-            }
-
-            }
-            }
-            //alert(JSON.stringify(setoffer));
-            for(var i=0;i<setoffer.length;i++)
-				        		{
-				        		var itemval={"img":"","name": "","unit": "","price":"","discount":"","discountprice":"","discuntprice1":""};
-				        		itemval.img=setoffer[i].value.img;
-					    		itemval.name=setoffer[i].value.name;
-					    		itemval.unit="1 "+setoffer[i].value.unit+"";
-					    		itemval.price=""+setoffer[i].value.price+"/"+setoffer[i].value.unit+"";
-								itemval.discountprice=""+(parseInt(setoffer[i].value.price)-(parseInt(setoffer[i].value.price)*((parseInt(setoffer[i].value.offer))/100)))+"/"+setoffer[i].value.unit+"";
-					    		itemval.discountprice1="Rs "+(parseInt(setoffer[i].value.price)-(parseInt(setoffer[i].value.price)*((parseInt(setoffer[i].value.offer))/100)));
-					    		itemval.discount=parseInt(setoffer[i].value.price)-(parseInt(setoffer[i].value.price)*((parseInt(setoffer[i].value.offer))/100));
-				        		offerarr.push(itemval);
-				  	    		}
-//alert(JSON.stringify(this.itemarr));
-				        		document.querySelector('myoffer-list').itemarr=offerarr;
-	        		         document.querySelector('myoffer-list').reload;
-            }
-
 
     });
      })();

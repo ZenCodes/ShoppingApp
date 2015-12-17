@@ -5,6 +5,8 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="login-card.html">
+<link rel="import" href="cart-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <dom-module id="myoffer-card">
 <template>
@@ -15,7 +17,7 @@
  position: relative;
  }
  .imag{
- width : 40%;
+ width : 30%;
  }
  img{
  width : 100%;
@@ -59,30 +61,53 @@
    </div>
    <div class="r2">
    <paper-item>{{totprice}}</paper-item>
-   <paper-button  style="margin-top:10px;color:red;text-transform:none;">Add</paper-button>
+   <paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;" label="{{itemid}}">Add</paper-button>
   </div>
   </div>
   </div>
   </fieldset>
+  <cart-service id="service"></cart-service>
+  <login-card id="login"></login-card>
   </template>
   <script>
+
+  (function() {
+
+      var quantity="1";
+      var total;
     Polymer({
       is: "myoffer-card",
       ready:function()
       {
+
       this.totprice="Rs "+this.totprice;
-	  //this.val="http://ekart.iriscouch.com/appdb/"+"051a4eb4097ed46fc57d2a8657000ee5";
+
       },
       select:function(e,detail){
-      //alert(document.querySelector('paper-dropdown-menu').label);
-      //this.unit=e.target.selectedItem.textContent+document.querySelector('paper-dropdown-menu').label;
-      //this.unit=e.target.selectedItem.textContent+document.querySelector('paper-dropdown-menu').label;
-      //alert(this.unit);
-      var quantity=e.target.selectedItem.textContent;
+      quantity=e.target.selectedItem.textContent;
       var discount=document.querySelector('paper-dropdown-menu').id;
       this.totprice="Rs "+parseInt(quantity)*parseInt(this.discount);
+      total=parseInt(quantity)*parseInt(this.discount);
+      },
+      addtocart:function()
+	        {
+            total=parseInt(quantity)*parseInt(this.discount);
+	        var name= this.name;
+	        var user=sessionStorage.getItem("info");
+		    //alert('hi '+user);
+            if(user==null||user=="")
+            {
+            sessionStorage.setItem("cartinfo","1");
+            document.querySelector('login-card').signin();
+            }
+            else
+            {
+            this.$.service.addtocartservice(this.itemid,name,parseInt(quantity),total);
+            }
+
       }
     });
+     })();
   </script>
 
 </dom-module>
