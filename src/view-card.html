@@ -53,30 +53,17 @@
   <legend align="left">{{name}}</legend>
   <div class="card">
   <div class="imag"><img src="{{img}}"/></div>
-   <div style="height:40px;" class="input">
-
+    <div class="detail">
+  <div class="r1">
     <input is="iron-input" style="width:30px;" bind-value="{{quantity}}" on-change="select">
-     <!-- <paper-dropdown-menu class="dropdown" label="{{quantity}}" no-label-float id="{{quantity}}">
-           <paper-menu class="dropdown-content" on-iron-select="select">
-           <paper-item>1</paper-item>
-           <paper-item>2</paper-item>
-           <paper-item>3</paper-item>
-           <paper-item>5</paper-item>
-           <paper-item>10</paper-item>
-           </paper-menu>
-   </paper-dropdown-menu> -->
-   <span style="color:black;">{{unit}}</span>
-
-   <span style="color:black;padding:15%;">{{price}}</span><br>
-   <span style="color:black;padding:15%;">{{total}}</span><br>
+<div style="height:40px;" horizontal layout>
+   <span style="color:black;@apply(--layout-center);">{{unit}}/{{price}} </span>
+   <span > Rs-{{total}}</span>
+    <paper-icon-button icon="icons:delete" on-click="delete"></paper-icon-button>
    </div>
-   <div> <paper-icon-button icon="icons:delete" on-click="delete"></paper-icon-button></div>
-   </div>
-   <div class="r2">
 
   </div>
-  </div>
-  </div>
+
   </fieldset>
   <cart-service id="cartservice"></cart-service>
 <app-service id="service"></app-service>
@@ -91,7 +78,7 @@
       select:function(e)
       {
        var quantity=this.quantity;
-      this.total="Rs "+parseInt(quantity)*this.price;
+      this.total=parseInt(quantity)*this.price;
       alert(this.total);
       },
       delete:function()

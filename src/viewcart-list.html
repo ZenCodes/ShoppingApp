@@ -26,16 +26,38 @@
   font-weight: bold;
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
 }
-
+.conti
+{
+ //top:40px;
+  width: 30%;
+  font-family:'Calibri';
+  text-transform: none;
+  font-size: 18px;
+  background-color:rgb(51, 214, 173);
+  color: white;
+  height: 40px;
+  //left: 5px;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+}
+.b1
+{
+@apply(--layout-horizontal);
+@apply(--layout-center);
+}
 </style>
     <div id="card">
+
   <cart-service itemarr="{{itemarr}}"></cart-service>
   <template  is="dom-repeat" items="{{itemarr}}" as="view">
   <view-card img="{{view.img}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}">
   </view-card>
   </template>
   </br>
+  <div class="b1">
+  <paper-button on-click="continue" style="text-transform:none;" class="conti" >Continue To Shopping</paper-button>
 <paper-button on-click="buy" style="text-transform:none;" class="title" >Buy</paper-button>
+    </div>
     </div>
   </template>
 
@@ -50,6 +72,11 @@
       buy:function()
       {
       document.querySelector('app-service').buyservice();
+      },
+      continue:function()
+      {
+      document.querySelector('my-app').setPage("category","page1","Home");
+       document.querySelector('app-service').setCategory("Home");
       }
     });
   </script>

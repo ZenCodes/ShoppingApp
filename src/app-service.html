@@ -384,6 +384,8 @@ for(var i=0;i<this.purchaselist.length;i++)
 			            obj.purchaseitem=this.purchaselist;
 			            this.$.purchasewriteajax.body=JSON.stringify(obj);
                         this.$.purchasewriteajax.generateRequest();
+                         document.querySelector('my-app').setPage("view card","page1","view card");
+                         document.querySelector('viewcart-list').reload;
                         }
                         else
                         {
@@ -394,10 +396,10 @@ for(var i=0;i<this.purchaselist.length;i++)
                         newuser.purchased=this.purchased;
                         this.purchaselist.push(newuser);
                          var obj1={"_id": "","_rev":"","purchaseitem":""};
-									            obj1._id=this.id;
-									            obj1._rev=this.header;
-									            obj1.purchaseitem=this.purchaselist;
-									            this.$.purchasewriteajax.body=JSON.stringify(obj1);
+						  obj1._id=this.id;
+						  obj1._rev=this.header;
+						  obj1.purchaseitem=this.purchaselist;
+						this.$.purchasewriteajax.body=JSON.stringify(obj1);
                         this.$.purchasewriteajax.generateRequest();
 
                         }
@@ -438,6 +440,9 @@ for(var i=0;i<this.buylist.length;i++)
             this.$.buywriteajax.body=JSON.stringify(obj);
             this.$.buywriteajax.generateRequest();
             this.$.purchasereadajax.generateRequest();
+             document.querySelector('my-app').setPage("view card","page1","view card");
+			    document.querySelector('viewcart-list').reload;
+
             },
             //Myoffer service of particular user
             offerService:function()

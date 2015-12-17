@@ -306,6 +306,8 @@ alert(JSON.stringify(this.writedeletedupdate));
 this.$.deleteupdatewriteajax.body=JSON.stringify(this.writedeletedupdate);
 this.$.deleteupdatewriteajax.generateRequest();
 document.querySelector('cart-service').viewcart();
+ document.querySelector('my-app').setPage("view card","page1","view card");
+ document.querySelector('viewcart-list').reload;
 }
 
             });
