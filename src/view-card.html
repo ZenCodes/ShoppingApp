@@ -56,17 +56,16 @@
     <div class="detail">
   <div class="r1">
     <input is="iron-input" style="width:30px;" bind-value="{{quantity}}" on-change="select">
-<div style="height:40px;" horizontal layout>
+  <div style="height:40px;" horizontal layout>
    <span style="color:black;@apply(--layout-center);">{{unit}}/{{price}} </span>
    <span > Rs-{{total}}</span>
     <paper-icon-button icon="icons:delete" on-click="delete"></paper-icon-button>
    </div>
-
   </div>
 
   </fieldset>
   <cart-service id="cartservice"></cart-service>
-<app-service id="service"></app-service>
+
   </template>
   <script>
     Polymer({
@@ -83,7 +82,7 @@
       },
       delete:function()
       {
-       this.$.cartservice.cartitemdeleteservice(this.name);
+      this.$.cartservice.cartitemdeleteservice(this.name);
       }
 
 

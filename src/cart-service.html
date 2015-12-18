@@ -279,9 +279,10 @@ this.addtocart.push(this.addtocartrows);
 this.writedeletedupdate.addtocart=this.addtocart;
 this.$.deleteupdatewriteajax.body=JSON.stringify(this.writedeletedupdate);
 this.$.deleteupdatewriteajax.generateRequest();
+alert("Item deleted!");
 document.querySelector('cart-service').viewcart();
- document.querySelector('my-app').setPage("view card","page1","view card");
- document.querySelector('viewcart-list').reload;
+document.querySelector('my-app').setPage("view card","page1","view card");
+document.querySelector('viewcart-list').reload;
 }
 });
 })();
