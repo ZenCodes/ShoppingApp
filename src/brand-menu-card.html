@@ -51,7 +51,7 @@ Polymer({
       select:function(e){
       //alert("hi"+e.target.selectedItem.textContent);
       this.$.service.brandlistService(e.target.selectedItem.textContent);
-      document.querySelector('my-app').setPage("Brand items","page1",e.target.selectedItem.textContent);
+      document.querySelector('my-app').setPage("itemlist","page1",e.target.selectedItem.textContent);
       }
       });
 </script>

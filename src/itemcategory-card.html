@@ -48,26 +48,28 @@
        if(localStorage.getItem("showtype")=="all")
 	   {
 	   this.$.service.itemlistService(this.type,localStorage.getItem("showtype"));
-	   document.querySelector('my-app').setPage("allitem","page1",this.type);
+	   //document.querySelector('my-app').setPage("allitem","page1",this.type);
 	   }
 	   if(localStorage.getItem("showtype")=="offer")
 	   {
 	   this.$.service.offeritemlistService(this.type,localStorage.getItem("showtype"));
-	   document.querySelector('my-app').setPage("offeritem","page1",this.type);
+	   //document.querySelector('my-app').setPage("offeritem","page1",this.type);
 	   }
+	   document.querySelector('my-app').setPage("itemlist","page1",this.type);
       },
       click:function()
       {
        if(localStorage.getItem("showtype")=="all")
        {
 	  this.$.service.itemlistService(this.type,localStorage.getItem("showtype"));
-	  document.querySelector('my-app').setPage("allitem","page1",this.type);
+	  //document.querySelector('my-app').setPage("allitem","page1",this.type);
 	  }
 	  if(localStorage.getItem("showtype")=="offer")
 	   {
 	   this.$.service.offeritemlistService(this.type,localStorage.getItem("showtype"));
-	   document.querySelector('my-app').setPage("offeritem","page1",this.type);
+	   //document.querySelector('my-app').setPage("offeritem","page1",this.type);
 	  }
+	  document.querySelector('my-app').setPage("itemlist","page1",this.type);
       }
       });
 
