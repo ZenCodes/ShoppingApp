@@ -163,6 +163,7 @@
 
 	if(namee==""||namee==null)
 	{
+	this.countvalue="0";
 	this.bname="Signin";
 	}
 	else
@@ -196,6 +197,7 @@
     }
     else if(this.bname=="Signout")
 	{
+	this.countvalue="0";
 	   sessionStorage.setItem("info","");
        this.bname="Signin";
        document.querySelector('my-app').setPage("category","page1","Home");
