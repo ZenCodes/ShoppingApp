@@ -57,6 +57,15 @@
           body=""
           handle-as="json"
          content-type="application/json"></iron-ajax>
+   <!--counting items from cart-->
+   <iron-ajax
+		 id="countajax"
+		 url="{{counturl}}"
+		 handle-as="json"
+		 content-type="application/json"
+		 on-response="countResponse"
+		 debounce-duration="300">
+  </iron-ajax>
  </template>
 <script>
   (function() {
@@ -66,6 +75,7 @@
        var countarr=[];
        var offerlist=[];
        var offerarr=[];
+var viewcartitem=[];
     Polymer({
             is: "cart-service",
             ready:function()
@@ -84,13 +94,16 @@
    		   itemval.img=this.itemlist.rows[n].value.img;
    		   itemval.name=this.itemlist.rows[n].value.name;
    		   itemval.unit=this.itemlist.rows[n].value.unit;
-   		   itemval.price=this.itemlist.rows[n].value.price;
    		   itemval.offer=this.itemlist.rows[n].value.offer;
    		   itemval.flag=this.itemlist.rows[n].value.flag;
-   		   itemval.brand=this.itemlist.rows[n].value.brand;
+   		   if(itemval.flag=="true")
+   		   itemval.price=(parseInt(this.itemlist.rows[n].value.price)-(parseInt(this.itemlist.rows[n].value.price)*((parseInt(this.itemlist.rows[n].value.offer))/100)));
+		   else
+		   itemval.price=this.itemlist.rows[n].value.price;
+		   itemval.brand=this.itemlist.rows[n].value.brand;
    		   itemval.status=this.itemlist.rows[n].value.status;
    		   itemval.quantity=quantity;
-   		   itemval.total=total;
+   		   itemval.total=quantity*parseInt(itemval.price);
    		   itemval.cartstatus="Incart";
            this.$.addtocartreadajax.generateRequest();
 		  }
@@ -142,13 +155,13 @@
    		   				tempval.img=this.addtocart[i].cartitem[j].img;
    		   				tempval.name=this.addtocart[i].cartitem[j].name;
    		   				tempval.unit=this.addtocart[i].cartitem[j].unit;
-   		   				tempval.price=this.addtocart[i].cartitem[j].price;
    		   				tempval.offer=this.addtocart[i].cartitem[j].offer;
    		   				tempval.flag=this.addtocart[i].cartitem[j].flag;
-   		   				tempval.brand=this.addtocart[i].cartitem[j].brand;
+   		   				tempval.price=this.addtocart[i].cartitem[j].price;
+		   				tempval.brand=this.addtocart[i].cartitem[j].brand;
    		   				tempval.status=this.addtocart[i].cartitem[j].status;
    		   	   		    tempval.quantity=parseInt(this.addtocart[i].cartitem[j].quantity)+quantity;
-   		   				tempval.total=this.addtocart[i].cartitem[j].total;
+   		   				tempval.total=parseInt(tempval.quantity)*parseInt(this.addtocart[i].cartitem[j].price);
    		   				tempval.cartstatus=this.addtocart[i].cartitem[j].cartstatus;
    		   				this.temparr.push(tempval);
 		              }
@@ -181,6 +194,7 @@
 					  {
 					  this.$.addtocartwriteajax.generateRequest();
 		              alert("Item Added!!");
+		              document.querySelector('cart-service').countservice();
 		              }
 		              }
 		              if(flag=="0")
@@ -197,6 +211,7 @@
 		  		     this.$.addtocartwriteajax.body=JSON.stringify(obj);
 		             this.$.addtocartwriteajax.generateRequest();
 		             alert("Item Added!!");
+					 document.querySelector('cart-service').countservice();
 		              }
             },
               //view cart of the user
@@ -207,8 +222,9 @@
 
 			viewcartResponse:function(e)
 			{
+			viewcartitem=[];
 			var flag="0";
-			this.viewcartitem=[];
+
 			this.itemview=[];
 			this.itemview=e.detail.response.addtocart;
 			var uname=JSON.stringify(sessionStorage.getItem("info"));
@@ -219,12 +235,36 @@
 			            if(this.itemview[i].cartitem.length>0)
 			            {
 			            flag="1";
-			            viewcartitem=this.itemview[i].cartitem;
-			            document.querySelector('my-app').setPage("view card","page1","view card");
-			            document.querySelector('viewcart-list').itemarr=this.itemview[i].cartitem;
+			            for(var j=0;j<this.itemview[i].cartitem.length;j++)
+						{
+		                var tempval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","actualprice":"","offer":"","flag":"","brand":"","status":"","quantity":"","quantity1":"","total":"","cartstatus":""};
+			            tempval.type=this.itemview[i].cartitem[j].type;
+						tempval.category=this.itemview[i].cartitem[j].category;
+						tempval.itemid=this.itemview[i].cartitem[j].itemid;
+						tempval.img=this.itemview[i].cartitem[j].img;
+						tempval.name=this.itemview[i].cartitem[j].name;
+						tempval.unit=this.itemview[i].cartitem[j].unit;
+						tempval.offer=this.itemview[i].cartitem[j].offer;
+						tempval.flag=this.itemview[i].cartitem[j].flag;
+						tempval.actualprice=this.itemview[i].cartitem[j].price;
+						tempval.price="Rs "+this.itemview[i].cartitem[j].price+"/kg";
+					    tempval.brand=this.itemview[i].cartitem[j].brand;
+						tempval.status=this.itemview[i].cartitem[j].status;
+						tempval.quantity=this.itemview[i].cartitem[j].quantity;
+						tempval.quantity1=parseInt(this.itemview[i].cartitem[j].quantity)-1;
+						tempval.total="Total: Rs "+this.itemview[i].cartitem[j].total;
+   		   				tempval.cartstatus=this.itemview[i].cartitem[j].cartstatus;
+   		   				viewcartitem.push(tempval);
+			            }
+			            }
+			            }
+			            }
+			            if(flag=="1")
+			            {
+			            alert("Loading items......");
+						document.querySelector('my-app').setPage("view card","page1","view card");
+						document.querySelector('viewcart-list').itemarr=viewcartitem;
 			            document.querySelector('viewcart-list').reload;
-			            }
-			            }
 			            }
 			            if(flag=="0")
 			            {
@@ -281,9 +321,28 @@ this.writedeletedupdate.addtocart=this.addtocart;
 this.$.deleteupdatewriteajax.body=JSON.stringify(this.writedeletedupdate);
 this.$.deleteupdatewriteajax.generateRequest();
 alert("Item deleted!");
+document.querySelector('cart-service').countservice();
 document.querySelector('cart-service').viewcart();
 document.querySelector('my-app').setPage("view card","page1","view card");
 document.querySelector('viewcart-list').reload;
+},
+//To load count of cart items
+countservice:function()
+{
+ this.counturl="http://zencouch-zencodoo.rhcloud.com/grocery/_design/countdesign/_view/countview?key="+JSON.stringify(sessionStorage.getItem("info"));
+ this.$.countajax.generateRequest();
+},
+countResponse:function(e)
+{
+this.counter=0;
+var cnt=[];
+cnt=e.detail.response;
+for(var c=0;c<cnt.rows.length;c++)
+{
+this.counter+=parseInt(cnt.rows[c].value);
+}
+document.querySelector('my-app').setCount(this.counter);
+//alert(this.counter);
 }
 });
 })();

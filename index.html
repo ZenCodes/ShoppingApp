@@ -21,6 +21,7 @@
 	     <link rel="import" href="bower_components/paper-styles/paper-styles.html">
 	     <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
 	     <link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
+	     <link rel="import" href="bower_components/paper-badge/paper-badge.html">
 
 	     <link rel="import" href="src/item-list.html">
 	     <link rel="import" href="src/category-list.html">
@@ -70,6 +71,10 @@
       .search{
       margin-top: 0px;
       }
+      paper-badge{
+      margin-top: 5px;
+      margin-left: -10px;
+      }
       </style>
   <template>
 
@@ -99,7 +104,11 @@
   			<iron-icon icon="search" prefix></iron-icon>
   		    </paper-input>
   	        <div class="flex"></div>
-  		  	<iron-icon icon="shopping-cart" prefix on-click="viewcart"></iron-icon>
+  	        <paper-icon-button id="number" icon="shopping-cart" on-click="viewcart">
+			</paper-icon-button>
+			<paper-badge for="number" label="{{countvalue}}">
+			</paper-badge>
+  		  	<!--<iron-icon icon="shopping-cart" prefix on-click="viewcart"></iron-icon>-->
   		  </paper-toolbar>
   	      <div class="content">
   	  <!-- Div to change the content area using iron pages-->
@@ -113,19 +122,10 @@
         	  <section data-category="itemlist">
   			  	<item-list></item-list>
               </section>
-              <!--<section data-category="offeritem">
-  			  	<item-list></item-list>
-              </section>-->
-              <!--<section data-category="My offers">
-			    <myoffer-list></myoffer-list>
-        	  </section>-->
-        	  <section data-category="My brands">
+              <section data-category="My brands">
               	<brand-menu-card></brand-menu-card>
         	  </section>
-        	  <!--<section data-category="Brand items">
-  			  	<brand-list></brand-list>
-        	  </section>-->
-			  <section data-category="login card">
+        	  <section data-category="login card">
   			  	<login-card></login-card>
         	  </section>
 			  <section data-category="view card">
@@ -155,6 +155,7 @@
   Polymer({
     is: "my-app",
     ready: function() {
+    this.count="0";
     //Initially it has to show home label as a title and home page for that defaultly setting title as Home and iron page match category as category
   	this.title="Home";
   	this.page="category";
@@ -166,6 +167,7 @@
 	}
 	else
 	{
+	document.querySelector('cart-service').countservice();
 	this.bname="Signout";
     }
     },
@@ -208,6 +210,10 @@
     viewcart:function()
     {
     document.querySelector('cart-service').viewcart();
+    },
+    setCount:function(cnt)
+    {
+    this.countvalue=cnt;
     }
 
   });

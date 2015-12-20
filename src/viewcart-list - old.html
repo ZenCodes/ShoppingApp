@@ -12,57 +12,52 @@
 #card{
  margin-top: 20px;
 }
-.proceed
+.title
 {
- margin-top:10px;
- width: 97%;
+ //top:40px;
+  width: 20%;
   font-family:'Calibri';
   text-transform: none;
-  font-size: 16px;
+  font-size: 18px;
   background-color:rgb(51, 214, 173);
   color: white;
-  height: 30px;
+  height: 40px;
   //left: -5px;
-  //font-weight: bold;
+  font-weight: bold;
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
 }
 .conti
 {
- margin-top:-10px;
-  width: 97%;
+ //top:40px;
+  width: 30%;
   font-family:'Calibri';
   text-transform: none;
-  font-size: 16px;
+  font-size: 18px;
   background-color:rgb(51, 214, 173);
   color: white;
-  height: 30px;
+  height: 40px;
   //left: 5px;
-  //font-weight: bold;
+  font-weight: bold;
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
-
 }
 .b1
 {
-@apply(--layout-vertical);
+@apply(--layout-horizontal);
 @apply(--layout-center);
-}
-.cardtemplate{
-margin-top:-10px;
 }
 </style>
     <div id="card">
-     <div class="b1">
-	 <paper-button on-click="continue" style="text-transform:none;" class="conti" >Continue To Shopping</paper-button>
-	 <paper-button on-click="proceed" style="text-transform:none;" class="proceed" >Proceed to Checkout</paper-button>
-     </div> <hr/>
-<div class="cardtemplate">
+
   <cart-service itemarr="{{itemarr}}"></cart-service>
   <template  is="dom-repeat" items="{{itemarr}}" as="view">
-  <view-card img="{{view.img}}" actualprice="{{view.actualprice}}" quantity1="{{view.quantity1}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}">
+  <view-card img="{{view.img}}" quantity1="{{view.quantity1}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}">
   </view-card>
   </template>
-</div>
-
+  </br>
+  <div class="b1">
+  <paper-button on-click="continue" style="text-transform:none;" class="conti" >Continue To Shopping</paper-button>
+<paper-button on-click="buy" style="text-transform:none;" class="title" >Buy</paper-button>
+    </div>
     </div>
   </template>
 
@@ -74,9 +69,9 @@ margin-top:-10px;
       //alert('viewcart');
       //this.totprice="Rs 0";
       },
-      proceed:function()
+      buy:function()
       {
-      //document.querySelector('app-service').buyservice();
+      document.querySelector('app-service').buyservice();
       },
       continue:function()
       {

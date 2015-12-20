@@ -6,8 +6,10 @@
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="cart-service.html">
+<link rel="import" href="app-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <dom-module id="view-card">
 <template>
@@ -18,7 +20,7 @@
  position: relative;
  }
  .imag{
- width : 30%;
+ width : 40%;
  }
  img{
  width : 100%;
@@ -39,58 +41,52 @@
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
   margin-top : 10px;
  }
+ .input
+ {
+ padding:3%;
+ @apply(--layout-horizontal);
+  @apply(--layout-center);
+ }
+
  </style>
   <fieldset class="field">
   <legend align="left">{{name}}</legend>
   <div class="card">
   <div class="imag"><img src="{{img}}"/></div>
-  <div class="detail">
+    <div class="detail">
   <div class="r1">
-   <paper-dropdown-menu class="dropdown" label="{{unit}}" no-label-float id="{{actualprice}}">
-        <paper-menu class="dropdown-content" on-iron-select="select" valueattr="value">
-        <paper-item value="1">1</paper-item>
-        <paper-item value="2">2</paper-item>
-        <paper-item value="3">3</paper-item>
-        <paper-item value="4">4</paper-item>
-        <paper-item value="5">5</paper-item>
-        </paper-menu>
-   </paper-dropdown-menu>
-   <div style="height:40px;">
-   <!--<paper-item style="text-decoration: line-through;margin-left:10px;color:red;"><span style="color:black;">{{price}}</span></paper-item><br>-->
-   <paper-item style="margin-top: 0px;">{{price}}</paper-item>
+    <input is="iron-input" style="width:30px;" bind-value="{{quantity}}" on-change="select">
+  <div style="height:40px;" horizontal layout>
+   <span style="color:black;@apply(--layout-center);">{{unit}}/{{price}} </span>
+   <span > Rs-{{total}}</span>
+    <paper-icon-button icon="icons:delete" on-click="delete"></paper-icon-button>
    </div>
-   </div>
-   <div class="r2">
-   <paper-item>{{total}}</paper-item>
-   <!--<paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;" label="{{itemid}}">Add</paper-button>-->
-  <paper-icon-button icon="icons:done" on-click="save" style="margin-top:10px;margin-left:-10px;"></paper-icon-button>
-  <paper-icon-button icon="icons:delete" on-click="delete" style="margin-top:10px;"></paper-icon-button>
   </div>
-  </div>
-  </div>
+
   </fieldset>
   <cart-service id="cartservice"></cart-service>
-  <login-card id="login"></login-card>
+
   </template>
   <script>
-
-  (function() {
-
     Polymer({
       is: "view-card",
       ready:function()
       {
+
       },
-      select:function(e,detail){
-      var quantity=e.target.selectedItem.textContent;
-      this.total="Total: Rs "+parseInt(quantity)*parseInt(this.actualprice);
+      select:function(e)
+      {
+       var quantity=this.quantity;
+      this.total=parseInt(quantity)*this.price;
+      alert(this.total);
       },
       delete:function()
-	  {
-	  this.$.cartservice.cartitemdeleteservice(this.name);
+      {
+      this.$.cartservice.cartitemdeleteservice(this.name);
       }
+
+
     });
-     })();
   </script>
 
 </dom-module>
