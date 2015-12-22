@@ -7,24 +7,24 @@
 <template>
 <!--Adding items to cart-->
  <iron-ajax
-     	    id="addtocartajax"
+     	    id="addtotempcartajax"
      	    url="{{url}}"
      	    handle-as="json"
      	    content-type="application/json"
-            on-response="addtocartResponse"
+            on-response="addtotempcartResponse"
             debounce-duration="300">
  </iron-ajax>
  <iron-ajax
-       	      id="addtocartreadajax"
-       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+       	      id="addtotempcartreadajax"
+       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/a32dbfc687a6533f13d86d8235000c66"
        	      handle-as="json"
        	      content-type="application/json"
-              on-response="addtocartreadResponse"
+              on-response="addtotempcartreadResponse"
               debounce-duration="300">
  </iron-ajax>
  <iron-ajax
         method="POST"
-        id="addtocartwriteajax"
+        id="addtotempcartwriteajax"
         url="http://zencouch-zencodoo.rhcloud.com/grocery/"
         body=""
         handle-as="json"
@@ -32,38 +32,38 @@
  </iron-ajax>
   <!--fetch the item of particular user and display in view card-->
   <iron-ajax
-       	      id="viewcartajax"
-       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+       	      id="viewtempcartajax"
+       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/a32dbfc687a6533f13d86d8235000c66"
        	      handle-as="json"
        	      content-type="application/json"
-              on-response="viewcartResponse"
+              on-response="viewtempcartResponse"
               debounce-duration="300">
  </iron-ajax>
  <!--deleting cart items-->
     <iron-ajax
-  	           	      id="deletecartitemserviceajax"
-  	           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+  	           	      id="deletetempcartitemserviceajax"
+  	           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/a32dbfc687a6533f13d86d8235000c66"
   	           	      handle-as="json"
   	           	      content-type="application/json"
-  	                  on-response="deletecartitemserviceResponse"
+  	                  on-response="deletetempcartitemserviceResponse"
   	                  debounce-duration="300">
 
   </iron-ajax>
    <!--After deleting cart item updating cart-->
    <iron-ajax
           method="POST"
-          id="deleteupdatewriteajax"
+          id="deleteupdatetempwriteajax"
           url="http://zencouch-zencodoo.rhcloud.com/grocery/"
           body=""
           handle-as="json"
          content-type="application/json"></iron-ajax>
    <!--counting items from cart-->
    <iron-ajax
-		 id="countajax"
+		 id="tempcountajax"
 		 url="{{counturl}}"
 		 handle-as="json"
 		 content-type="application/json"
-		 on-response="countResponse"
+		 on-response="tempcountResponse"
 		 debounce-duration="300">
   </iron-ajax>
  </template>
@@ -81,7 +81,7 @@ var viewcartitem=[];
             ready:function()
 	        {
 	        },
-            addtocartResponse:function(e)
+            addtotempcartResponse:function(e)
             {
 		   this.itemlist=[];
 	       this.itemlist=e.detail.response;
@@ -105,28 +105,29 @@ var viewcartitem=[];
    		   itemval.quantity=quantity;
    		   itemval.total=quantity*parseInt(itemval.price);
    		   itemval.cartstatus="Incart";
-           this.$.addtocartreadajax.generateRequest();
+           this.$.addtotempcartreadajax.generateRequest();
 		  }
 
             },
-            addtocartservice:function(itemid,name,quant,tot)
+            addtotempcartservice:function(itemid,name,quant,tot)
             {
 
            quantity=quant;
            total=tot;
 		   this.itemid=JSON.stringify(itemid);
 	       this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/addtocartdesign/_view/addtocartview?key="+this.itemid;
-           this.$.addtocartajax.generateRequest();
+           this.$.addtotempcartajax.generateRequest();
 
             },
-            addtocartreadResponse:function(e)
+            addtotempcartreadResponse:function(e)
             {
 					  this.temparr=[];
 					  var len="0";
             		  var flag="0";
             		  var itemcnt=0;
             		  var confirmflag=0;
-		              var user=sessionStorage.getItem("info");
+		              var user=sessionStorage.getItem("tempinfo");
+		              alert("hi! "+user);
 		              this.addtocart=e.detail.response.addtocart;
 		              this.id=e.detail.response._id;
 		  		      this.header=e.detail.response._rev;
@@ -189,12 +190,12 @@ var viewcartitem=[];
 		              obj._id=this.id;
 					  obj._rev=this.header;
 			          obj.addtocart=this.addtocart;
-					  this.$.addtocartwriteajax.body=JSON.stringify(obj);
+					  this.$.addtotempcartwriteajax.body=JSON.stringify(obj);
 					  if(confirmflag==1)
 					  {
-					  this.$.addtocartwriteajax.generateRequest();
+					  this.$.addtotempcartwriteajax.generateRequest();
 		              alert("Item Added!!");
-		              document.querySelector('cart-service').countservice();
+		              document.querySelector('temp-service').tempcountservice();
 		              }
 		              }
 		              if(flag=="0")
@@ -208,26 +209,26 @@ var viewcartitem=[];
 		  		     obj._id=this.id;
 		  		     obj._rev=this.header;
 		  		     obj.addtocart=this.addtocart;
-		  		     this.$.addtocartwriteajax.body=JSON.stringify(obj);
-		             this.$.addtocartwriteajax.generateRequest();
+		  		     this.$.addtotempcartwriteajax.body=JSON.stringify(obj);
+		             this.$.addtotempcartwriteajax.generateRequest();
 		             alert("Item Added!!");
-					 document.querySelector('cart-service').countservice();
+					 document.querySelector('temp-service').tempcountservice();
 		              }
             },
               //view cart of the user
 			            viewcart:function()
 			            {
-			            this.$.viewcartajax.generateRequest();
+			            this.$.viewtempcartajax.generateRequest();
 			            },
 
-			viewcartResponse:function(e)
+			viewtempcartResponse:function(e)
 			{
 			viewcartitem=[];
 			var flag="0";
 
 			this.itemview=[];
 			this.itemview=e.detail.response.addtocart;
-			var uname=JSON.stringify(sessionStorage.getItem("info"));
+			var uname=JSON.stringify(sessionStorage.getItem("tempinfo"));
 			for(var i=0;i<this.itemview.length;i++)
 			            {
 			            if(JSON.stringify(this.itemview[i].name)==uname)
@@ -274,14 +275,15 @@ var viewcartitem=[];
 },
 <!--Deleting cart items-->
 <!--Service call-->
-cartitemdeleteservice:function(item)
+tempcartitemdeleteservice:function(item)
 {
 this.deleteitemname=item;
-this.$.deletecartitemserviceajax.generateRequest();
+this.$.deletetempcartitemserviceajax.generateRequest();
 },
 <!--Service call response and refereshing cart items after deletion-->
-deletecartitemserviceResponse:function(e)
+deletetempcartitemserviceResponse:function(e)
 {
+
 this.tempdeleteitems=[];
 this.tempdeleteitems=e.detail.response.addtocart;
 this.writedeletedupdate={"_id":"","_rev":"","addtocart":""};
@@ -293,7 +295,7 @@ this.purchased=[];
 for(var i=0;i<this.tempdeleteitems.length;i++)
 {
 this.addtocartrows={"name":"","cartitem":""};
-if(this.tempdeleteitems[i].name==sessionStorage.getItem("info"))
+if(this.tempdeleteitems[i].name==sessionStorage.getItem("tempinfo"))
 {
 for(var j=0;j<this.tempdeleteitems[i].cartitem.length;j++)
 {
@@ -318,21 +320,21 @@ this.addtocart.push(this.addtocartrows);
 }
 }
 this.writedeletedupdate.addtocart=this.addtocart;
-this.$.deleteupdatewriteajax.body=JSON.stringify(this.writedeletedupdate);
-this.$.deleteupdatewriteajax.generateRequest();
+this.$.deleteupdatetempwriteajax.body=JSON.stringify(this.writedeletedupdate);
+this.$.deleteupdatetempwriteajax.generateRequest();
 alert("Item deleted!");
-document.querySelector('cart-service').countservice();
-document.querySelector('cart-service').viewcart();
+document.querySelector('temp-service').tempcountservice();
+document.querySelector('temp-service').viewcart();
 document.querySelector('my-app').setPage("view card","page1","view card");
 document.querySelector('viewcart-list').reload;
 },
 //To load count of cart items
-countservice:function()
+tempcountservice:function()
 {
- this.counturl="http://zencouch-zencodoo.rhcloud.com/grocery/_design/countdesign/_view/countview?key="+JSON.stringify(sessionStorage.getItem("info"));
- this.$.countajax.generateRequest();
+ this.counturl="http://zencouch-zencodoo.rhcloud.com/grocery/_design/tempcountdesign/_view/tempcountview?key="+JSON.stringify(sessionStorage.getItem("tempinfo"));
+ this.$.tempcountajax.generateRequest();
 },
-countResponse:function(e)
+tempcountResponse:function(e)
 {
 this.counter=0;
 var cnt=[];

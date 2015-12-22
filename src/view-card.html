@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="cart-service.html">
+<link rel="import" href="temp-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <dom-module id="view-card">
 <template>
@@ -70,6 +71,7 @@
   </div>
   </fieldset>
   <cart-service id="cartservice"></cart-service>
+  <temp-service id="tempcartservice"></temp-service>
   <login-card id="login"></login-card>
   </template>
   <script>
@@ -87,6 +89,9 @@
       },
       delete:function()
 	  {
+	  if(sessionStorage.getItem("tempinfo")=="tempuser")
+	  this.$.tempcartservice.tempcartitemdeleteservice(this.name);
+	  else
 	  this.$.cartservice.cartitemdeleteservice(this.name);
       }
     });

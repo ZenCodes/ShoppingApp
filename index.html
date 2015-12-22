@@ -160,7 +160,12 @@
   	this.title="Home";
   	this.page="category";
   	var namee=sessionStorage.getItem("info");
-
+  	var tempnamee=sessionStorage.getItem("tempinfo");
+  	if(tempnamee=="tempuser"){
+  	this.bname="Signin";
+  	this.countvalue="0";
+  	document.querySelector('temp-service').tempcountservice();
+  	}
 	if(namee==""||namee==null)
 	{
 	this.countvalue="0";
@@ -211,7 +216,13 @@
     },
     viewcart:function()
     {
+    if(sessionStorage.getItem("tempinfo")=="tempuser")
+    document.querySelector('temp-service').viewcart();
+    else if(sessionStorage.getItem("info")=="")
+    document.querySelector('my-app').setPage("No Item","page1","");
+    else
     document.querySelector('cart-service').viewcart();
+
     },
     setCount:function(cnt)
     {

@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="cart-service.html">
+<link rel="import" href="temp-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <dom-module id="item-card">
 <template>
@@ -67,6 +68,7 @@
   </div>
   </fieldset>
   <cart-service id="service"></cart-service>
+  <temp-service id="tempservice"></temp-service>
   <login-card id="login"></login-card>
   </template>
   <script>
@@ -98,6 +100,8 @@
             if(user==null||user=="")
             {
             sessionStorage.setItem("cartinfo","1");
+            sessionStorage.setItem("tempinfo","tempuser");
+            this.$.tempservice.addtotempcartservice(this.itemid,name,parseInt(quantity),total);
             //document.querySelector('login-card').signin();
             }
             else
