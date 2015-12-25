@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="cart-service.html">
 <link rel="import" href="temp-service.html">
@@ -25,9 +26,10 @@
  }
  paper-item{
   width: 100%;
+  font-size: 12px;
  }
  .detail{
- width: 100%;
+ width: 80%;
  @apply(--layout-vertical);
  }
  .r1,.r2{
@@ -38,6 +40,9 @@
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
   margin-top : 10px;
+ }
+ #total{
+//width:120px;
  }
  </style>
   <fieldset class="field">
@@ -61,8 +66,9 @@
    </div>
    </div>
    <div class="r2">
-   <paper-item>{{totprice}}</paper-item>
-   <paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;" label="{{itemid}}">Add</paper-button>
+   <paper-item id="total">{{totprice}}</paper-item>
+   <paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;margin-left: 2%" label="{{itemid}}">Add</paper-button>
+   <paper-icon-button id="{{itemid}}" icon="shopping-cart" on-click="buy" style="width: 40%;margin-top:5%;margin-left:-2%;"></paper-icon-button>
   </div>
   </div>
   </div>
@@ -81,9 +87,7 @@
       is: "item-card",
       ready:function()
       {
-
       this.totprice="Rs "+this.totprice;
-
       },
       select:function(e,detail){
       quantity=e.target.selectedItem.textContent;

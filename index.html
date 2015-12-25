@@ -36,6 +36,8 @@
          <link rel="import" href="src/viewcart-list.html">
          <link rel="import" href="src/purchase-list.html">
          <link rel="import" href="src/no-items.html">
+          <link rel="import" href="src/temp-service.html">
+          <link rel="import" href="src/count-service.html">
 
   </head>
 
@@ -126,7 +128,7 @@
               	<brand-menu-card></brand-menu-card>
         	  </section>
         	  <section data-category="login card">
-  			  	<login-card></login-card>
+  			  	<login-card id="logincard"></login-card>
         	  </section>
 			  <section data-category="view card">
   			  	<viewcart-list></viewcart-list>
@@ -150,8 +152,13 @@
         </paper-header-panel>
       </paper-drawer-panel>
 
+      <temp-service id="tempservice"></temp-service>
+
   </template>
   <script>
+    (function() {
+    var namee="";
+    var tempnamee="";
   Polymer({
     is: "my-app",
     ready: function() {
@@ -159,20 +166,26 @@
     //Initially it has to show home label as a title and home page for that defaultly setting title as Home and iron page match category as category
   	this.title="Home";
   	this.page="category";
-  	var namee=sessionStorage.getItem("info");
-  	var tempnamee=sessionStorage.getItem("tempinfo");
-  	if(tempnamee=="tempuser"){
-  	this.bname="Signin";
-  	this.countvalue="0";
-  	document.querySelector('temp-service').tempcountservice();
+  	 namee=sessionStorage.getItem("info");
+  	 tempnamee=sessionStorage.getItem("tempinfo");
+  	alert(namee+"  "+tempnamee);
+  	if(tempnamee=="tempuser"&&(namee==""||namee==null)){
+  	alert("hey temp");
+  	//this.bname="Signin";
+  	//this.countvalue="0";
+  	//alert(document.querySelector('temp-service'));
+  	this.$.tempservice.tempcountservice();
   	}
-	if(namee==""||namee==null)
+  	if(namee==""||namee==null||tempnamee==""||tempnamee==null)
+{
+alert("hey no user");
+this.countvalue="0";
+this.bname="Signin";
+
+}
+	if(namee!=""||namee!=null||tempnamee!="tempuser")
 	{
-	this.countvalue="0";
-	this.bname="Signin";
-	}
-	else
-	{
+	alert("hey user");
 	document.querySelector('cart-service').countservice();
 	this.bname="Signout";
     }
@@ -198,7 +211,7 @@
     if(this.bname=="Signin")
     {
     document.querySelector('my-app').setPage("login card","page1","Login");
-    document.querySelector('login-card').signin();
+    this.$.logincard.signin();
     }
     else if(this.bname=="Signout")
 	{
@@ -211,16 +224,16 @@
     },
     name:function()
     {
-    sessionStorage.setItem("info","");
+    sessionStorage.setItem("tempinfo","");
     this.bname="Signout";
     },
     viewcart:function()
     {
-    if(sessionStorage.getItem("tempinfo")=="tempuser")
+    if((sessionStorage.getItem("info")==""||sessionStorage.getItem("info")==null)&&sessionStorage.getItem("tempinfo")=="tempuser")
     document.querySelector('temp-service').viewcart();
-    else if(sessionStorage.getItem("info")=="")
-    document.querySelector('my-app').setPage("No Item","page1","");
-    else
+    //else if(sessionStorage.getItem("info")==""||sessionStorage.getItem("info")==null||sessionStorage.getItem("tempinfo")==""||sessionStorage.getItem("tempinfo")==null)
+    //document.querySelector('my-app').setPage("No Item","page1","");
+    else if(sessionStorage.getItem("info")!=""||sessionStorage.getItem("info")!=null||sessionStorage.getItem("tempinfo")!="tempuser")
     document.querySelector('cart-service').viewcart();
 
     },
@@ -230,6 +243,7 @@
     }
 
   });
+  })();
   </script>
 </dom-module>
 </body>
