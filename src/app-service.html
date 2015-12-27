@@ -80,7 +80,7 @@
       <!---->
       <iron-ajax
 	         	      id="buyreadajax"
-	         	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+	         	      url="{{url}}"
 	         	      handle-as="json"
 	         	      content-type="application/json"
 	                on-response="buyreadResponse"
@@ -339,9 +339,14 @@
 
 
 //buy service
-buyservice:function()
+buyservice:function(itemid,qty,tot)
 {
+total=tot;
+quantity=qty;
+var item=JSON.stringify(itemid);
 this.$.ordernoajax.generateRequest();
+this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/addtocartdesign/_view/addtocartview?key="+item;
+
 },
 //generate the order number for the item
 ordernoResponse:function(e)
@@ -388,8 +393,8 @@ for(var i=0;i<this.purchaselist.length;i++)
 			            obj.purchaseitem=this.purchaselist;
 			            this.$.purchasewriteajax.body=JSON.stringify(obj);
                         this.$.purchasewriteajax.generateRequest();
-                         document.querySelector('my-app').setPage("view card","page1","view card");
-                         document.querySelector('viewcart-list').reload;
+                         //document.querySelector('my-app').setPage("view card","page1","view card");
+                         //document.querySelector('viewcart-list').reload;
                         }
                         else
                         {
@@ -410,43 +415,33 @@ for(var i=0;i<this.purchaselist.length;i++)
 },
 buyreadResponse:function(e)
 {
-this.id=e.detail.response._id;
-this.header=e.detail.response._rev;
+this.id=e.detail.response.rows[0].value._id;
+this.header=e.detail.response.rows[0].value._rev;
 this.ordernum;
 this.date;
-this.buylist=[];
-this.buyitem=[];
-this.buylist=e.detail.response.addtocart;
-//alert(JSON.stringify(e.detail.response));
-var uname=JSON.stringify(sessionStorage.getItem("info"));
-for(var i=0;i<this.buylist.length;i++)
-            {
-            if(JSON.stringify(this.buylist[i].name)==uname)
-            {
-            for(var j=0;j<this.buylist[i].cartitem.length;j++)
-            {
-            this.buyitem.push(this.buylist[i].cartitem[j]);
-            }
-            //alert(JSON.stringify(this.buyitem));
+ var buyitem=[];
+alert(JSON.stringify(e.detail.response.rows[0].value.type));
+buyitem={"type":"","category":"","img":"","name":"","unit":"","price":"","offer":"","brand":"","quantity":"","total":"","cartstatus":""};
+buyitem.type=e.detail.response.rows[0].value.type
+buyitem.category=e.detail.response.rows[0].value.category;
+buyitem.img=e.detail.response.rows[0].value.img;
+buyitem.name=e.detail.response.rows[0].value.name;
+buyitem.unit=e.detail.response.rows[0].value.unit;
+buyitem.price=e.detail.response.rows[0].value.price;
+buyitem.offer=e.detail.response.rows[0].value.offer;
+buyitem.brand=e.detail.response.rows[0].value.brand;
+buyitem.quantity=quantity;
+buyitem.total=total;
+buyitem.cartstatus="purchased";
+
             this.ordernum=sessionStorage.getItem("orderid");
             this.date=new Date();
              list={"orderno":"","date":"","purchaseitem":""};
              list.orderno=this.ordernum;
              list.date=this.date;
-             list.purchaseitem=this.buyitem;
-             this.buylist[i].cartitem=[];
-            }
-            }
-           var obj={"_id": "","_rev":"","addtocart":""};
-            obj._id=this.id;
-            obj._rev=this.header;
-            obj.addtocart=this.buylist;
-            this.$.buywriteajax.body=JSON.stringify(obj);
-            this.$.buywriteajax.generateRequest();
+             list.purchaseitem=[];
+             list.purchaseitem.push(buyitem);
             this.$.purchasereadajax.generateRequest();
-             document.querySelector('my-app').setPage("view card","page1","view card");
-			    document.querySelector('viewcart-list').reload;
-
             },
             //Myoffer service of particular user
             offerService:function()
