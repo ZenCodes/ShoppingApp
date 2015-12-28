@@ -100,11 +100,12 @@
             total=parseInt(quantity)*parseInt(this.discount);
 	        var name= this.name;
 	        var user=sessionStorage.getItem("info");
-		    //alert('hi '+user);
-            if(user==null||user=="")
+	        var tempuser=sessionStorage.getItem("tempinfo");
+		    if(user==null||user=="")
             {
             sessionStorage.setItem("cartinfo","1");
-            sessionStorage.setItem("tempinfo","tempuser");
+            if(tempuser==null||tempuser=="")
+            document.querySelector('temp-service').tempseqservice();
             this.$.tempservice.addtotempcartservice(this.itemid,name,parseInt(quantity),total);
             //document.querySelector('login-card').signin();
             }

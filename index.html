@@ -166,28 +166,25 @@
     //Initially it has to show home label as a title and home page for that defaultly setting title as Home and iron page match category as category
   	this.title="Home";
   	this.page="category";
-  	 namee=sessionStorage.getItem("info");
-  	 tempnamee=sessionStorage.getItem("tempinfo");
-  	alert(namee+"  "+tempnamee);
-  	if(tempnamee=="tempuser"&&(namee==""||namee==null)){
-  	alert("hey temp");
-  	//this.bname="Signin";
-  	//this.countvalue="0";
-  	//alert(document.querySelector('temp-service'));
-  	this.$.tempservice.tempcountservice();
-  	}
-  	if(namee==""||namee==null||tempnamee==""||tempnamee==null)
-{
-alert("hey no user");
-this.countvalue="0";
-this.bname="Signin";
-
-}
-	if(namee!=""||namee!=null||tempnamee!="tempuser")
+  	namee=sessionStorage.getItem("info");
+  	tempnamee=sessionStorage.getItem("tempinfo");
+  	alert("hi "+namee+"  "+"halo "+tempnamee);
+  	if((namee==""||namee==null)&&(tempnamee==""||tempnamee==null))
 	{
-	alert("hey user");
-	document.querySelector('cart-service').countservice();
-	this.bname="Signout";
+	alert("no user");
+	this.countvalue="0";
+	this.bname="Signin";
+	}
+	else if(tempnamee!=""||tempnamee!=null){
+	alert("temp user");
+	this.bname="Signin";
+	this.$.tempservice.tempcountservice();
+  	}
+	else if(namee!=""||namee!=null)
+	{
+	alert("user");
+    document.querySelector('cart-service').countservice();
+    this.bname="Signout";
     }
     },
     setPage:function(page,bpage,title)
@@ -210,7 +207,7 @@ this.bname="Signin";
     {
     if(this.bname=="Signin")
     {
-    document.querySelector('my-app').setPage("login card","page1","Login");
+    document.querySelector('my-app').setPage("login card","page1","");
     this.$.logincard.signin();
     }
     else if(this.bname=="Signout")
@@ -222,19 +219,29 @@ this.bname="Signin";
        document.querySelector('app-service').setCategory("Home");
     }
     },
-    name:function()
+    name:function(name,tempname)
     {
-    sessionStorage.setItem("tempinfo","");
+    namee=name;
+    tempnamee=tempnamee;
     this.bname="Signout";
     },
     viewcart:function()
     {
-    if((sessionStorage.getItem("info")==""||sessionStorage.getItem("info")==null)&&sessionStorage.getItem("tempinfo")=="tempuser")
+    if((namee==""||namee==null)&&(tempnamee==""||tempnamee==null))
+	{
+	alert("no user in view");
+	document.querySelector('my-app').setPage("No Item","page1","");
+	}
+    else if((sessionStorage.getItem("tempinfo")!=""||sessionStorage.getItem("tempinfo")!=null))
+    {
+    alert("temp user in view");
     document.querySelector('temp-service').viewcart();
-    //else if(sessionStorage.getItem("info")==""||sessionStorage.getItem("info")==null||sessionStorage.getItem("tempinfo")==""||sessionStorage.getItem("tempinfo")==null)
-    //document.querySelector('my-app').setPage("No Item","page1","");
-    else if(sessionStorage.getItem("info")!=""||sessionStorage.getItem("info")!=null||sessionStorage.getItem("tempinfo")!="tempuser")
+    }
+    else if(sessionStorage.getItem("info")!=""||sessionStorage.getItem("info")!=null)
+    {
+    alert("user in view");
     document.querySelector('cart-service').viewcart();
+    }
 
     },
     setCount:function(cnt)

@@ -153,24 +153,26 @@ border-radius: 50px;
       }
       if(this.cnt>=1)
       {
-      document.querySelector('my-app').name();
-      alert("Valid user");
+      sessionStorage.setItem("tempinfo","");
       sessionStorage.setItem("info",this.name);
+      document.querySelector('my-app').name(this.name,"");
+      alert("Valid user");
       var id = 'logindialog';
 	  var dialog = document.getElementById(id);
       dialog.opened=false;
       var cartuser=sessionStorage.getItem("cartinfo");
+
       if(this.name=="Admin")
 	  {
 	  //alert('admin');
 	  window.location.href="adminindex.html";
       }
-      if(cartuser=="1")
+      /*if(cartuser=="1")
       {
       //alert("go");
       sessionStorage.setItem("cartinfo","0");
       document.querySelector('item-card').addtocart();
-      }
+      }*/
       /*else
       {
       document.querySelector('my-app').setPage("category","page1","Home");

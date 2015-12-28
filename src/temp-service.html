@@ -7,6 +7,21 @@
 <template>
 <!--Adding items to cart-->
  <iron-ajax
+       	      id="tempseqajax"
+       	      url="http://zencouch-zencodoo.rhcloud.com/grocery/8f3295bc5141632fc9ec3df17f0005bb"
+       	      handle-as="json"
+       	      content-type="application/json"
+              on-response="tempseqResponse"
+              debounce-duration="300">
+  <iron-ajax
+           method="POST"
+           id="tempseqnowriteajax"
+           url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+           body=""
+           handle-as="json"
+         content-type="application/json"></iron-ajax>
+
+ <iron-ajax
      	    id="addtotempcartajax"
      	    url="{{url}}"
      	    handle-as="json"
@@ -76,10 +91,34 @@
        var offerlist=[];
        var offerarr=[];
 var viewcartitem=[];
+var tempid;
+var revid;
+
     Polymer({
             is: "temp-service",
             ready:function()
 	        {
+	        },
+	        tempseqservice:function()
+	        {
+	        this.$.tempseqajax.generateRequest();
+	        },
+	        tempseqResponse:function(e){
+	        tempid=e.detail.response._id;
+	        revid=e.detail.response._rev;
+	        //this.tempseqno=e.detail.response.tempseqno;
+	        //alert(JSON.stringify(e.detail.response.tempseqno));
+	        this.tempseqno=parseInt(e.detail.response.tempseqno)+1;
+	        var obj={"_id": "","_rev":"","tempseqno":""};
+			obj._id=tempid;
+			obj._rev=revid;
+            obj.tempseqno=this.tempseqno;
+            //alert(JSON.stringify(obj.tempseqno));
+		    this.$.tempseqnowriteajax.body=JSON.stringify(obj);
+	        this.$.tempseqnowriteajax.generateRequest();
+	        //alert("written!");
+	        sessionStorage.setItem("tempinfo","tempuser"+this.tempseqno);
+
 	        },
             addtotempcartResponse:function(e)
             {
@@ -88,6 +127,7 @@ var viewcartitem=[];
            for(var n=0;n<this.itemlist.rows.length;n++)
            {
            itemval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
+
            itemval.type=this.itemlist.rows[n].value.type;
    		   itemval.category=this.itemlist.rows[n].value.category;
    		   itemval.itemid=this.itemlist.rows[n].value.itemid;
@@ -111,7 +151,6 @@ var viewcartitem=[];
             },
             addtotempcartservice:function(itemid,name,quant,tot)
             {
-
            quantity=quant;
            total=tot;
 		   this.itemid=JSON.stringify(itemid);
@@ -150,6 +189,7 @@ var viewcartitem=[];
 		              confirmflag=1;
 		              else
 		              confirmflag=0;
+
            				tempval.type=this.addtocart[i].cartitem[j].type;
    		   				tempval.category=this.addtocart[i].cartitem[j].category;
    		   				tempval.itemid=this.addtocart[i].cartitem[j].itemid;
@@ -235,10 +275,12 @@ var viewcartitem=[];
 			            {
 			            if(this.itemview[i].cartitem.length>0)
 			            {
+			            alert("yes item thr...");
 			            flag="1";
 			            for(var j=0;j<this.itemview[i].cartitem.length;j++)
 						{
 		                var tempval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","actualprice":"","offer":"","flag":"","brand":"","status":"","quantity":"","quantity1":"","total":"","cartstatus":""};
+
 			            tempval.type=this.itemview[i].cartitem[j].type;
 						tempval.category=this.itemview[i].cartitem[j].category;
 						tempval.itemid=this.itemview[i].cartitem[j].itemid;
@@ -269,6 +311,7 @@ var viewcartitem=[];
 			            }
 			            if(flag=="0")
 			            {
+			            alert("No items found...");
 			             document.querySelector('my-app').setPage("No Item","page1","");
 			            }
 
