@@ -153,7 +153,7 @@ border-radius: 50px;
       }
       if(this.cnt>=1)
       {
-      sessionStorage.setItem("tempinfo","");
+     // sessionStorage.setItem("tempinfo","");
       sessionStorage.setItem("info",this.name);
       document.querySelector('my-app').name(this.name,"");
       alert("Valid user");
@@ -161,11 +161,18 @@ border-radius: 50px;
 	  var dialog = document.getElementById(id);
       dialog.opened=false;
       var cartuser=sessionStorage.getItem("cartinfo");
-
+      var tempinfo=sessionStorage.getItem("tempinfo");
+      alert(JSON.stringify(tempinfo));
       if(this.name=="Admin")
 	  {
 	  //alert('admin');
 	  window.location.href="adminindex.html";
+      }
+       if(tempinfo!="")
+	        {
+	        alert('hi');
+	         //sessionStorage.setItem("tempinfo","0");
+	         document.querySelector('temp-service').temptocart();
       }
       /*if(cartuser=="1")
       {

@@ -232,16 +232,17 @@
 	alert("no user in view");
 	document.querySelector('my-app').setPage("No Item","page1","");
 	}
+	 else if(sessionStorage.getItem("info")!=""||sessionStorage.getItem("info")!=null)
+	    {
+	    alert("user in view");
+	    document.querySelector('cart-service').viewcart();
+    }
     else if((sessionStorage.getItem("tempinfo")!=""||sessionStorage.getItem("tempinfo")!=null))
     {
     alert("temp user in view");
     document.querySelector('temp-service').viewcart();
     }
-    else if(sessionStorage.getItem("info")!=""||sessionStorage.getItem("info")!=null)
-    {
-    alert("user in view");
-    document.querySelector('cart-service').viewcart();
-    }
+
 
     },
     setCount:function(cnt)

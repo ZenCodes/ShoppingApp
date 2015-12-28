@@ -81,6 +81,38 @@
 		 on-response="tempcountResponse"
 		 debounce-duration="300">
   </iron-ajax>
+  <!-- temp cart to user cart-->
+   <iron-ajax
+           	      id="tempcarttouserreadajax"
+           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/a32dbfc687a6533f13d86d8235000c66"
+           	      handle-as="json"
+           	      content-type="application/json"
+                  on-response="tempcarttouserreadResponse"
+                debounce-duration="300"></iron-ajax>
+                <iron-ajax
+  			          method="POST"
+  			          id="tempcartwriteajax"
+  			          url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+  			          body=""
+  			          handle-as="json"
+  			          content-type="application/json">
+   </iron-ajax>
+                <iron-ajax
+  			         	      id="addtocartreadajax"
+  			         	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+  			         	      handle-as="json"
+  			         	      content-type="application/json"
+  			                on-response="addtocartreadResponse"
+  			                debounce-duration="300">
+   </iron-ajax>
+   <iron-ajax
+           method="POST"
+           id="addtocartwriteajax"
+           url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+           body=""
+           handle-as="json"
+          content-type="application/json">
+        </iron-ajax>
  </template>
 <script>
   (function() {
@@ -93,6 +125,7 @@
 var viewcartitem=[];
 var tempid;
 var revid;
+var cartitem=[];
 
     Polymer({
             is: "temp-service",
@@ -388,6 +421,63 @@ this.counter+=parseInt(cnt.rows[c].value);
 }
 document.querySelector('my-app').setCount(this.counter);
 //alert(this.counter);
+},
+//tempcart to user cart
+temptocart:function(e)
+{
+this.$.tempcarttouserreadajax.generateRequest();
+},
+tempcarttouserreadResponse:function(e)
+{
+
+var tempinfo=sessionStorage.getItem("tempinfo");
+      alert(JSON.stringify(tempinfo));
+//alert(JSON.stringify(e.detail.response));
+var tempcart=[];
+tempcart=e.detail.response.addtocart;
+for(var i=0;i<tempcart.length;i++)
+{
+if(tempcart[i].name==tempinfo)
+{
+cartitem=tempcart[i].cartitem;
+//alert(JSON.stringify(cartitem));
+tempcart[i].cartitem=[];
+}
+}
+ var obj={"_id": "","_rev":"","addtocart":""};
+					              obj._id=e.detail.response._id;
+								  obj._rev=e.detail.response._rev;
+						          obj.addtocart=tempcart;
+								  this.$.tempcartwriteajax.body=JSON.stringify(obj);
+								  this.$.tempcartwriteajax.generateRequest();
+
+this.$.addtocartreadajax.generateRequest();
+},
+addtocartreadResponse:function(e)
+{
+//alert('sd');
+this._id=e.detail.response._id;
+this._rev=e.detail.response._rev;
+this.cartlist=[];
+var user=sessionStorage.getItem("info");
+this.cartlist=e.detail.response.addtocart;
+for(var i=0;i<this.cartlist.length;i++)
+            {
+            if(this.cartlist[i].name==user)
+            {
+            for(var k=0;k<cartitem.length;k++)
+            this.cartlist[i].cartitem.push(cartitem[k]);
+            }
+            }
+            sessionStorage.setItem("tempinfo","");
+              var obj={"_id": "","_rev":"","addtocart":""};
+					              obj._id=this._id;
+								  obj._rev=this._rev;
+						          obj.addtocart=this.cartlist;
+								  this.$.addtocartwriteajax.body=JSON.stringify(obj);
+
+					  this.$.addtocartwriteajax.generateRequest();
+
 }
 });
 })();
