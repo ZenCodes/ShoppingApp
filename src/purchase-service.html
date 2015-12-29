@@ -3,6 +3,32 @@
 <dom-module id="purchase-service">
 
   <template>
+  <!--read the shipping address-->
+   <iron-ajax
+           	      id="readshippingajax"
+           	       url="{{name}}"
+		  	      body=""
+           	      handle-as="json"
+           	      content-type="application/json"
+                  on-response="readshippingResponse"
+                  debounce-duration="300">
+   </iron-ajax>
+   <iron-ajax
+              	      id="writeshippingajax"
+              	       url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7"
+
+              	      handle-as="json"
+              	      content-type="application/json"
+                     on-response="writeshippingResponse"
+                     debounce-duration="300">
+   </iron-ajax>
+    <iron-ajax
+              method="POST"
+              id="rewriteshippingajax"
+              url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+              body=""
+              handle-as="json"
+      content-type="application/json"></iron-ajax>
   <!--display the purchased item of particular user-->
    <iron-ajax
          	      id="purchaseajax"
@@ -42,12 +68,91 @@
  </template>
 
   <script>
+  (function() {
+  var name;
+  var pincode;
+  var address;
+  var landmark;
+  var city;
+  var state;
+  var country;
+  var phone;
    Polymer({
             is: "purchase-service",
              ready:function()
 	    	        {
 
 
+	        },
+	        //check the shipping address of the user
+	        shipping:function()
+	        {
+	         var uname=JSON.stringify(sessionStorage.getItem("info"));
+	        this.name="http://zencouch-zencodoo.rhcloud.com/grocery/_design/shippingdesign/_view/shippingview?key="+uname;
+	        this.$.readshippingajax.generateRequest();
+	        },
+	        readshippingResponse:function(e)
+	        {
+	        var address=[];
+	        address=e.detail.response.rows[0].value[0];
+	        //alert(JSON.stringify(e.detail.response.rows[0].value[0]));
+	        if(address==null)
+	        {
+	        //alert('no');
+	        document.querySelector('my-app').setPage("shipping card","page1","");
+	        }
+	        else
+	        {
+	        document.querySelector('shipping-card').shipvalue(address);
+		   document.querySelector('my-app').setPage("shipping card","page1","");
+	        //alert(JSON.stringify(e.detail.response.rows[0].value[0]));
+
+	        }
+	        },
+	        shippingwrite:function(nm,pin,addr,land,cty,st,ctry,ph)
+	        {
+	        name=nm;
+	        pincode=pin;
+	        address=addr;
+	        landmark=land;
+	        city=cty;
+	        state=st;
+	        country=ctry;
+	        phone=ph;
+this.$.writeshippingajax.generateRequest();
+	        },
+	        writeshippingResponse:function(e)
+	        {
+	        this.id=e.detail.response._id;
+	        this.rev=e.detail.response._rev;
+	        var shipval={"name":"","pincode":"","address":"","landmark":"","city":"","state":"","country":"","phone":""};
+	        shipval.name=name;
+	        shipval.pincode=pincode;
+	        shipval.address=address;
+	        shipval.landmark=landmark;
+	        shipval.city=city;
+	        shipval.state=state;
+	        shipval.country=country;
+	        shipval.phone=phone;
+	        var userinfo=[];
+	        userinfo=e.detail.response.user;
+	        var uname=sessionStorage.getItem("info");
+	        for(var i=0;i<userinfo.length;i++)
+	        {
+	        //alert(JSON.stringify(uname));
+	        if(userinfo[i].name==uname)
+	        {
+	        userinfo[i].shippingaddress=[];
+          userinfo[i].shippingaddress.push(shipval);
+	        //alert(JSON.stringify('ji'+userinfo[i].name));
+	        }
+	        }
+var obj={"_id": "","_rev":"","user":""};
+obj._id=this.id;
+obj._rev=this.rev;
+obj.user=userinfo;
+this.$.rewriteshippingajax.body=JSON.stringify(obj);
+              this.$.rewriteshippingajax.generateRequest();
 	        },
             //display the purchased item of particular user
 	    purchaseService:function()
@@ -228,5 +333,6 @@
 	                }
 }
  });
+ })();
   </script>
 </dom-module>

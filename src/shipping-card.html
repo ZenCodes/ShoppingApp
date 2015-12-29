@@ -1,0 +1,108 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="view-card.html">
+<link rel="import" href="app-service.html">
+<dom-module id="shipping-card">
+
+
+  <template>
+  <style>
+
+.card
+  	{
+  	width: 60%;
+  	      margin-top: 70px;
+  		 display: inline-block;
+ @apply(--layout-center);
+          border-radius: 2px;
+          box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+
+          background-color: white;
+        }
+
+  .content
+  {
+   @apply(--layout-center);
+  width: 55%;
+  height: auto;
+  padding: 30px;
+  //margin-left: auto;
+  //margin-top:60px;
+  }
+  .in{
+ // top:40px;
+  width: 70%;
+  font-family:'Calibri';
+  text-transform: none;
+  font-size: 18px;
+  background-color:rgb(51, 214, 173);
+  color: white;
+  height: 40px;
+  left: -5px;
+  font-weight: bold;
+  margin-top: 20px;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  }
+.clear{
+//left:150px:
+//top: -70px;
+background-color:rgb(51, 214, 173);
+border-radius: 50px;
+}
+.signin
+{
+font-size: 18px;
+padding:5px;
+}
+  </style>
+
+
+   	<div class="card" layout wrap>
+   	  <div class="content" layout vertical>
+   	   <!--<template  is="dom-repeat" if="{{itemarr}}" as="addr">-->
+   	    <paper-input label="Name" value="{{name}}" id="p1" required auto-validate error-message="needs username!"></paper-input>
+   		<paper-input label="Pincode"  value="{{pincode}}" required auto-validate error-message="password should contain only letters!"></paper-input>
+   		<paper-input label="Address"  value="{{address}}" required auto-validate error-message="password should contain only letters!"></paper-input>
+   		<paper-input label="LandMark" value="{{landmark}}" ></paper-input>
+   		<paper-input label="City"  value="{{city}}" required auto-validate error-message="password should contain only letters!"></paper-input>
+   		<paper-input label="State"  value="{{state}}" required auto-validate error-message="password should contain only letters!"></paper-input>
+   		<paper-input label="Country"  value="{{country}}" required auto-validate error-message="password should contain only letters!"></paper-input>
+   		<paper-input label="Phone"  value="{{phone}}" required auto-validate error-message="password should contain only letters!"></paper-input>
+   		<!--</template>-->
+   		<div class="sign"><paper-button class="in" on-click="save">save</paper-button></div>
+
+   	</div></div>
+
+  </template>
+     <script>
+
+    Polymer({
+    is: "shipping-card",
+	      ready:function()
+	      {
+	      //alert('viewcart');
+	      //this.totprice="Rs 0";
+      },
+      save:function()
+      {
+      document.querySelector('purchase-service').shippingwrite(this.name,this.pincode,this.address,this.landmark,this.city,this.state,this.country,this.phone);
+      },
+      shipvalue:function(val)
+      {
+      alert(JSON.stringify(val[0].name));
+      this.name=val[0].name;
+      this.pincode=val[0].pincode;
+      this.address=val[0].address;
+      this.landmark=val[0].landmark;
+      this.city=val[0].city;
+     this.state=val[0].state;
+   this.country=val[0].country;
+    this.phone=val[0].phone;
+      }
+        });
+	    </script>
+
+</dom-module>
