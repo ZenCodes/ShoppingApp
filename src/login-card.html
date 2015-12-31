@@ -163,16 +163,24 @@ border-radius: 50px;
       var cartuser=sessionStorage.getItem("cartinfo");
       var tempinfo=sessionStorage.getItem("tempinfo");
       alert(JSON.stringify(tempinfo));
+      document.querySelector('cart-service').countservice();
       if(this.name=="Admin")
 	  {
 	  //alert('admin');
 	  window.location.href="adminindex.html";
       }
-       if(tempinfo!="")
+      if(tempinfo!="")
+      {
+       if(tempinfo!=null)
 	        {
 	        alert('hi');
 	         //sessionStorage.setItem("tempinfo","0");
 	         document.querySelector('temp-service').temptocart();
+	         if(sessionStorage.getItem("proceedinfo")=="1")
+	         {
+	         document.querySelector('purchase-service').shipping();
+	         }
+      }
       }
       /*if(cartuser=="1")
       {

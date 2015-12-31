@@ -179,10 +179,14 @@
 	this.countvalue="0";
 	this.bname="Signin";
 	}
-	else if(tempnamee!=""||tempnamee!=null){
+	else if(tempnamee!="")
+	{
+	if(tempnamee!=null)
+	{
 	alert("temp user");
 	this.bname="Signin";
 	this.$.tempservice.tempcountservice();
+  	}
   	}
 	else if(namee!=""||namee!=null)
 	{
@@ -231,22 +235,28 @@
     },
     viewcart:function()
     {
-    if((namee==""||namee==null)&&(tempnamee==""||tempnamee==null))
-	{
-	alert("no user in view");
-	document.querySelector('my-app').setPage("No Item","page1","");
-	}
-	 else if(sessionStorage.getItem("info")!=""||sessionStorage.getItem("info")!=null)
+
+	  if(sessionStorage.getItem("info")!="")
+	  {
+	  if(sessionStorage.getItem("info")!=null)
 	    {
 	    alert("user in view");
 	    document.querySelector('cart-service').viewcart();
     }
-    else if((sessionStorage.getItem("tempinfo")!=""||sessionStorage.getItem("tempinfo")!=null))
+    }
+    else if(sessionStorage.getItem("tempinfo")!="")
+    {
+  if(sessionStorage.getItem("tempinfo")!=null)
     {
     alert("temp user in view");
     document.querySelector('temp-service').viewcart();
     }
-
+    }
+else
+	{
+	alert("no user in view");
+	document.querySelector('my-app').setPage("No Item","page1","");
+	}
 
     },
     setCount:function(cnt)
