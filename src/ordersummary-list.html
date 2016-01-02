@@ -1,0 +1,83 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="ordersummary-card.html">
+<link rel="import" href="cart-service.html">
+<dom-module id="ordersummary-list">
+
+  <template>
+<style is="custom-style">
+#card{
+ margin-top: 20px;
+}
+.proceed
+{
+ margin-top:10px;
+ width: 97%;
+  font-family:'Calibri';
+  text-transform: none;
+  font-size: 16px;
+  background-color:rgb(51, 214, 173);
+  color: white;
+  height: 30px;
+  //left: -5px;
+  //font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+}
+.conti
+{
+ margin-top:-10px;
+  width: 97%;
+  font-family:'Calibri';
+  text-transform: none;
+  font-size: 16px;
+  background-color:rgb(51, 214, 173);
+  color: white;
+  height: 30px;
+  //left: 5px;
+  //font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+
+}
+.b1
+{
+@apply(--layout-vertical);
+@apply(--layout-center);
+}
+.cardtemplate{
+margin-top:-10px;
+}
+</style>
+    <div id="card">
+
+<div class="cardtemplate">
+  <cart-service itemarr="{{itemarr}}"></cart-service>
+  <template  is="dom-repeat" items="{{itemarr}}" as="view">
+  <ordersummary-card img="{{view.img}}" actualprice="{{view.actualprice}}" quantity1="{{view.quantity1}}" price="{{view.price}}" unit="{{view.unit}}" name="{{view.name}}" quantity="{{view.quantity}}" total="{{view.total}}">
+  </ordersummary-card>
+  </template>
+</div >
+<paper-item style="margin-top: 0px; margin-left:20px;font-size: 20px;width:30%;float:right;">TOTAL:{{total}}</paper-item>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "ordersummary-list",
+      ready:function()
+      {
+      //alert('viewcart');
+      this.total=0;
+       //this.total+=parseInt(view.price);
+      },
+      summarytotal:function(tot)
+      {
+      this.total=tot;
+      }
+
+    });
+  </script>
+
+</dom-module>

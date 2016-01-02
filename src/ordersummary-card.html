@@ -10,13 +10,16 @@
 <link rel="import" href="cart-service.html">
 <link rel="import" href="temp-service.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<dom-module id="view-card">
+<dom-module id="ordersummary-card">
 <template>
  <style is="custom-style">
  .card{
  @apply(--layout-horizontal);
  @apply(--layout-center);
  position: relative;
+ border-radius: 2px;
+ box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+
  }
  .imag{
  width : 30%;
@@ -29,7 +32,7 @@
  }
  .detail{
  width: 100%;
- @apply(--layout-vertical);
+  @apply(--layout-horizontal);
  }
  .r1,.r2{
  @apply(--layout-horizontal);
@@ -41,35 +44,17 @@
   margin-top : 10px;
  }
  </style>
-  <fieldset class="field">
-  <legend align="left">{{name}}</legend>
+
   <div class="card">
   <div class="imag"><img src="{{img}}"/></div>
   <div class="detail">
-  <div class="r1">
-   <paper-dropdown-menu class="dropdown" label="{{unit}}" no-label-float id="{{actualprice}}">
-        <paper-menu class="dropdown-content" on-iron-select="select" valueattr="value">
-        <paper-item value="1">1</paper-item>
-        <paper-item value="2">2</paper-item>
-        <paper-item value="3">3</paper-item>
-        <paper-item value="4">4</paper-item>
-        <paper-item value="5">5</paper-item>
-        </paper-menu>
-   </paper-dropdown-menu>
-   <div style="height:40px;">
-   <!--<paper-item style="text-decoration: line-through;margin-left:10px;color:red;"><span style="color:black;">{{price}}</span></paper-item><br>-->
-   <paper-item style="margin-top: 0px;">{{price}}</paper-item>
-   </div>
-   </div>
-   <div class="r2">
-   <paper-item>{{total}}</paper-item>
-   <!--<paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;" label="{{itemid}}">Add</paper-button>-->
-  <paper-icon-button icon="icons:done" on-click="save" style="margin-top:10px;margin-left:-10px;"></paper-icon-button>
-  <paper-icon-button icon="icons:delete" on-click="delete" style="margin-top:10px;"></paper-icon-button>
+   <paper-item style="margin-top: 0px;width:40%">{{name}}</paper-item>
+   <paper-item style="margin-top: 0px; width:20%">{{quantity}}</paper-item>
+   <paper-item style="margin-top: 0px; width:30%">Sub {{total}}</paper-item>
+  <div><paper-icon-button icon="icons:delete" on-click="delete" style="margin-top:0px;"></paper-icon-button></div>
   </div>
   </div>
-  </div>
-  </fieldset>
+
   <cart-service id="cartservice"></cart-service>
   <temp-service id="tempcartservice"></temp-service>
 
@@ -79,13 +64,9 @@
   (function() {
 
     Polymer({
-      is: "view-card",
+      is: "ordersummary-card",
       ready:function()
       {
-      },
-      select:function(e,detail){
-      var quantity=e.target.selectedItem.textContent;
-      this.total="Total: Rs "+parseInt(quantity)*parseInt(this.actualprice);
       },
       delete:function()
 	  {

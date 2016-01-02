@@ -22,13 +22,17 @@
   <style>
 #logindialog
 {
-top:60px;
+margin-top: 70px;
 width: 300px;
+display: inline-block;
+@apply(--layout-center);
+          border-radius: 2px;
+          box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
 }
 
 .in{
   //top:40px;
-  width: 100%;
+  width: 90%;
   font-family:'Calibri';
   text-transform: none;
   font-size: 18px;
@@ -42,7 +46,7 @@ width: 300px;
   .inr{
     top:10px;
     bottom:10px;
-    width: 100%;
+    width: 90%;
     font-family:'Calibri';
     text-transform: none;
     font-size: 18px;
@@ -76,19 +80,20 @@ border-radius: 50px;
    <!--<iron-media-query query="(min-width: 300px)" query-matches="{{queryMatches}}"></iron-media-query>
 
   <template is="dom-if" if="{{queryMatches}}">-->
-  <paper-dialog id="logindialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+ <!-- <paper-dialog id="logindialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>-->
  <iron-a11y-keys target="[[_target]]" keys="enter" on-keys-pressed="_test"></iron-a11y-keys>
-		  <div style="margin-left: 253px;margin-top:-15%;"><paper-icon-button icon="clear" class="clear" on-click="close"></paper-icon-button></div>
-		  <div class="card-img">
+		 <!-- <div style="margin-left: 253px;margin-top:-15%;"><paper-icon-button icon="clear" class="clear" on-click="close"></paper-icon-button></div>-->
+		 <div id="logindialog">
+		 <div class="card-img">
 
 		  <img src="profile.png" height="80px" width="90px"></img>
 		  </div>
 
-		  <div style="margin-top: -10px;"><paper-input label="Username" value="{{name}}" required auto-validate error-message="needs username!"></paper-input></div>
-		   <!-- <paper-input label="Username" value="{{name}}">
-			  <paper-icon-button prefix icon="clear"></paper-icon-button>
-			</paper-input>-->
-			<div style="margin-top: -10px;"><paper-input label="Password" type="password" value="{{pass}}" required auto-validate error-message="needs password!">
+		  <div style="margin-top: -10px;">
+		  <paper-input label="Username" value="{{name}}" required auto-validate error-message="needs username!"></paper-input></div>
+
+			<div style="margin-top: -10px;">
+			<paper-input label="Password" type="password" value="{{pass}}" required auto-validate error-message="needs password!">
 			  <!--<paper-icon-button prefix icon="clear"></paper-icon-button>-->
 			</paper-input></div>
 			<div class="linkk">
@@ -99,9 +104,8 @@ border-radius: 50px;
 			<!--</div>-->
 			<a href="#" style="margin-top: 15px;">Forgot Password?</a>
 			</div>
-
-	</paper-dialog>
-	<register-card id="reg"></register-card>
+</div>
+	<!--</paper-dialog>-->
 
 	<iron-ajax
 	      id="ajax"
@@ -124,14 +128,14 @@ border-radius: 50px;
       },
       signin:function()
       {
-       var id = 'logindialog';
+       /*var id = 'logindialog';
        var dialog = document.getElementById(id);
        if(dialog.opened==false)
        {
        alert('open');
        dialog.open();
 
-       }
+       }*/
       },
       login:function()
       {
@@ -157,9 +161,9 @@ border-radius: 50px;
       sessionStorage.setItem("info",this.name);
       document.querySelector('my-app').name(this.name,"");
       alert("Valid user");
-      var id = 'logindialog';
+     /* var id = 'logindialog';
 	  var dialog = document.getElementById(id);
-      dialog.opened=false;
+      dialog.opened=false;*/
       var cartuser=sessionStorage.getItem("cartinfo");
       var tempinfo=sessionStorage.getItem("tempinfo");
       alert(JSON.stringify(tempinfo));
@@ -181,6 +185,8 @@ border-radius: 50px;
 	         document.querySelector('purchase-service').shipping();
 	         }
       }
+        document.querySelector('my-app').setPage("category","page1","Home");
+      document.querySelector('app-service').setCategory("Home");
       }
       /*if(cartuser=="1")
       {
@@ -201,19 +207,20 @@ border-radius: 50px;
       },
       register:function()
       {
-      var id = 'logindialog';
+      /*var id = 'logindialog';
 	  var dialog = document.getElementById(id);
-      dialog.opened=false;
+      dialog.opened=false;*/
+      document.querySelector('my-app').setPage("register card","page1","");
       this.$.reg.register();
       },
       close:function()
       {
-      var id = 'logindialog';
+      /*var id = 'logindialog';
 	  var dialog = document.getElementById(id);
 	  if(dialog.opened==true)
 	  {
       dialog.opened=false;
-      }
+      }*/
       },
       _test:function()
       {

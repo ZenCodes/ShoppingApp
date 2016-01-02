@@ -224,7 +224,7 @@ var viewcartitem=[];
 			{
 			viewcartitem=[];
 			var flag="0";
-
+ var tot=0;
 			this.itemview=[];
 			this.itemview=e.detail.response.addtocart;
 			var uname=JSON.stringify(sessionStorage.getItem("info"));
@@ -235,6 +235,7 @@ var viewcartitem=[];
 			            if(this.itemview[i].cartitem.length>0)
 			            {
 			            flag="1";
+
 			            for(var j=0;j<this.itemview[i].cartitem.length;j++)
 						{
 		                var tempval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","actualprice":"","offer":"","flag":"","brand":"","status":"","quantity":"","quantity1":"","total":"","cartstatus":""};
@@ -254,7 +255,9 @@ var viewcartitem=[];
 						tempval.quantity1=parseInt(this.itemview[i].cartitem[j].quantity)-1;
 						tempval.total="Total: Rs "+this.itemview[i].cartitem[j].total;
    		   				tempval.cartstatus=this.itemview[i].cartitem[j].cartstatus;
+   		   				tot+=parseInt(this.itemview[i].cartitem[j].total);
    		   				viewcartitem.push(tempval);
+
 			            }
 			            }
 			            }
@@ -262,9 +265,20 @@ var viewcartitem=[];
 			            if(flag=="1")
 			            {
 			            alert("Loading items......");
-						document.querySelector('my-app').setPage("view card","page1","view card");
+			            if(sessionStorage.getItem("ordersummary")=="1")
+			            {
+			            sessionStorage.setItem("ordersummary","0");
+						document.querySelector('my-app').setPage("summary card","page1","summary");
+						document.querySelector('ordersummary-list').itemarr=viewcartitem;
+						document.querySelector('ordersummary-list').summarytotal(tot);
+			            document.querySelector('ordersummary-list').reload;
+			            }
+			            else
+			            {
+			            document.querySelector('my-app').setPage("view card","page1","view card");
 						document.querySelector('viewcart-list').itemarr=viewcartitem;
 			            document.querySelector('viewcart-list').reload;
+			            }
 			            }
 			            if(flag=="0")
 			            {

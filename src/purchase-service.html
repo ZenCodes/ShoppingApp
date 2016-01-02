@@ -153,6 +153,8 @@ obj._rev=this.rev;
 obj.user=userinfo;
 this.$.rewriteshippingajax.body=JSON.stringify(obj);
               this.$.rewriteshippingajax.generateRequest();
+              sessionStorage.setItem("ordersummary","1");
+              document.querySelector('cart-service').viewcart();
 	        },
             //display the purchased item of particular user
 	    purchaseService:function()
