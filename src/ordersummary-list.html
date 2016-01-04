@@ -49,6 +49,19 @@
 .cardtemplate{
 margin-top:-10px;
 }
+.in{
+  //top:40px;
+  width: 30%;
+  font-family:'Calibri';
+  text-transform: none;
+  font-size: 18px;
+  background-color:rgb(51, 214, 173);
+  color: white;
+  height: 40px;
+  float:right;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+  }
 </style>
     <div id="card">
 
@@ -59,7 +72,8 @@ margin-top:-10px;
   </ordersummary-card>
   </template>
 </div >
-<paper-item style="margin-top: 0px; margin-left:20px;font-size: 20px;width:30%;float:right;">TOTAL:{{total}}</paper-item>
+<paper-item style="margin-top: 0px;font-size: 20px; float:right;">TOTAL:{{total}}</paper-item>
+    <div class="sign"><paper-button class="in" on-click="save" >Proceed</paper-button></div>
     </div>
   </template>
 

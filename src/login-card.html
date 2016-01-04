@@ -32,7 +32,7 @@ display: inline-block;
 
 .in{
   //top:40px;
-  width: 90%;
+  width: 100%;
   font-family:'Calibri';
   text-transform: none;
   font-size: 18px;
@@ -46,7 +46,7 @@ display: inline-block;
   .inr{
     top:10px;
     bottom:10px;
-    width: 90%;
+    width: 100%;
     font-family:'Calibri';
     text-transform: none;
     font-size: 18px;
@@ -75,6 +75,15 @@ width: 100%;
 background-color:rgb(51, 214, 173);
 border-radius: 50px;
 }
+ .content
+  {
+  width: 65%;
+
+ // height: auto;
+  //padding: 30px;
+  margin-left: 50px;;
+  //margin-top:60px;
+  }
   </style>
 
    <!--<iron-media-query query="(min-width: 300px)" query-matches="{{queryMatches}}"></iron-media-query>
@@ -88,7 +97,7 @@ border-radius: 50px;
 
 		  <img src="profile.png" height="80px" width="90px"></img>
 		  </div>
-
+           <div class="content">
 		  <div style="margin-top: -10px;">
 		  <paper-input label="Username" value="{{name}}" required auto-validate error-message="needs username!"></paper-input></div>
 
@@ -103,6 +112,7 @@ border-radius: 50px;
 			<paper-button class="inr" on-click="register">New User?</paper-button>
 			<!--</div>-->
 			<a href="#" style="margin-top: 15px;">Forgot Password?</a>
+			</div>
 			</div>
 </div>
 	<!--</paper-dialog>-->
@@ -211,7 +221,7 @@ border-radius: 50px;
 	  var dialog = document.getElementById(id);
       dialog.opened=false;*/
       document.querySelector('my-app').setPage("register card","page1","");
-      this.$.reg.register();
+      //this.$.reg.register();
       },
       close:function()
       {

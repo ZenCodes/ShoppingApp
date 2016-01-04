@@ -196,11 +196,14 @@
 	this.$.tempservice.tempcountservice();
   	}
   	}
-	else if(namee!=""||namee!=null)
+    if(namee!="")
+	{
+	if(namee!=null)
 	{
 	alert("user");
     document.querySelector('cart-service').countservice();
     this.bname="Signout";
+    }
     }
     },
     setPage:function(page,bpage,title)

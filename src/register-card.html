@@ -26,14 +26,15 @@
  background-color: white;
 }
 
-  /*.content
+  .content
   {
   width: 65%;
-  height: auto;
-  padding: 30px;
-  //margin-left: auto;
+
+ // height: auto;
+  //padding: 30px;
+  margin-left: 50px;;
   //margin-top:60px;
-  }*/
+  }
   .in{
  // top:40px;
   width: 100%;
@@ -82,6 +83,10 @@ padding:5px;
 	<div style="margin-left: 253px;margin-top:-17px;"><paper-icon-button icon="clear" class="clear" on-click="close"></paper-icon-button></div>-->
 	<div id="registerdialog">
 	<div class="card" layout wrap>
+	<div class="card-img">
+
+			  <img src="userreg.jpg" height="80px" width="90px"></img>
+		  </div>
 	  <div class="content" layout vertical>
 	    <paper-input label="Username" value="{{name}}" id="p1" required auto-validate error-message="needs username!"></paper-input>
 		<paper-input label="Password" type="password"  pattern="[a-zA-Z]*" value="{{pass}}" required auto-validate error-message="password should contain only letters!"></paper-input>
