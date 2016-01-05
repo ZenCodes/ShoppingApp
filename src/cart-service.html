@@ -268,7 +268,7 @@ var viewcartitem=[];
 			            if(sessionStorage.getItem("ordersummary")=="1")
 			            {
 			            sessionStorage.setItem("ordersummary","0");
-						document.querySelector('my-app').setPage("summary card","page1","summary");
+						document.querySelector('my-app').setPage("summary card","page1","Order Summary");
 						document.querySelector('ordersummary-list').itemarr=viewcartitem;
 						document.querySelector('ordersummary-list').summarytotal(tot);
 			            document.querySelector('ordersummary-list').reload;
@@ -336,9 +336,10 @@ this.$.deleteupdatewriteajax.body=JSON.stringify(this.writedeletedupdate);
 this.$.deleteupdatewriteajax.generateRequest();
 alert("Item deleted!");
 document.querySelector('cart-service').countservice();
+
 document.querySelector('cart-service').viewcart();
-document.querySelector('my-app').setPage("view card","page1","view card");
-document.querySelector('viewcart-list').reload;
+//document.querySelector('my-app').setPage("view card","page1","view card");
+//document.querySelector('viewcart-list').reload;
 },
 //To load count of cart items
 countservice:function()

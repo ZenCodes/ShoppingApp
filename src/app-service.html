@@ -87,6 +87,14 @@
 	                debounce-duration="300">
  </iron-ajax>
   <iron-ajax
+  	         	      id="viewcartbuyreadajax"
+  	         	       url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+  	         	      handle-as="json"
+  	         	      content-type="application/json"
+  	                on-response="viewcartbuyreadResponse"
+  	                debounce-duration="300">
+ </iron-ajax>
+  <iron-ajax
  	         	      id="purchasereadajax"
  	         	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000b6c"
  	         	      handle-as="json"
@@ -337,13 +345,57 @@
             },
 
 
-
-//buy service
+//buy service from view card
+viewcartbuy:function()
+{
+sessionStorage.setItem("viewbuy","1");
+this.$.ordernoajax.generateRequest();
+ //this.$.viewcartbuyreadajax.generateRequest();
+},
+viewcartbuyreadResponse:function(e)
+{
+this.id=e.detail.response._id;
+this.header=e.detail.response._rev;
+this.ordernum;
+this.date;
+this.buylist=[];
+this.buyitem=[];
+this.buylist=e.detail.response.addtocart;
+//alert(JSON.stringify(e.detail.response.rows[0].value._id));
+var uname=JSON.stringify(sessionStorage.getItem("info"));
+for(var i=0;i<this.buylist.length;i++)
+            {
+            if(JSON.stringify(this.buylist[i].name)==uname)
+            {
+            for(var j=0;j<this.buylist[i].cartitem.length;j++)
+            {
+            this.buyitem.push(this.buylist[i].cartitem[j]);
+            }
+            //alert(JSON.stringify(this.buyitem));
+            this.ordernum=sessionStorage.getItem("orderid");
+            this.date=new Date();
+             list={"orderno":"","date":"","purchaseitem":""};
+             list.orderno=this.ordernum;
+             list.date=this.date;
+             list.purchaseitem=this.buyitem;
+             this.buylist[i].cartitem=[];
+            }
+            }
+           var obj={"_id": "","_rev":"","addtocart":""};
+            obj._id=this.id;
+            obj._rev=this.header;
+            obj.addtocart=this.buylist;
+            this.$.buywriteajax.body=JSON.stringify(obj);
+            this.$.buywriteajax.generateRequest();
+            this.$.purchasereadajax.generateRequest();
+},
+//buy service from item card
 buyservice:function(itemid,qty,tot)
 {
 total=tot;
 quantity=qty;
 var item=JSON.stringify(itemid);
+sessionStorage.setItem("itembuy","1");
 this.$.ordernoajax.generateRequest();
 this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/addtocartdesign/_view/addtocartview?key="+item;
 
@@ -362,7 +414,15 @@ ordernoResponse:function(e)
               obj.orderno=this.orderno;
               this.$.ordernowriteajax.body=JSON.stringify(obj);
               this.$.ordernowriteajax.generateRequest();
+              if(sessionStorage.getItem("itembuy")=="1")
+              {
                   this.$.buyreadajax.generateRequest();
+                  sessionStorage.setItem("itembuy","0");
+                  }
+                  else
+                  {
+                  this.$.viewcartbuyreadajax.generateRequest();
+                  }
 
 
 },

@@ -73,7 +73,7 @@ margin-top:-10px;
   </template>
 </div >
 <paper-item style="margin-top: 0px;font-size: 20px; float:right;">TOTAL:{{total}}</paper-item>
-    <div class="sign"><paper-button class="in" on-click="save" >Proceed</paper-button></div>
+    <div class="sign"><paper-button class="in" on-click="proceed" >Proceed</paper-button></div>
     </div>
   </template>
 
@@ -82,14 +82,17 @@ margin-top:-10px;
       is: "ordersummary-list",
       ready:function()
       {
-      //alert('viewcart');
-      this.total=0;
-       //this.total+=parseInt(view.price);
+
       },
       summarytotal:function(tot)
       {
       this.total=tot;
+      },
+      proceed:function()
+      {
+      document.querySelector('app-service').viewcartbuy();
       }
+
 
     });
   </script>

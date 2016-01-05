@@ -56,8 +56,6 @@
   </div>
 
   <cart-service id="cartservice"></cart-service>
-  <temp-service id="tempcartservice"></temp-service>
-
   </template>
   <script>
 
@@ -70,9 +68,7 @@
       },
       delete:function()
 	  {
-	  if(sessionStorage.getItem("tempinfo")=="tempuser")
-	  this.$.tempcartservice.tempcartitemdeleteservice(this.name);
-	  else
+	   sessionStorage.setItem("ordersummary","1");
 	  this.$.cartservice.cartitemdeleteservice(this.name);
       }
     });
