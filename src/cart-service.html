@@ -195,6 +195,12 @@ var viewcartitem=[];
 					  this.$.addtocartwriteajax.generateRequest();
 		              alert("Item Added!!");
 		              document.querySelector('cart-service').countservice();
+		              if(sessionStorage.getItem("itembuy")=="1")
+		              {
+		                sessionStorage.setItem("itembuy","0");
+		              document.querySelector('purchase-service').shipping();
+
+		              }
 		              }
 		              }
 		              if(flag=="0")
@@ -212,6 +218,12 @@ var viewcartitem=[];
 		             this.$.addtocartwriteajax.generateRequest();
 		             alert("Item Added!!");
 					 document.querySelector('cart-service').countservice();
+					 if(sessionStorage.getItem("itembuy")=="1")
+					 		              {
+					 		                sessionStorage.setItem("itembuy","0");
+					 		              document.querySelector('purchase-service').shipping();
+
+		                                  }
 		              }
             },
               //view cart of the user

@@ -453,8 +453,10 @@ for(var i=0;i<this.purchaselist.length;i++)
 			            obj.purchaseitem=this.purchaselist;
 			            this.$.purchasewriteajax.body=JSON.stringify(obj);
                         this.$.purchasewriteajax.generateRequest();
-                         //document.querySelector('my-app').setPage("view card","page1","view card");
+                        document.querySelector('cart-service').countservice();
+                         document.querySelector('my-app').setPage("order placed","page1","");
                          //document.querySelector('viewcart-list').reload;
+
                         }
                         else
                         {
@@ -470,6 +472,8 @@ for(var i=0;i<this.purchaselist.length;i++)
 						  obj1.purchaseitem=this.purchaselist;
 						this.$.purchasewriteajax.body=JSON.stringify(obj1);
                         this.$.purchasewriteajax.generateRequest();
+document.querySelector('cart-service').countservice();
+                        document.querySelector('my-app').setPage("order placed","page1","");
 
                         }
 },

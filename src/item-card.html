@@ -121,12 +121,15 @@ var user=sessionStorage.getItem("info");
 		    //alert('hi '+user);
             if(user==null||user=="")
             {
-
+ document.querySelector('my-app').setPage("login card","page1","");
+    document.querySelector('login-card').signin();
             }
             else
             {
             //alert(this.itemid);
-            document.querySelector('app-service').buyservice(this.itemid,parseInt(quantity),total);
+            sessionStorage.setItem("itembuy","1");
+            this.$.service.addtocartservice(this.itemid,name,parseInt(quantity),total);
+            //document.querySelector('app-service').buyservice(this.itemid,parseInt(quantity),total);
             }
       }
     });
