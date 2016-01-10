@@ -72,6 +72,7 @@ margin-top:-10px;
   </ordersummary-card>
   </template>
 </div >
+<a href="#" on-click="editaddress" style=" float:left;">Edit Shipping Address</a>
 <div class="sign"><paper-button class="in" on-click="proceed" >Proceed</paper-button></div>
 <paper-item style="margin-top: 0px;font-size: 20px; float:right;">TOTAL:{{total}}</paper-item>
 
@@ -92,6 +93,10 @@ margin-top:-10px;
       proceed:function()
       {
       document.querySelector('app-service').viewcartbuy();
+      },
+      editaddress:function()
+      {
+      document.querySelector('purchase-service').EditShippingAddress();
       }
 
 

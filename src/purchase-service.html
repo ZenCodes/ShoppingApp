@@ -14,6 +14,15 @@
                   debounce-duration="300">
    </iron-ajax>
    <iron-ajax
+              	      id="fetchshippingajax"
+              	       url="{{name}}"
+   		  	      body=""
+              	      handle-as="json"
+              	      content-type="application/json"
+                     on-response="fetchshippingResponse"
+                     debounce-duration="300">
+   </iron-ajax>
+   <iron-ajax
               	      id="writeshippingajax"
               	       url="http://zencouch-zencodoo.rhcloud.com/grocery/14db510c2ae64d02e32a5145d0000fb7"
 
@@ -103,11 +112,26 @@
 	        }
 	        else
 	        {
-	        document.querySelector('shipping-card').shipvalue(address);
-		   document.querySelector('my-app').setPage("shipping card","page1","");
+	           sessionStorage.setItem("ordersummary","1");
+              document.querySelector('cart-service').viewcart();
+	        //document.querySelector('shipping-card').shipvalue(address);
+		   //document.querySelector('my-app').setPage("shipping card","page1","");
 	        //alert(JSON.stringify(e.detail.response.rows[0].value[0]));
 
 	        }
+	        },
+	        EditShippingAddress:function()
+	        {
+	        var uname=JSON.stringify(sessionStorage.getItem("info"));
+		     this.name="http://zencouch-zencodoo.rhcloud.com/grocery/_design/shippingdesign/_view/shippingview?key="+uname;
+	        this.$.fetchshippingajax.generateRequest();
+	        },
+	        fetchshippingResponse:function(e)
+				        {
+		    var address=[];
+	        address=e.detail.response.rows[0].value[0];
+	        document.querySelector('shipping-card').shipvalue(address);
+		    document.querySelector('my-app').setPage("shipping card","page1","");
 	        },
 	        shippingwrite:function(nm,pin,addr,land,cty,st,ctry,ph)
 	        {
@@ -168,9 +192,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	    this.purchaseitem=[];
 	    this.purchaseitem=e.detail.response.purchaseitem;
 	    var flag="0";
-	    //alert(JSON.stringify(e.detail.response));
 	    var uname=JSON.stringify(sessionStorage.getItem("info"));
-	    //alert(uname);
 	     for(var i=0;i<this.purchaseitem.length;i++)
 	                {
 	                if(JSON.stringify(this.purchaseitem[i].name)==uname)
@@ -189,7 +211,6 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 
 	                if(flag=="1")
 	                {
-	                //alert(JSON.stringify(this.viewpurchase));
 	                document.querySelector('purchase-list').itemarr=this.viewpurchase;
 	                }
 	                else
@@ -211,15 +232,17 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	    this.threepurchase=[];
 	    this.purchaseitem=[];
 	     var array_last_three;
-	    this.purchaseitem=e.detail.response;
+	    this.purchaseitem=e.detail.response.purchaseitem;
 	    var flag="0";
-	    //alert(JSON.stringify(e.detail.response));
+
 	    var uname=JSON.stringify(sessionStorage.getItem("info"));
-	    //alert(uname);
+
 	     for(var i=0;i<this.purchaseitem.length;i++)
 	                {
+
 	                if(JSON.stringify(this.purchaseitem[i].name)==uname)
 	                {
+
 	                  flag="1";
 	                 array_last_three= this.purchaseitem[i].purchased.slice(-3);
 	    //alert(JSON.stringify(array_last_three));
@@ -249,7 +272,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	    var datediff;
 	    this.threepurchase=[];
 	    this.purchaseitem=[];
-	    this.purchaseitem=e.detail.response;
+	    this.purchaseitem=e.detail.response.purchaseitem;
 	    var flag="0";
 	    //alert(JSON.stringify(e.detail.response));
 	    var uname=JSON.stringify(sessionStorage.getItem("info"));
@@ -298,7 +321,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	    var datediff;
 	    this.sixpurchase=[];
 	    this.purchaseitem=[];
-	    this.purchaseitem=e.detail.response;
+	    this.purchaseitem=e.detail.response.purchaseitem;
 	    var flag="0";
 	    //alert(JSON.stringify(e.detail.response));
 	    var uname=JSON.stringify(sessionStorage.getItem("info"));
