@@ -101,6 +101,13 @@
       is: "purchase-card",
       ready:function()
       {
+      var dat=new Date(this.date);
+      this.d=dat.getDate();
+      this.mon=dat.getMonth()+1;
+      this.year=dat.getFullYear();
+       var newdate=this.d+"/"+this.mon+"/"+this.year;
+      this.date=newdate;
+     // alert(this.date);
  document.querySelector('app-service').setCategory("My previous purchases");
       },
       toggle: function() {

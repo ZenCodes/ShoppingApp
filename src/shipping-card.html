@@ -14,12 +14,11 @@
 .card
   	{
   	width: 300px;
-  	      margin-top: 70px;
+  	      margin-top: 60px;
   		 display: inline-block;
  @apply(--layout-center);
           border-radius: 2px;
           box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
-
           background-color: white;
         }
 
@@ -57,9 +56,22 @@ border-radius: 50px;
 font-size: 18px;
 padding:5px;
 }
+.card-img
+{
+font-family:Trebuchet MS;
+font-size: 18px;
+font-style: italic;
+padding:5px;
+ @apply(--layout-horizontal);
+ @apply(--layout-center);
+float:left;
+}
   </style>
-
-
+<div class="card-img">
+<img src="shipping.png" height="50px" width="50px">
+<p>Shipping Address</p>
+</img>
+</div>
    	<div class="card" layout wrap>
    	  <div class="content" layout vertical>
    	   <!--<template  is="dom-repeat" if="{{itemarr}}" as="addr">-->

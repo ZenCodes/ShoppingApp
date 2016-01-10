@@ -202,7 +202,12 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	     flag="1";
 	                for(var j=0;j<this.purchaseitem[i].purchased.length;j++)
 	                {
-
+	                 var dat=new Date(this.purchaseitem[i].purchased[j].date);
+					      this.d=dat.getDate();
+					      this.mon=dat.getMonth()+1;
+					      this.year=dat.getFullYear();
+                 var newdate=this.d+"/"+this.mon+"/"+this.year;
+                 this.purchaseitem[i].purchased[j].date=newdate;
 	                this.viewpurchase.push(this.purchaseitem[i].purchased[j]);
 	                }
 	                }
@@ -242,7 +247,15 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 
 	                if(JSON.stringify(this.purchaseitem[i].name)==uname)
 	                {
-
+              for(var j=0;j<this.purchaseitem[i].purchased.length;j++)
+	                {
+	                 var dat=new Date(this.purchaseitem[i].purchased[j].date);
+					      this.d=dat.getDate();
+					      this.mon=dat.getMonth()+1;
+					      this.year=dat.getFullYear();
+                 var newdate=this.d+"/"+this.mon+"/"+this.year;
+                 this.purchaseitem[i].purchased[j].date=newdate;
+                 }
 	                  flag="1";
 	                 array_last_three= this.purchaseitem[i].purchased.slice(-3);
 	    //alert(JSON.stringify(array_last_three));
@@ -293,6 +306,12 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                if(datediff<=3)
 	                {
 	                flag="1";
+	                var dat=new Date(this.purchaseitem[i].purchased[j].date);
+										      this.d=dat.getDate();
+										      this.mon=dat.getMonth()+1;
+										      this.year=dat.getFullYear();
+					                 var newdate=this.d+"/"+this.mon+"/"+this.year;
+                 this.purchaseitem[i].purchased[j].date=newdate;
 	                this.threepurchase.push(this.purchaseitem[i].purchased[j]);
 	                }
 	                }
@@ -341,6 +360,12 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                //alert(datediff);
 	                if(datediff<=6)
 	                {
+	                var dat=new Date(this.purchaseitem[i].purchased[j].date);
+										      this.d=dat.getDate();
+										      this.mon=dat.getMonth()+1;
+										      this.year=dat.getFullYear();
+					                 var newdate=this.d+"/"+this.mon+"/"+this.year;
+                 this.purchaseitem[i].purchased[j].date=newdate;
 	                flag="1";
 	                this.sixpurchase.push(this.purchaseitem[i].purchased[j]);
 	                }
