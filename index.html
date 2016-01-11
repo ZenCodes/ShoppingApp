@@ -41,6 +41,7 @@
           <link rel="import" href="src/temp-service.html">
           <link rel="import" href="src/count-service.html">
           <link rel="import" href="src/shipping-card.html">
+          <link rel="import" href="src/referfriend-card.html">
            <link rel="import" href="src/ordersummary-list.html">
 
   </head>
@@ -152,6 +153,9 @@
         	  <section data-category="shipping card">
 			  			    <shipping-card></shipping-card>
         	  </section>
+        	   <section data-category="refer card">
+			  			  			    <referfriend-card></referfriend-card>
+        	  </section>
         	   <section data-category="summary card">
 		       <ordersummary-list></ordersummary-list>
         	  </section>
@@ -181,7 +185,7 @@
     this.count="0";
     //Initially it has to show home label as a title and home page for that defaultly setting title as Home and iron page match category as category
   	this.title="Home";
-  	this.page="category";
+  	this.page="Category";
   	namee=sessionStorage.getItem("info");
   	tempnamee=sessionStorage.getItem("tempinfo");
   	alert("hi "+namee+"  "+"halo "+tempnamee);

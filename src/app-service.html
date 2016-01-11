@@ -142,7 +142,22 @@
 	                  debounce-duration="300">
 
  </iron-ajax>
+<iron-ajax
+	           	      id="referfriendajax"
+	           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/c7fd33bb3cc18579f97f37473b000a9c"
+	           	      handle-as="json"
+	           	      content-type="application/json"
+	                  on-response="referfriendResponse"
+	                  debounce-duration="300">
 
+ </iron-ajax>
+  <iron-ajax
+           method="POST"
+           id="writereferfriendajax"
+           url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+           body=""
+           handle-as="json"
+      content-type="application/json"></iron-ajax>
 
  </template>
 
@@ -156,6 +171,7 @@
        var offerarr=[];
        var myofferarr=[];
        var list;
+       var emailid;
     Polymer({
             is: "app-service",
             ready:function()
@@ -539,7 +555,37 @@ buyitem.cartstatus="purchased";
 			document.querySelector('item-list').itemarr=offeritems[0].item;
 			//alert(JSON.stringify(offeritems[0].items));
 			//alert(Math.floor(Math.random() * 5) + 10);
+            },
+            referfriend:function(email)
+            {
+            emailid={"eid":""};
+            emailid.eid=email;
+            this.$.referfriendajax.generateRequest();
+            },
+            referfriendResponse:function(e)
+            {
+            this.uname=sessionStorage.getItem("info");
+            this.friendarr=[];
+            this.id=e.detail.response._id;
+            this.rev=e.detail.response._rev;
+            this.friendarr=e.detail.response.user;
+            for(var i=0;i<this.friendarr.length;i++)
+            {
+            //alert('d');
+            if(this.friendarr[i].name==this.uname)
+            {
+            //alert('s');
+            this.friendarr[i].friend.push(emailid);
             }
+            }
+            alert(JSON.stringify(this.friendarr));
+             var obj={"_id": "","_rev":"","user":""};
+						            obj._id=this.id;
+						            obj._rev=this.rev;
+			            obj.user=this.friendarr;
+			            this.$.writereferfriendajax.body=JSON.stringify(obj);
+			            this.$.writereferfriendajax.generateRequest();
+			            }
 
     });
      })();
