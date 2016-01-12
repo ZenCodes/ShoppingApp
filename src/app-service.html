@@ -142,6 +142,7 @@
 	                  debounce-duration="300">
 
  </iron-ajax>
+ <!--fetch the data from the refer friend -->
 <iron-ajax
 	           	      id="referfriendajax"
 	           	      url="http://zencouch-zencodoo.rhcloud.com/grocery/c7fd33bb3cc18579f97f37473b000a9c"
@@ -556,6 +557,7 @@ buyitem.cartstatus="purchased";
 			//alert(JSON.stringify(offeritems[0].items));
 			//alert(Math.floor(Math.random() * 5) + 10);
             },
+            //refer friend
             referfriend:function(email)
             {
             emailid={"eid":""};
@@ -564,21 +566,30 @@ buyitem.cartstatus="purchased";
             },
             referfriendResponse:function(e)
             {
+            var f="0";
             this.uname=sessionStorage.getItem("info");
             this.friendarr=[];
             this.id=e.detail.response._id;
             this.rev=e.detail.response._rev;
             this.friendarr=e.detail.response.user;
+            var newuser;
             for(var i=0;i<this.friendarr.length;i++)
             {
-            //alert('d');
             if(this.friendarr[i].name==this.uname)
             {
-            //alert('s');
+            f="1";
             this.friendarr[i].friend.push(emailid);
             }
             }
-            alert(JSON.stringify(this.friendarr));
+            if(f=="0")
+            {
+            newuser={"name":"","friend":""};
+            newuser.name=this.uname;
+            newuser.friend=[];
+            newuser.friend.push(emailid);
+            this.friendarr.push(newuser);
+            }
+            //alert(JSON.stringify(this.friendarr));
              var obj={"_id": "","_rev":"","user":""};
 						            obj._id=this.id;
 						            obj._rev=this.rev;
