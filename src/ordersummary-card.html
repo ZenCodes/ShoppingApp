@@ -25,13 +25,13 @@
  width : 30%;
  }
  img{
- width : 80%;
+ width : 90%;
  }
  paper-item{
   width: 100%;
  }
  .detail{
- width: 100%;
+ width: 80%;
   @apply(--layout-horizontal);
  }
  .r1,.r2{
@@ -48,9 +48,9 @@
   <div class="card">
   <div class="imag"><img src="{{img}}"/></div>
   <div class="detail">
-   <paper-item style="margin-top: 0px;width:40%">{{name}}</paper-item>
-   <paper-item style="margin-top: 0px; width:20%">{{quantity}}</paper-item>
-   <paper-item style="margin-top: 0px; width:30%">Sub {{total}}</paper-item>
+   <paper-item style="margin-top: 0px;">{{name}}</paper-item>
+   <paper-item style="margin-top: 0px; ">{{quantity}}</paper-item>
+   <paper-item style="margin-top: 0px;">Rs:{{total}}</paper-item>
   <div><paper-icon-button icon="icons:delete" on-click="delete" style="margin-top:0px;"></paper-icon-button></div>
   </div>
   </div>

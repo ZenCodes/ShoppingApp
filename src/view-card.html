@@ -62,7 +62,7 @@
    </div>
    </div>
    <div class="r2">
-   <paper-item>{{total}}</paper-item>
+   <paper-item>Total: Rs {{total}}</paper-item>
    <!--<paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;" label="{{itemid}}">Add</paper-button>-->
   <paper-icon-button icon="icons:done" on-click="save" style="margin-top:10px;margin-left:-10px;"></paper-icon-button>
   <paper-icon-button icon="icons:delete" on-click="delete" style="margin-top:10px;"></paper-icon-button>
@@ -85,7 +85,7 @@
       },
       select:function(e,detail){
       var quantity=e.target.selectedItem.textContent;
-      this.total="Total: Rs "+parseInt(quantity)*parseInt(this.actualprice);
+      this.total=parseInt(quantity)*parseInt(this.actualprice);
       },
       delete:function()
 	  {
