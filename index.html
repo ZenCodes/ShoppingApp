@@ -74,7 +74,9 @@
   	}
       .title{
       margin-left:-30px;
+      font-size:10px;
       }
+
       .search{
       margin-top: 0px;
       }
@@ -82,6 +84,7 @@
       margin-top: 5px;
       margin-left: -10px;
       }
+
       </style>
   <template>
 
@@ -100,7 +103,7 @@
   	  <paper-header-panel main>
   	  <!-- Top Toolbar for label change-->
   	      <paper-toolbar>
-  	        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+  	        <div><paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button></div>
   			<div><paper-item class="title">{{title}}</paper-item></div>
   	        <div class="flex"></div>
   	    	<paper-button class="in" on-click="signin">{{bname}}</paper-button>
