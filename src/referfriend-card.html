@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="facebook-login.html">
 <link rel="import" href="view-card.html">
 <link rel="import" href="app-service.html">
 <dom-module id="referfriend-card">
@@ -74,6 +75,10 @@ width:45%;
 {
 @apply(--layout-vertical);
 }
+.b1
+{
+width:45%;
+}
 
   </style>
   <div layout vertical >
@@ -86,7 +91,7 @@ width:45%;
    	 <div class="c1"> <span id="p1">invite on facebook</span>
    	  <span id="p2">post to your wall</span></div>
    	  <div class="input1">
- <input value="{{fb}}"> <button is="paper-button" on-click="fbfriend" >Invite on facebook</button>
+ <input value="{{fb}}"><facebook-login appID="1130501530312645"></facebook-login>
  </div>
  <div class="c1">
  <span id="p1">Invite via Email</span>
@@ -94,6 +99,7 @@ width:45%;
  <div class="input1">
   <input is="iron-input" value="{{Email::input}}"  allowed-pattern="[!@#0-9]" > <button is="paper-button" on-click="email" >Invite Via Email</button></div>
 </div>
+
    	</div>
 </div>
   </template>
