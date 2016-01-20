@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+ <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="app-service.html">
 <link rel="import" href="purchase-service.html">
@@ -76,7 +77,8 @@
   <div class="r2">
   <h5 class="imag" style="color:black;padding-left:10%;">Name</h5>
  <h5 style="color:black;padding-left:10%;">Qty/price</h5>
-<h5 style="color:black;padding-left:7%;">Total</h5></div>
+<h5 style="color:black;padding-left:7%;">Total</h5><h5 style="color:black;padding-left:5%;"><paper-checkbox>select all</paper-checkbox></h5></div>
+
 </div>
 <div class="detail">
   <template  is="dom-repeat" items="{{purchaselist}}" as="view">
@@ -86,6 +88,7 @@
    <span style="color:black;">{{view.quantity}}</span>
    <span style="color:black;padding-left:1%;">{{view.unit}}/{{view.price}}</span>
    <span style="color:black; padding-left:5%;">{{view.total}}</span>
+    <span style="color:black; padding-left:5%;"><paper-checkbox  id="{{view.name}}" name="{{view.name}}"  on-change="changeHandler">select</paper-checkbox></span>
    </div>
    </div>
    <br/>
@@ -97,6 +100,8 @@
 
   </template>
   <script>
+   (function() {
+   var repurchase=[];
     Polymer({
       is: "purchase-card",
       ready:function()
@@ -111,12 +116,22 @@
  document.querySelector('app-service').setCategory("My previous purchases");
       },
       toggle: function() {
+
 	    this.$.collapse.toggle();
+},
+changeHandler:function(e)
+{
+var val=e.target.id;
+if(repurchase.indexOf(val)==-1)
+{
+repurchase.push(val);
+}
+alert(repurchase);
 }
 
 
-
     });
+     })();
   </script>
 
 </dom-module>
