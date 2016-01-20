@@ -73,11 +73,13 @@
 
 
 <div class="detail">
- <div style="color:black;"><span style="color:black;">DATE:{{date}}</span></div>
+ <div style="color:black;"><span style="color:black;">DATE:{{date}}</span>
+ <paper-button on-click="proceed" style="text-transform:none;" class="proceed" >Proceed to Checkout</paper-button>
+ </div>
   <div class="r2">
   <h5 class="imag" style="color:black;padding-left:10%;">Name</h5>
  <h5 style="color:black;padding-left:10%;">Qty/price</h5>
-<h5 style="color:black;padding-left:7%;">Total</h5><h5 style="color:black;padding-left:5%;"><paper-checkbox>select all</paper-checkbox></h5></div>
+<h5 style="color:black;padding-left:7%;">Total</h5><h5 style="color:black;padding-left:5%;"><paper-checkbox checked="{{check}}">select all</paper-checkbox></h5></div>
 
 </div>
 <div class="detail">
@@ -88,7 +90,7 @@
    <span style="color:black;">{{view.quantity}}</span>
    <span style="color:black;padding-left:1%;">{{view.unit}}/{{view.price}}</span>
    <span style="color:black; padding-left:5%;">{{view.total}}</span>
-    <span style="color:black; padding-left:5%;"><paper-checkbox  id="{{view.name}}" name="{{view.name}}"  on-change="changeHandler">select</paper-checkbox></span>
+    <span style="color:black; padding-left:5%;"><paper-checkbox  id="{{view.itemid}}" name="{{view.name}}"  on-change="changeHandler">select</paper-checkbox></span>
    </div>
    </div>
    <br/>
@@ -122,11 +124,20 @@
 changeHandler:function(e)
 {
 var val=e.target.id;
+var inx=repurchase.indexOf(val);
 if(repurchase.indexOf(val)==-1)
 {
 repurchase.push(val);
 }
+else
+{
+repurchase.splice(inx,1);
+}
 alert(repurchase);
+},
+proceed:function()
+{
+document.querySelector('purchase-service').repurchaselist(repurchase);
 }
 
 

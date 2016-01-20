@@ -74,6 +74,16 @@
                   on-response="purchasesixResponse"
                   debounce-duration="300">
  </iron-ajax>
+ <!--fetch the repurchase order list-->
+  <iron-ajax
+               	      id="repurchaseajax"
+               	       url="{{name}}"
+    		  	      body=""
+               	      handle-as="json"
+               	      content-type="application/json"
+                      on-response="repurchaseResponse"
+                      debounce-duration="300">
+   </iron-ajax>
  </template>
 
   <script>
@@ -381,7 +391,20 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                {
 	                 document.querySelector('my-app').setPage("No Item","page1","");
 	                }
+},
+repurchaselist:function(li)
+{
+var repurarr=[];
+repurarr=JSON.stringify(li);
+ this.name="http://zencouch-zencodoo.rhcloud.com/grocery/_design/repurchasedesign/_view/repurchaseview?keys="+repurarr;
+	        this.$.repurchaseajax.generateRequest();
+alert(li);
+},
+repurchaseResponse:function(e)
+{
+alert(JSON.stringify(e.detail.response));
 }
+
  });
  })();
   </script>
