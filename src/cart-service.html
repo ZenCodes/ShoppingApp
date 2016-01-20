@@ -72,10 +72,10 @@
       var itemval=[];
       var quantity;
       var total;
-       var countarr=[];
-       var offerlist=[];
-       var offerarr=[];
-var viewcartitem=[];
+      var countarr=[];
+      var offerlist=[];
+      var offerarr=[];
+      var viewcartitem=[];
     Polymer({
             is: "cart-service",
             ready:function()
@@ -236,7 +236,7 @@ var viewcartitem=[];
 			{
 			viewcartitem=[];
 			var flag="0";
- var tot=0;
+            var tot=0;
 			this.itemview=[];
 			this.itemview=e.detail.response.addtocart;
 			var uname=JSON.stringify(sessionStorage.getItem("info"));
@@ -364,9 +364,11 @@ countResponse:function(e)
 this.counter=0;
 var cnt=[];
 cnt=e.detail.response;
+//alert(cnt.rows.length);
 for(var c=0;c<cnt.rows.length;c++)
 {
-this.counter+=parseInt(cnt.rows[c].value);
+//this.counter+=parseInt(cnt.rows[c].value);
+this.counter+=1;
 }
 document.querySelector('my-app').setCount(this.counter);
 //alert(this.counter);
