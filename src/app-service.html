@@ -151,14 +151,25 @@
 	                  on-response="referfriendResponse"
 	                  debounce-duration="300">
 
- </iron-ajax>
-  <iron-ajax
+</iron-ajax>
+<iron-ajax
            method="POST"
            id="writereferfriendajax"
            url="http://zencouch-zencodoo.rhcloud.com/grocery/"
            body=""
            handle-as="json"
       content-type="application/json"></iron-ajax>
+
+<!--Search items -->
+<iron-ajax
+	  id="searchajax"
+	  url="{{url}}"
+	  handle-as="json"
+	  content-type="application/json"
+	  on-response="searchResponse"
+	  debounce-duration="300">
+
+</iron-ajax>
 
  </template>
 
@@ -173,6 +184,7 @@
        var myofferarr=[];
        var list;
        var emailid;
+       var searchval;
     Polymer({
             is: "app-service",
             ready:function()
@@ -596,7 +608,39 @@ buyitem.cartstatus="purchased";
 			            obj.user=this.friendarr;
 			            this.$.writereferfriendajax.body=JSON.stringify(obj);
 			            this.$.writereferfriendajax.generateRequest();
-			            }
+			            },
+			searchService:function(searchtext){
+			var keycategory=null;
+			searchval=searchtext;
+			this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/searchdesign/_view/searchview?key="+keycategory;
+	        this.$.searchajax.generateRequest();
+			},
+			searchResponse:function(e){
+			this.searchlist=[];
+			this.itemarr=[];
+		    this.searchlist=e.detail.response;
+		    //alert(JSON.stringify(e.detail.response));
+			for(var i=0;i<this.searchlist.rows.length;i++)
+			{
+			if((this.searchlist.rows[i].value.brand).indexOf(searchval)!=-1||(this.searchlist.rows[i].value.category).indexOf(searchval)!=-1||(this.searchlist.rows[i].value.name).indexOf(searchval)!=-1||(this.searchlist.rows[i].value.type).indexOf(searchval)!=-1)
+		    {
+		    var itemval={"img":"","name": "","itemid":"","unit": "","price":"","discount":"","discountprice":"","discuntprice1":""};
+		    itemval.img=this.searchlist.rows[i].value.img;
+			itemval.name=this.searchlist.rows[i].value.name;
+			itemval.itemid=this.searchlist.rows[i].value.itemid;
+			itemval.unit="1 "+this.searchlist.rows[i].value.unit+"";
+			itemval.price=""+this.searchlist.rows[i].value.price+"/"+this.searchlist.rows[i].value.unit+"";
+			itemval.discountprice=""+(parseInt(this.searchlist.rows[i].value.price)-(parseInt(this.searchlist.rows[i].value.price)*((parseInt(this.searchlist.rows[i].value.offer))/100)))+"/"+this.searchlist.rows[i].value.unit+"";
+			itemval.discountprice1="Rs "+(parseInt(this.searchlist.rows[i].value.price)-(parseInt(this.searchlist.rows[i].value.price)*((parseInt(this.searchlist.rows[i].value.offer))/100)));
+		    itemval.discount=parseInt(this.searchlist.rows[i].value.price)-(parseInt(this.searchlist.rows[i].value.price)*((parseInt(this.searchlist.rows[i].value.offer))/100));
+			this.itemarr.push(itemval);
+			}
+			}
+			//alert(JSON.stringify(this.itemarr));
+		    document.querySelector('item-list').itemarr=this.itemarr;
+	        document.querySelector('item-list').reload;
+	        document.querySelector('my-app').setPage("itemlist","page1","");
+			}
 
     });
      })();

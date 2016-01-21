@@ -38,11 +38,12 @@
          <link rel="import" href="src/purchase-list.html">
          <link rel="import" href="src/no-items.html">
          <link rel="import" href="src/order-placed.html">
-          <link rel="import" href="src/temp-service.html">
-          <link rel="import" href="src/count-service.html">
-          <link rel="import" href="src/shipping-card.html">
-          <link rel="import" href="src/referfriend-card.html">
-           <link rel="import" href="src/ordersummary-list.html">
+         <link rel="import" href="src/temp-service.html">
+         <link rel="import" href="src/count-service.html">
+         <link rel="import" href="src/shipping-card.html">
+         <link rel="import" href="src/referfriend-card.html">
+         <link rel="import" href="src/ordersummary-list.html">
+         <link rel="import" href="src/app-service.html">
 
   </head>
 
@@ -110,8 +111,8 @@
    	      </paper-toolbar>
   	  <!-- Top Toolbar for search and cart-->
   	      <paper-toolbar class="top">
-  	        <paper-input class="search" label="Search" no-label-float>
-  			<iron-icon icon="search" prefix></iron-icon>
+  	        <paper-input class="search" label="Search" value="{{searchtext}}" no-label-float>
+  			<paper-icon-button icon="search" suffix title="search" on-click="search"></paper-icon-button>
   		    </paper-input>
   	        <div class="flex"></div>
   	        <paper-icon-button id="number" icon="shopping-cart" on-click="viewcart">
@@ -176,6 +177,7 @@
       </paper-drawer-panel>
 
       <temp-service id="tempservice"></temp-service>
+      <app-service id="appservice"></app-service>
 
   </template>
   <script>
@@ -297,6 +299,10 @@ alert("no user in view");
     setCount:function(cnt)
     {
     this.countvalue=cnt;
+    },
+    search:function(){
+    //alert(this.searchtext);
+    this.$.appservice.searchService(this.searchtext);
     }
 
   });
