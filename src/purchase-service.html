@@ -84,6 +84,22 @@
                       on-response="repurchaseResponse"
                       debounce-duration="300">
    </iron-ajax>
+   <iron-ajax
+          	      id="purchasetocartreadajax"
+          	      url="http://zencouch-zencodoo.rhcloud.com/grocery/7ec490c42d90eb6cf3b53b8afd000157"
+          	      handle-as="json"
+          	      content-type="application/json"
+                 on-response="purchasetocartreadResponse"
+                 debounce-duration="300">
+ </iron-ajax>
+ <iron-ajax
+         method="POST"
+         id="addtocartwriteajax"
+         url="http://zencouch-zencodoo.rhcloud.com/grocery/"
+         body=""
+         handle-as="json"
+         content-type="application/json">
+ </iron-ajax>
  </template>
 
   <script>
@@ -96,6 +112,7 @@
   var state;
   var country;
   var phone;
+  var repurchase;
    Polymer({
             is: "purchase-service",
              ready:function()
@@ -392,18 +409,106 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                 document.querySelector('my-app').setPage("No Item","page1","");
 	                }
 },
+//repurchase the item from the purchase list
 repurchaselist:function(li)
 {
 var repurarr=[];
 repurarr=JSON.stringify(li);
  this.name="http://zencouch-zencodoo.rhcloud.com/grocery/_design/repurchasedesign/_view/repurchaseview?keys="+repurarr;
-	        this.$.repurchaseajax.generateRequest();
-alert(li);
+this.$.repurchaseajax.generateRequest();
+//alert(li);
 },
 repurchaseResponse:function(e)
 {
-alert(JSON.stringify(e.detail.response));
-}
+alert(JSON.stringify(e.detail.response.rows));
+repurchase=e.detail.response.rows;
+this.$.purchasetocartreadajax.generateRequest();
+
+},
+   purchasetocartreadResponse:function(e)
+            {
+					  this.temparr=[];
+					  var len="0";
+            		  var flag="0";
+            		  var itemcnt=0;
+            		  var confirmflag=0;
+		              var user=sessionStorage.getItem("info");
+		              this.addtocart=e.detail.response.addtocart;
+		              this.id=e.detail.response._id;
+		  		      this.header=e.detail.response._rev;
+		              for(var i=0;i<this.addtocart.length;i++)
+		              {
+		              if(this.addtocart[i].name==user)
+		              {
+		              flag="1";
+
+		              for(var j=0;j<repurchase.length;j++)
+		              {
+ var tempval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
+		     tempval.type=repurchase[j].value.type;
+					     		   				tempval.category=repurchase[j].value.category;
+					     		   				tempval.itemid=repurchase[j].value.itemid;
+					     		   				tempval.img=repurchase[j].value.img;
+					     		   				tempval.name=repurchase[j].value.name;
+					     		   				tempval.unit=repurchase[j].value.unit;
+					     		   				tempval.offer=repurchase[j].value.offer;
+					     		   				tempval.flag=repurchase[j].value.flag;
+					     		   				tempval.price=repurchase[j].value.price;
+					  		   				    tempval.brand=repurchase[j].value.brand;
+					     		   				tempval.status=repurchase[j].value.status;
+					     		   	   		    tempval.quantity=1;
+					     		   				tempval.total=parseInt(tempval.quantity)*parseInt(repurchase[j].value.price);
+   		   				                       tempval.cartstatus=repurchase[j].value.cartstatus;
+                      this.addtocart[i].cartitem.push(tempval);
+		              }
+		              }
+		              }
+		              if(flag=="1")
+		              {
+		              var obj={"_id": "","_rev":"","addtocart":""};
+		              obj._id=this.id;
+					  obj._rev=this.header;
+			          obj.addtocart=this.addtocart;
+					  this.$.addtocartwriteajax.body=JSON.stringify(obj);
+					  this.$.addtocartwriteajax.generateRequest();
+		              document.querySelector('cart-service').countservice();
+		               document.querySelector('purchase-service').shipping();
+		              }
+		              if(flag=="0")
+		              {
+		             var newcart={"name":"","cartitem":""};
+		             newcart.name=user;
+		             newcart.cartitem=[];
+		              for(var j=0;j<repurchase.length;j++)
+					   {
+					    var tempval={"type":"","category":"","itemid":"","img":"","name": "","unit": "","price":"","offer":"","flag":"","brand":"","status":"","quantity":"","total":"","cartstatus":""};
+					   		     tempval.type=repurchase[j].value.type;
+					   					     		   				tempval.category=repurchase[j].value.category;
+					   					     		   				tempval.itemid=repurchase[j].value.itemid;
+					   					     		   				tempval.img=repurchase[j].value.img;
+					   					     		   				tempval.name=repurchase[j].value.name;
+					   					     		   				tempval.unit=repurchase[j].value.unit;
+					   					     		   				tempval.offer=repurchase[j].value.offer;
+					   					     		   				tempval.flag=repurchase[j].value.flag;
+					   					     		   				tempval.price=repurchase[j].value.price;
+					   					  		   				    tempval.brand=repurchase[j].value.brand;
+					   					     		   				tempval.status=repurchase[j].value.status;
+					   					     		   	   		    tempval.quantity=1;
+					   					     		   				tempval.total=parseInt(tempval.quantity)*parseInt(repurchase[j].value.price);
+   		   				                       tempval.cartstatus=repurchase[j].value.cartstatus;
+					   newcart.cartitem.push(tempval);
+		               }
+		             this.addtocart.push(newcart);
+		             var obj={"_id": "","_rev":"","addtocart":""};
+		  		     obj._id=this.id;
+		  		     obj._rev=this.header;
+		  		     obj.addtocart=this.addtocart;
+		  		     this.$.addtocartwriteajax.body=JSON.stringify(obj);
+		             this.$.addtocartwriteajax.generateRequest();
+		             document.querySelector('cart-service').countservice();
+                     document.querySelector('purchase-service').shipping();
+		              }
+            }
 
  });
  })();
