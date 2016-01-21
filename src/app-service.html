@@ -616,6 +616,7 @@ buyitem.cartstatus="purchased";
 	        this.$.searchajax.generateRequest();
 			},
 			searchResponse:function(e){
+			var flag=0;
 			this.searchlist=[];
 			this.itemarr=[];
 		    this.searchlist=e.detail.response;
@@ -624,6 +625,7 @@ buyitem.cartstatus="purchased";
 			{
 			if((this.searchlist.rows[i].value.brand).indexOf(searchval)!=-1||(this.searchlist.rows[i].value.category).indexOf(searchval)!=-1||(this.searchlist.rows[i].value.name).indexOf(searchval)!=-1||(this.searchlist.rows[i].value.type).indexOf(searchval)!=-1)
 		    {
+		    flag=1;
 		    var itemval={"img":"","name": "","itemid":"","unit": "","price":"","discount":"","discountprice":"","discuntprice1":""};
 		    itemval.img=this.searchlist.rows[i].value.img;
 			itemval.name=this.searchlist.rows[i].value.name;
@@ -637,9 +639,13 @@ buyitem.cartstatus="purchased";
 			}
 			}
 			//alert(JSON.stringify(this.itemarr));
+			if(flag==1){
 		    document.querySelector('item-list').itemarr=this.itemarr;
 	        document.querySelector('item-list').reload;
 	        document.querySelector('my-app').setPage("itemlist","page1","");
+	        }
+	        else
+	        document.querySelector('my-app').setPage("No Item","page1","");
 			}
 
     });
