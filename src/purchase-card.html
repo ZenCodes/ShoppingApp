@@ -89,7 +89,7 @@
    <span style="color:black;">{{view.quantity}}</span>
    <span style="color:black;padding-left:1%;">{{view.unit}}/{{view.price}}</span>
    <span style="color:black; padding-left:5%;">{{view.total}}</span>
-    <span style="color:black; padding-left:5%;"><paper-checkbox  id="{{view.itemid}}" name="{{view.itemid}}"  on-change="changeHandler">select</paper-checkbox></span>
+    <span style="color:black; padding-left:5%;"><paper-checkbox  class="check" id="{{view.itemid}}" name="{{view.itemid}}"  on-change="changeHandler">select</paper-checkbox></span>
    </div>
    </div>
    <br/>
@@ -127,6 +127,11 @@
       else
       {
           idd.opened=false;
+          var x = this.querySelectorAll(".check");
+		  for (var i = 0; i < x.length; i++)
+		  {
+          x[i].checked=false;
+          }
           idd= document.querySelector("#s"+this.orderno);
           idd.toggle()
 
@@ -144,6 +149,12 @@ else
 {
 repurchase.splice(inx,1);
 }
+alert('f'+repurchase);
+},
+changeall:function(val1)
+{
+repurchase.push(val1);
+alert('s'+repurchase);
 },
 proceed:function()
 {
@@ -151,6 +162,15 @@ document.querySelector('purchase-service').repurchaselist(repurchase);
 },
 selectall:function(e)
 {
+repurchase=[];
+var x = this.querySelectorAll(".check");
+for (var i = 0; i < x.length; i++)
+{
+  x[i].checked=true;
+  alert(x[i].id);
+  document.querySelector('purchase-card').changeall(x[i].id);
+
+}
 
 }
 
