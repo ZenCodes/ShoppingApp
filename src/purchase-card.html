@@ -69,9 +69,7 @@
         }
  </style>
 <button  class="collapse" on-click="toggle">ORDERNUMBER:{{orderno}}</button>
-<iron-collapse id="collapse">
-
-
+<iron-collapse id="s{{orderno}}">
 <div class="detail">
  <div style="color:black;"><span style="color:black;">DATE:{{date}}</span>
  <paper-button on-click="proceed" style="text-transform:none;" class="proceed" >Proceed to Checkout</paper-button>
@@ -79,7 +77,8 @@
   <div class="r2">
   <h5 class="imag" style="color:black;padding-left:10%;">Name</h5>
  <h5 style="color:black;padding-left:10%;">Qty/price</h5>
-<h5 style="color:black;padding-left:7%;">Total</h5><h5 style="color:black;padding-left:5%;"><paper-checkbox checked="{{check}}">select all</paper-checkbox></h5></div>
+<h5 style="color:black;padding-left:7%;">Total</h5>
+<h5 style="color:black;padding-left:5%;"><paper-checkbox  on-change="selectall">select all</paper-checkbox></h5></div>
 
 </div>
 <div class="detail">
@@ -90,7 +89,7 @@
    <span style="color:black;">{{view.quantity}}</span>
    <span style="color:black;padding-left:1%;">{{view.unit}}/{{view.price}}</span>
    <span style="color:black; padding-left:5%;">{{view.total}}</span>
-    <span style="color:black; padding-left:5%;"><paper-checkbox  id="{{view.itemid}}" name="{{view.name}}"  on-change="changeHandler">select</paper-checkbox></span>
+    <span style="color:black; padding-left:5%;"><paper-checkbox  id="{{view.itemid}}" name="{{view.itemid}}"  on-change="changeHandler">select</paper-checkbox></span>
    </div>
    </div>
    <br/>
@@ -104,6 +103,7 @@
   <script>
    (function() {
    var repurchase=[];
+   var idd="0";
     Polymer({
       is: "purchase-card",
       ready:function()
@@ -117,9 +117,20 @@
      // alert(this.date);
  document.querySelector('app-service').setCategory("My previous purchases");
       },
-      toggle: function() {
+      toggle: function(e)
+      {
+      if(idd=="0")
+      {
+      idd= document.querySelector("#s"+this.orderno);
+      idd.toggle()
+      }
+      else
+      {
+          idd.opened=false;
+          idd= document.querySelector("#s"+this.orderno);
+          idd.toggle()
 
-	    this.$.collapse.toggle();
+      }
 },
 changeHandler:function(e)
 {
@@ -133,11 +144,14 @@ else
 {
 repurchase.splice(inx,1);
 }
-//alert(repurchase);
 },
 proceed:function()
 {
 document.querySelector('purchase-service').repurchaselist(repurchase);
+},
+selectall:function(e)
+{
+
 }
 
 
