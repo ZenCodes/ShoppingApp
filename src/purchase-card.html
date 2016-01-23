@@ -78,7 +78,7 @@
   <h5 class="imag" style="color:black;padding-left:10%;">Name</h5>
  <h5 style="color:black;padding-left:10%;">Qty/price</h5>
 <h5 style="color:black;padding-left:7%;">Total</h5>
-<h5 style="color:black;padding-left:5%;"><paper-checkbox  on-change="selectall">select all</paper-checkbox></h5></div>
+<h5 style="color:black;padding-left:5%;"><paper-checkbox  on-change="selectall" id="s1">select all</paper-checkbox></h5></div>
 
 </div>
 <div class="detail">
@@ -127,7 +127,7 @@
       else
       {
           idd.opened=false;
-          var x = this.querySelectorAll(".check");
+          var x = this.querySelectorAll("paper-checkbox");
 		  for (var i = 0; i < x.length; i++)
 		  {
           x[i].checked=false;
@@ -149,12 +149,12 @@ else
 {
 repurchase.splice(inx,1);
 }
-alert('f'+repurchase);
+//alert('f'+repurchase);
 },
 changeall:function(val1)
 {
 repurchase.push(val1);
-alert('s'+repurchase);
+//alert('s'+repurchase);
 },
 proceed:function()
 {
@@ -162,16 +162,26 @@ document.querySelector('purchase-service').repurchaselist(repurchase);
 },
 selectall:function(e)
 {
+
 repurchase=[];
 var x = this.querySelectorAll(".check");
+if(this.querySelector("#s1").checked==true)
+{
+
 for (var i = 0; i < x.length; i++)
 {
   x[i].checked=true;
-  alert(x[i].id);
+  //alert(x[i].id);
   document.querySelector('purchase-card').changeall(x[i].id);
-
 }
-
+}
+else
+{
+for (var i = 0; i < x.length; i++)
+{
+  x[i].checked=false;
+}
+}
 }
 
 
