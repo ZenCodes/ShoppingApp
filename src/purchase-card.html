@@ -50,9 +50,29 @@
  .item
  {
  width:20%;
-@apply(--layout-horizontal);
+//@apply(--layout-horizontal);
 
  }
+ #hor
+ {
+ width:20%;
+ @apply(--layout-vertical);
+
+ }
+ .proceed
+ {
+  margin-top:10px;
+  width: 95%;
+   font-family:'Calibri';
+   text-transform: none;
+   font-size: 16px;
+   background-color:rgb(51, 214, 173);
+   color: white;
+   height: 30px;
+   //left: -5px;
+   //font-weight: bold;
+   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+}
  .collapse
  {
  padding: 10px 15px;
@@ -64,7 +84,7 @@
         font-size: 15px;
         cursor: pointer;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
-        width: 90%;
+        width: 100%;
         text-align: left;
         }
  </style>
@@ -75,20 +95,22 @@
  <paper-button on-click="proceed" style="text-transform:none;" class="proceed" >Proceed to Checkout</paper-button>
  </div>
   <div class="r2">
-  <h5 class="imag" style="color:black;padding-left:10%;">Name</h5>
- <h5 style="color:black;padding-left:10%;">Qty/price</h5>
-<h5 style="color:black;padding-left:7%;">Total</h5>
-<h5 style="color:black;padding-left:5%;"><paper-checkbox  on-change="selectall" id="s1">select all</paper-checkbox></h5></div>
+  <h5 class="imag" style="color:black;padding-left:18%;">Name</h5>
+ <h5 style="color:black;padding-left:1%;">Qty</h5>
+<h5 style="color:black;padding-left:5%;">Total</h5>
+<h5 style="color:black;padding-left:2%;"><paper-checkbox  on-change="selectall" id="s1">select all</paper-checkbox></h5></div>
 
 </div>
 <div class="detail">
   <template  is="dom-repeat" items="{{purchaselist}}" as="view">
   <div class="card">
   <div class="imag"><img src="{{view.img}}"/></div>
-   <div  class="item">{{view.name}}</div>
-   <span style="color:black;">{{view.quantity}}</span>
-   <span style="color:black;padding-left:1%;">{{view.unit}}/{{view.price}}</span>
-   <span style="color:black; padding-left:5%;">{{view.total}}</span>
+  <div id="hor">
+  <div ><b>{{view.name}}</b></div>
+   <div>{{view.unit}}</div>
+   <div><b>Rs.{{view.price}}</b></div></div>
+   <span style="color:black; padding-left:2%;text-align: left;">{{view.quantity}}</span>
+   <span style="color:black; padding-left:5%;text-align: left;">{{view.total}}</span>
     <span style="color:black; padding-left:5%;"><paper-checkbox  class="check" id="{{view.itemid}}" name="{{view.itemid}}"  on-change="changeHandler">select</paper-checkbox></span>
    </div>
    </div>
@@ -158,7 +180,14 @@ repurchase.push(val1);
 },
 proceed:function()
 {
+if(repurchase.length>0)
+{
 document.querySelector('purchase-service').repurchaselist(repurchase);
+}
+else
+{
+alert("No Item Is Selected");
+}
 },
 selectall:function(e)
 {
