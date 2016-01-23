@@ -148,7 +148,12 @@
       }
       else
       {
-          idd.opened=false;
+      if(idd!=document.querySelector("#s"+this.orderno))
+      {
+            idd.opened=false;
+      }
+
+
           var x = this.querySelectorAll("paper-checkbox");
 		  for (var i = 0; i < x.length; i++)
 		  {
@@ -171,12 +176,10 @@ else
 {
 repurchase.splice(inx,1);
 }
-//alert('f'+repurchase);
 },
 changeall:function(val1)
 {
 repurchase.push(val1);
-//alert('s'+repurchase);
 },
 proceed:function()
 {
