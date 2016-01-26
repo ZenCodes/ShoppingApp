@@ -238,7 +238,9 @@
             },
             //Response given for all items under the category like rice,flours etc...
 	        itemlistResponse:function(e)
-	        { var flag="0";
+	        {
+
+	        var flag="0";
 	        		this.itemlist=[];
 	        		this.itemarr=[];
 	        		this.itemlist=e.detail.response;
@@ -281,12 +283,13 @@
 	        		this.itemarr.push(itemval);
 	        		}
 	  	    		}
+	  	    		document.querySelector('my-app').setPage("itemlist","page1","");
 	  	    		document.querySelector('item-list').itemarr=this.itemarr;
 	        		document.querySelector('item-list').reload;
             },
             itemlistService:function(type,showtype)
 	        {
-	        //alert(type);
+
             		this.type=type;
 	        		var groc=JSON.stringify(this.type);
 	        		if(showtype=="all")
