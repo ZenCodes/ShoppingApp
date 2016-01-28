@@ -265,42 +265,45 @@
     },
     viewcart:function()
     {
-var f1="0";
-var f2="0";
+     document.querySelector('app-service').setCategory("Home");
 	  if(sessionStorage.getItem("info")!="")
 	  {
 	  if(sessionStorage.getItem("info")!=null)
 	    {
 	    alert("user in view");
 	    document.querySelector('cart-service').viewcart();
-    }
-    else
-    {
-    f1="1";
-    }
-    }
+
+        }
+       else
+       {
+      alert("no user in view");
+	  document.querySelector('my-app').setPage("No Item","page1","");
+       }
+       }
+       else
+       {
+       alert("no user in view");
+	  document.querySelector('my-app').setPage("No Item","page1","");
+       }
      if(sessionStorage.getItem("tempinfo")!="")
     {
   if(sessionStorage.getItem("tempinfo")!=null)
     {
     alert("temp user in view");
     document.querySelector('temp-service').viewcart();
+    document.querySelector('app-service').setCategory("Home");
     }
     else
     {
-    f2="1";
+    alert("no user in view");
+	  document.querySelector('my-app').setPage("No Item","page1","");
     }
     }
-else
+   else
 	{
 	alert("no user in view");
 	document.querySelector('my-app').setPage("No Item","page1","");
 	}
-if(f1=="1"&&f2=="1")
-{
-alert("no user in view");
-	document.querySelector('my-app').setPage("No Item","page1","");
-}
     },
     setCount:function(cnt)
     {

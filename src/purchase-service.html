@@ -235,6 +235,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 					      this.year=dat.getFullYear();
                  var newdate=this.d+"/"+this.mon+"/"+this.year;
                  this.purchaseitem[i].purchased[j].date=newdate;
+
 	                this.viewpurchase.push(this.purchaseitem[i].purchased[j]);
 	                }
 	                }
@@ -310,6 +311,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	    var currentdate;
 	    var orderdate;
 	    var datediff;
+	    //var diff;
 	    this.threepurchase=[];
 	    this.purchaseitem=[];
 	    this.purchaseitem=e.detail.response.purchaseitem;
@@ -328,7 +330,9 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                //alert(this.purchaseitem[i].purchased[j].date);
 	                orderdate=new Date(this.purchaseitem[i].purchased[j].date);
 	                currentdate=new Date();
-	                datediff=currentdate.getMonth()-orderdate.getMonth();
+	                //datediff=currentdate.getMonth()-orderdate.getMonth();
+	                datediff=(currentdate.getFullYear()-orderdate.getFullYear())*12+(currentdate.getMonth()-orderdate.getMonth());
+	                //alert(diff);
 	                //alert(datediff);
 	                if(datediff<=3)
 	                {
@@ -383,7 +387,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                //alert(this.purchaseitem[i].purchased[j].date);
 	                orderdate=new Date(this.purchaseitem[i].purchased[j].date);
 	                currentdate=new Date();
-	                datediff=currentdate.getMonth()-orderdate.getMonth();
+	                datediff=(currentdate.getFullYear()-orderdate.getFullYear())*12+(currentdate.getMonth()-orderdate.getMonth());
 	                //alert(datediff);
 	                if(datediff<=6)
 	                {
