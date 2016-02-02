@@ -47,7 +47,7 @@
   <div class="imag"><img src="{{img}}"/></div>
   <div class="detail">
   <div class="r1">
-   <paper-dropdown-menu class="dropdown" label="{{unit}}" no-label-float id="{{actualprice}}">
+   <paper-dropdown-menu class="dropdown" label="{{quantity}}" no-label-float id="{{actualprice}}">
         <paper-menu class="dropdown-content" on-iron-select="select" valueattr="value">
         <paper-item value="1">1</paper-item>
         <paper-item value="2">2</paper-item>
@@ -64,7 +64,7 @@
    <div class="r2">
    <paper-item>Total: Rs {{total}}</paper-item>
    <!--<paper-button on-click="addtocart" style="margin-top:10px;color:red;text-transform:none;" label="{{itemid}}">Add</paper-button>-->
-  <paper-icon-button icon="icons:done" on-click="save" style="margin-top:10px;margin-left:-10px;"></paper-icon-button>
+  <paper-icon-button icon="icons:done" id="{{itemid}}" on-click="save" style="margin-top:10px;margin-left:-10px;"></paper-icon-button>
   <paper-icon-button icon="icons:delete" on-click="delete" style="margin-top:10px;"></paper-icon-button>
   </div>
   </div>
@@ -77,14 +77,14 @@
   <script>
 
   (function() {
-
+var quantity;
     Polymer({
       is: "view-card",
       ready:function()
       {
       },
       select:function(e,detail){
-      var quantity=e.target.selectedItem.textContent;
+      quantity=e.target.selectedItem.textContent;
       this.total=parseInt(quantity)*parseInt(this.actualprice);
       },
       delete:function()
@@ -93,7 +93,19 @@
 	  this.$.tempcartservice.tempcartitemdeleteservice(this.name);
 	  else
 	  this.$.cartservice.cartitemdeleteservice(this.name);
+      },
+      save:function()
+      {
+          if(sessionStorage.getItem("tempinfo")=="tempuser")
+          {
+	    //this.$.tempcartservice.tempcartitemdeleteservice(this.name);
+	    }
+	  else
+	  this.$.cartservice.addtocartalterservice(this.itemid,this.name,parseInt(quantity),this.total);
+
       }
+
+
     });
      })();
   </script>
