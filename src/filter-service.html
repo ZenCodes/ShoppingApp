@@ -1,0 +1,42 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="filter-service">
+
+  <template>
+<!-- To fetch the filter price for drawer-->
+ <iron-ajax
+   	      id="priceajax"
+   	      url="{{url}}"
+   	      handle-as="json"
+   	      content-type="application/json"
+          on-response="priceResponse">
+ </iron-ajax>
+
+
+ </template>
+
+  <script>
+  (function() {
+      var itemval=[];
+      var quantity;
+      var total;
+       var countarr=[];
+       var offerlist=[];
+       var offerarr=[];
+       var myofferarr=[];
+       var list;
+       var emailid;
+       var searchval;
+    Polymer({
+            is: "filter-service",
+            ready:function()
+	        {
+
+
+	        },
+
+
+    });
+     })();
+  </script>
+</dom-module>
