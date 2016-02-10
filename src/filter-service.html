@@ -11,29 +11,57 @@
    	      content-type="application/json"
           on-response="priceResponse">
  </iron-ajax>
-
+<iron-ajax
+		     	      id="pricelistajax"
+		     	      url="{{url}}"
+		     	      handle-as="json"
+		     	      content-type="application/json"
+		            on-response="pricelistResponse"
+		            debounce-duration="300"></iron-ajax>
 
  </template>
 
   <script>
   (function() {
+  var s;
+  var e;
       var itemval=[];
-      var quantity;
-      var total;
-       var countarr=[];
-       var offerlist=[];
-       var offerarr=[];
-       var myofferarr=[];
-       var list;
-       var emailid;
-       var searchval;
+
     Polymer({
             is: "filter-service",
             ready:function()
 	        {
-
+              this.url="price.json";
+       this.$.priceajax.generateRequest();
 
 	        },
+priceResponse:function(e)
+{
+alert(JSON.stringify(e.detail.response));
+this.filterprice=e.detail.response;
+document.querySelector('filter-list').itemcategory=this.filterprice;
+},
+pricefilter:function(start,end,type)
+{
+var ty=JSON.stringify(type);
+ s=start;
+ e=end;
+this.url="http://zencouch-zencodoo.rhcloud.com/grocery/_design/itemcategorydesign/_view/itemcategoryview?key="+ty;
+this.$.pricelistajax.generateRequest();
+},
+pricelistResponse:function(e1)
+{
+var itemlist=[];
+alert(JSON.stringify(e1.detail.response));
+itemlist=e1.detail.response.rows;
+for(var i=0;i<itemlist.length;i++)
+{
+
+if(parseInt(itemlist[i].value.price)>parseInt(s)&& parseInt(itemlist[i].value.price)<=parseInt(e))
+{
+}
+}
+}
 
 
     });

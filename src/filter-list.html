@@ -1,0 +1,22 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="filter-service.html">
+<link rel="import" href="filter-card.html">
+<dom-module id="filter-list">
+<template>
+<filter-service id="service" itemcategory="{{itemcategory}}"></filter-service>
+<h4 >Filter By</h4>
+<template is="dom-repeat" items="{{itemcategory}}" as="menu">
+<filter-card item="{{menu.filter}}" start="{{menu.start}}" end="{{menu.end}}"></filter-card>
+</template>
+ </template>
+  <script>
+    Polymer({
+            is: "filter-list",
+            ready:function()
+	        {
+	        //this.$.service.reqMenu();
+	        }
+    });
+  </script>
+</dom-module>

@@ -46,7 +46,8 @@
          <link rel="import" href="src/ordersummary-list.html">
          <link rel="import" href="src/app-service.html">
          <link rel="import" href="src/filter-card.html">
-
+          <link rel="import" href="src/filter-list.html">
+<link rel="import" href="src/filter-service.html">
   </head>
 
   <body unresolved>
@@ -70,7 +71,7 @@
   	}
   	.content{
   	width:100%;
-  	height: 75%;
+  	height: 85%;
   	text-align: center;
   	overflow: scroll;
   	background-color: white;
@@ -99,6 +100,9 @@
 	    <paper-menu class="content fit">
 	    <!-- Dynamic menu creation for drawer panel -->
 		<app-list></app-list>
+		<br/>
+		<filter-list id="filtermenu"></filter-list>
+
 	    </paper-menu>
   	    </div>
   	  </paper-header-panel>

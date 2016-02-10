@@ -1,0 +1,28 @@
+[
+{
+    "filter":"less than 100",
+       "start":"0",
+    "end":"100"
+  },
+  {
+    "filter":"Rs.100 to Rs 200",
+       "start":"100",
+    "end":"200"
+  },
+  {
+     "filter":"Rs.200 to Rs 500",
+        "start":"200",
+    "end":"500"
+  },
+    {
+    "filter":"Rs.500 to Rs 1000",
+       "start":"500",
+    "end":"1000"
+},
+  {
+    "filter":"Rs.1000 to Rs 2000",
+    "start":"1000",
+    "end":"2000"
+ }
+]
+

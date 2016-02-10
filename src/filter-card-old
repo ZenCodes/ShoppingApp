@@ -1,0 +1,88 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<dom-module id="filter-card">
+
+  <template>
+  <paper-menu-button vertical-align="top" id="filtermenu">
+  <paper-icon-button icon="expand-more" id="filter" class="dropdown-trigger" on-click="filter" title="filter by"></paper-icon-button>
+   <paper-menu attr-for-item-title="label">
+            <paper-submenu label="Brand">
+              <paper-item class="menu-trigger">paper-menu</paper-item>
+              <paper-menu class="menu-content sublist" multi>
+                <paper-submenu label="Properties">
+                  <paper-item class="menu-trigger">Properties</paper-item>
+                  <paper-menu class="menu-content sublist2">
+                    <paper-item>focusedItem</paper-item>
+                    <paper-item>attrForItemTitle</paper-item>
+                  </paper-menu>
+                </paper-submenu>
+                <paper-submenu label="Methods">
+                  <paper-item class="menu-trigger">Methods</paper-item>
+                  <paper-menu class="menu-content sublist2">
+                    <paper-item>select(value)</paper-item>
+                  </paper-menu>
+                </paper-submenu>
+            </paper-menu>
+          </paper-submenu>
+
+          <paper-submenu label="Price">
+            <paper-item class="menu-trigger">paper-submenu</paper-item>
+            <paper-menu class="menu-content sublist">
+              <paper-submenu label="Properties">
+                <paper-item class="menu-trigger">Properties</paper-item>
+                <paper-menu class="menu-content sublist2">
+                  <paper-item>opened</paper-item>
+                </paper-menu>
+                </paper-submenu>
+                <paper-submenu label="Weight">
+                  <paper-item class="menu-trigger">Methods</paper-item>
+                  <paper-menu class="menu-content sublist2">
+                    <paper-item>open()</paper-item>
+                    <paper-item>close()</paper-item>
+                    <paper-item>toggle()</paper-item>
+                  </paper-menu>
+              </paper-submenu>
+            </paper-menu>
+          </paper-submenu>
+
+            <paper-submenu label="Unavailable" disabled>
+              <paper-item class="menu-trigger">Unavailable</paper-item>
+              <paper-menu class="menu-content sublist">
+                <paper-item>Unavailable 1</paper-item>
+                <paper-item>Unavailable 2</paper-item>
+              </paper-menu>
+            </paper-submenu>
+        </paper-menu>
+  </paper-menu-button>
+  </template>
+  <script>
+    Polymer({
+     is: "filter-card",
+     ready:function()
+      {
+
+      },
+      price:function(){
+      },
+      brand:function(){
+
+      },
+      weight:function(){
+      }
+    });
+  </script>
+
+</dom-module>

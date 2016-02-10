@@ -59,6 +59,8 @@
       },
       click:function()
       {
+      sessionStorage.setItem("typeinfo",this.type);
+      //alert(this.type);
        if(localStorage.getItem("showtype")=="all")
        {
 	  this.$.service.itemlistService(this.type,localStorage.getItem("showtype"));
