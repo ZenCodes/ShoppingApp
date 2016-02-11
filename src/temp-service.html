@@ -338,14 +338,14 @@ var cartitem=[];
 			            if(flag=="1")
 			            {
 			            alert("Loading items......");
-						document.querySelector('my-app').setPage("view card","page1","view card");
+						document.querySelector('my-app').setPage("view card","page1","view card","");
 						document.querySelector('viewcart-list').itemarr=viewcartitem;
 			            document.querySelector('viewcart-list').reload;
 			            }
 			            if(flag=="0")
 			            {
 			            alert("No items found...");
-			             document.querySelector('my-app').setPage("No Item","page1","");
+			             document.querySelector('my-app').setPage("No Item","page1","","");
 			            }
 
 },
@@ -401,7 +401,7 @@ this.$.deleteupdatetempwriteajax.generateRequest();
 alert("Item deleted!");
 document.querySelector('temp-service').tempcountservice();
 document.querySelector('temp-service').viewcart();
-document.querySelector('my-app').setPage("view card","page1","view card");
+document.querySelector('my-app').setPage("view card","page1","view card","");
 document.querySelector('viewcart-list').reload;
 },
 //To load count of cart items

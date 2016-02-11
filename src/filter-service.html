@@ -31,13 +31,13 @@
             is: "filter-service",
             ready:function()
 	        {
-              this.url="price.json";
+       this.url="price.json";
        this.$.priceajax.generateRequest();
-
 	        },
+
 priceResponse:function(e)
 {
-alert(JSON.stringify(e.detail.response));
+//alert(JSON.stringify(e.detail.response));
 this.filterprice=e.detail.response;
 document.querySelector('filter-list').itemcategory=this.filterprice;
 },
@@ -51,16 +51,46 @@ this.$.pricelistajax.generateRequest();
 },
 pricelistResponse:function(e1)
 {
-var itemlist=[];
-alert(JSON.stringify(e1.detail.response));
-itemlist=e1.detail.response.rows;
-for(var i=0;i<itemlist.length;i++)
+var f=1;
+this.itemarr=[];
+this.itemlist=[];
+//alert(JSON.stringify(e1.detail.response));
+this.itemlist=e1.detail.response.rows;
+for(var i=0;i<this.itemlist.length;i++)
 {
 
-if(parseInt(itemlist[i].value.price)>parseInt(s)&& parseInt(itemlist[i].value.price)<=parseInt(e))
-{
-}
-}
+ if(parseInt(this.itemlist[i].value.price)>parseInt(s)&& parseInt(this.itemlist[i].value.price)<=parseInt(e))
+  {
+  f=0;
+   var itemval={"img":"","itemid":"","name": "","unit": "","price":"","discount":"","discountprice":"","discountprice1":""};
+        itemval.img=this.itemlist[i].value.img;
+	        		itemval.itemid=this.itemlist[i].value.itemid;
+		    		itemval.name=this.itemlist[i].value.name;
+		    		itemval.unit="1 "+this.itemlist[i].value.unit+"";
+		    		var flag=this.itemlist[i].value.flag;
+		    		if(flag=="true")
+		    		itemval.price=""+this.itemlist[i].value.price+"/"+this.itemlist[i].value.unit+"";
+		    		else
+		    		itemval.price="";
+					itemval.discountprice=""+(parseInt(this.itemlist[i].value.price)-(parseInt(this.itemlist[i].value.price)*((parseInt(this.itemlist[i].value.offer))/100)))+"/"+this.itemlist[i].value.unit+"";
+		    		itemval.discountprice1="Rs "+(parseInt(this.itemlist[i].value.price)-(parseInt(this.itemlist[i].value.price)*((parseInt(this.itemlist[i].value.offer))/100)));
+		    		itemval.discount=parseInt(this.itemlist[i].value.price)-(parseInt(this.itemlist[i].value.price)*((parseInt(this.itemlist[i].value.offer))/100));
+	        		this.itemarr.push(itemval);
+	        		}
+	  	    		}
+	  	    		if(f==0)
+	  	    		{
+	  	    		document.querySelector('my-app').setPage("itemlist","page1","","price");
+	  	    		document.querySelector('item-list').itemarr=this.itemarr;
+	        		document.querySelector('item-list').reload;
+	        		}
+	        		else
+	        		{
+                document.querySelector('my-app').setPage("No Item","page1","","");
+	        		}
+
+
+
 }
 
 

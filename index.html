@@ -101,8 +101,11 @@
 	    <!-- Dynamic menu creation for drawer panel -->
 		<app-list></app-list>
 		<br/>
+		<iron-pages selected="{{fpage}}" attr-for-selected="filter-category">
+		<section filter-category="price">
 		<filter-list id="filtermenu"></filter-list>
-
+         </section>
+         	</iron-pages>
 	    </paper-menu>
   	    </div>
   	  </paper-header-panel>
@@ -229,13 +232,14 @@
     }
     }
     },
-    setPage:function(page,bpage,title)
+    setPage:function(page,bpage,title,fpage)
     {
     //Whenever changing iron page content it has to show corresponding label as a title and corresponding page and bottom placeholder for that here setting title and iron page match category
     this.title=title;
     this.page=page;
     this.bpage=bpage;
     this.searchtext="";
+    this.fpage=fpage;
     },
     selectCategory:function(e)
     {
@@ -249,7 +253,7 @@
     {
     if(this.bname=="Signin")
     {
-    document.querySelector('my-app').setPage("login card","page1","");
+    document.querySelector('my-app').setPage("login card","page1","","");
     this.$.logincard.signin();
     }
     else if(this.bname=="Signout")
@@ -257,7 +261,7 @@
 	this.countvalue="0";
 	   sessionStorage.setItem("info","");
        this.bname="Signin";
-       document.querySelector('my-app').setPage("category","page1","Home");
+       document.querySelector('my-app').setPage("category","page1","Home","");
        document.querySelector('app-service').setCategory("Home");
     }
     },
@@ -281,13 +285,13 @@
        else
        {
       alert("no user in view");
-	  document.querySelector('my-app').setPage("No Item","page1","");
+	  document.querySelector('my-app').setPage("No Item","page1","","");
        }
        }
        else
        {
        alert("no user in view");
-	  document.querySelector('my-app').setPage("No Item","page1","");
+	  document.querySelector('my-app').setPage("No Item","page1","","");
        }
      if(sessionStorage.getItem("tempinfo")!="")
     {
@@ -300,13 +304,13 @@
     else
     {
     alert("no user in view");
-	  document.querySelector('my-app').setPage("No Item","page1","");
+	  document.querySelector('my-app').setPage("No Item","page1","","");
     }
     }
    else
 	{
 	alert("no user in view");
-	document.querySelector('my-app').setPage("No Item","page1","");
+	document.querySelector('my-app').setPage("No Item","page1","","");
 	}
     },
     setCount:function(cnt)

@@ -283,7 +283,7 @@
 	        		this.itemarr.push(itemval);
 	        		}
 	  	    		}
-	  	    		document.querySelector('my-app').setPage("itemlist","page1","");
+	  	    		document.querySelector('my-app').setPage("itemlist","page1","","price");
 	  	    		document.querySelector('item-list').itemarr=this.itemarr;
 	        		document.querySelector('item-list').reload;
             },
@@ -486,7 +486,7 @@ for(var i=0;i<this.purchaselist.length;i++)
 			            this.$.purchasewriteajax.body=JSON.stringify(obj);
                         this.$.purchasewriteajax.generateRequest();
                         document.querySelector('cart-service').countservice();
-                         document.querySelector('my-app').setPage("order placed","page1","");
+                         document.querySelector('my-app').setPage("order placed","page1","","");
                          //document.querySelector('viewcart-list').reload;
 
                         }
@@ -505,7 +505,7 @@ for(var i=0;i<this.purchaselist.length;i++)
 						this.$.purchasewriteajax.body=JSON.stringify(obj1);
                         this.$.purchasewriteajax.generateRequest();
 document.querySelector('cart-service').countservice();
-                        document.querySelector('my-app').setPage("order placed","page1","");
+                        document.querySelector('my-app').setPage("order placed","page1","","");
 
                         }
 },
@@ -645,10 +645,10 @@ buyitem.cartstatus="purchased";
 			if(flag==1){
 		    document.querySelector('item-list').itemarr=this.itemarr;
 	        document.querySelector('item-list').reload;
-	        document.querySelector('my-app').setPage("itemlist","page1","");
+	        document.querySelector('my-app').setPage("itemlist","page1","","price");
 	        }
 	        else
-	        document.querySelector('my-app').setPage("No Item","page1","");
+	        document.querySelector('my-app').setPage("No Item","page1","","");
 			}
 
     });

@@ -33,18 +33,18 @@ padding-left:5px;
 		{
 		if(this.item=="My brands")
 		{
-		document.querySelector('my-app').setPage("My brands","page1",this.item);
+		document.querySelector('my-app').setPage("My brands","page1",this.item,"");
 		}
 		else if(this.item=="Refer Friend")
 		{
-		document.querySelector('my-app').setPage("refer card","page1",this.item);
+		document.querySelector('my-app').setPage("refer card","page1",this.item,"");
 		}
 
 		else if(this.item=="My previous purchases")
 		{
 		//alert('purchase');
 		document.querySelector('purchase-service').purchaseService();
-		document.querySelector('my-app').setPage("My Purchases","page1","Previous Purchase");
+		document.querySelector('my-app').setPage("My Purchases","page1","Previous Purchase","");
 		document.querySelector('app-service').setCategory(this.item);
 		}
 		else if(this.item=="Last three purchase")
@@ -65,24 +65,26 @@ padding-left:5px;
 		else if(this.item=="all")
 		{
         document.querySelector('purchase-service').purchaseService();
-		//document.querySelector('my-app').setPage("My Purchases","page1",this.item);
+		//document.querySelector('my-app').setPage("My Purchases","page1",this.item,"");
 		}
 		else if(this.item=="My offers")
 		{
 		document.querySelector('app-service').offerService();
-		document.querySelector('my-app').setPage("itemlist","page1",this.item);
+		document.querySelector('my-app').setPage("itemlist","page1",this.item,"");
 		}
 		else
 		{
 		if(localStorage.getItem("showtype")=="all")
 		{
+		sessionStorage.setItem("typeinfo",this.item);
+
 		document.querySelector('app-service').itemlistService(this.item,"all");
-		document.querySelector('my-app').setPage("itemlist","page1",this.item);
+		document.querySelector('my-app').setPage("itemlist","page1",this.item,"price");
 		}
 		else
 		{
 		document.querySelector('app-service').offeritemlistService(this.item,"offer");
-		document.querySelector('my-app').setPage("offeritem","page1",this.item);
+		document.querySelector('my-app').setPage("offeritem","page1",this.item,"price");
 		}
 		}
 

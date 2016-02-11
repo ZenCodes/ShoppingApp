@@ -5,6 +5,7 @@
 <link rel="import" href="itemcategory-service.html">
 <link rel="import" href="app-service.html">
 <link rel="import" href="offer-service.html">
+<link rel="import" href="filter-service.html">
 <dom-module id="itemcategory-card">
 <template>
 <style is="custom-style">
@@ -35,6 +36,7 @@
   <div style="margin-left:10px;">
   <hr></div>
   </div>
+  <filter-service id="fservice"></filter-service>
     <app-service id="service"></app-service>
   </template>
     <script>
@@ -55,23 +57,24 @@
 	   this.$.service.offeritemlistService(this.type,localStorage.getItem("showtype"));
 	   //document.querySelector('my-app').setPage("offeritem","page1",this.type);
 	   }
-	   document.querySelector('my-app').setPage("itemlist","page1",this.type);
+	   document.querySelector('my-app').setPage("itemlist","page1",this.type,"");
       },
       click:function()
       {
       sessionStorage.setItem("typeinfo",this.type);
+
       //alert(this.type);
        if(localStorage.getItem("showtype")=="all")
        {
 	  this.$.service.itemlistService(this.type,localStorage.getItem("showtype"));
-	  //document.querySelector('my-app').setPage("allitem","page1",this.type);
+	  //document.querySelector('my-app').setPage("allitem","page1",this.type,"price");
 	  }
 	  if(localStorage.getItem("showtype")=="offer")
 	   {
 	   this.$.service.offeritemlistService(this.type,localStorage.getItem("showtype"));
-	   //document.querySelector('my-app').setPage("offeritem","page1",this.type);
+	   //document.querySelector('my-app').setPage("offeritem","page1",this.type,"price");
 	  }
-	  document.querySelector('my-app').setPage("itemlist","page1",this.type);
+	  document.querySelector('my-app').setPage("itemlist","page1",this.type,"price");
       }
       });
 

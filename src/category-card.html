@@ -50,7 +50,7 @@
       this.$.service.itemcategoryService(this.name);
 
       //It will call index page, and passing title,ironpage match page,bottom placeholder
-      document.querySelector('my-app').setPage("itemcategory","page1",this.name);
+      document.querySelector('my-app').setPage("itemcategory","page1",this.name,"");
       },
       showoffer:function()
       {
@@ -60,7 +60,7 @@
 	  //It will call service along with category type to fetch the category list items
       this.$.service.itemcategoryService(this.name);
       //It will call index page, and passing title,ironpage match page,bottom placeholder
-      document.querySelector('my-app').setPage("itemcategory","page1",this.name);
+      document.querySelector('my-app').setPage("itemcategory","page1",this.name,"");
       }
       });
     </script>

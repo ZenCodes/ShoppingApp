@@ -135,14 +135,14 @@
 	        if(address==null)
 	        {
 	        //alert('no');
-	        document.querySelector('my-app').setPage("shipping card","page1","");
+	        document.querySelector('my-app').setPage("shipping card","page1","","");
 	        }
 	        else
 	        {
 	           sessionStorage.setItem("ordersummary","1");
               document.querySelector('cart-service').viewcart();
 	        //document.querySelector('shipping-card').shipvalue(address);
-		   //document.querySelector('my-app').setPage("shipping card","page1","");
+		   //document.querySelector('my-app').setPage("shipping card","page1","","");
 	        //alert(JSON.stringify(e.detail.response.rows[0].value[0]));
 
 	        }
@@ -248,7 +248,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                }
 	                else
 	                {
-	                 document.querySelector('my-app').setPage("No Item","page1","");
+	                 document.querySelector('my-app').setPage("No Item","page1","","");
 	                }
 	    },
 	    //Last three purchase
@@ -297,7 +297,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                }
 	                else
 	                {
-	                 document.querySelector('my-app').setPage("No Item","page1","");
+	                 document.querySelector('my-app').setPage("No Item","page1","","");
 	                }
 	    },
 	    //purchase item of last three month
@@ -355,7 +355,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                }
 	                else
 	                {
-	                 document.querySelector('my-app').setPage("No Item","page1","");
+	                 document.querySelector('my-app').setPage("No Item","page1","","");
 	                }
 	    },
 	    // Last Six Month Purchase item of particular user
@@ -410,7 +410,7 @@ this.$.rewriteshippingajax.body=JSON.stringify(obj);
 	                }
 	                else
 	                {
-	                 document.querySelector('my-app').setPage("No Item","page1","");
+	                 document.querySelector('my-app').setPage("No Item","page1","","");
 	                }
 },
 //repurchase the item from the purchase list
